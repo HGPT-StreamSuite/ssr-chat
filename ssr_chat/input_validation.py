@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from typing import Any
-from uuid import uuid4
 
 from .models import ValidationResult
 
@@ -32,7 +31,7 @@ class EventValidator:
 
         message_id = event.get("message_id")
         if message_id is None:
-            message_id = f"local-{uuid4().hex}"
+            return ValidationResult(False, "missing_message_id", None)
         if not isinstance(message_id, str) or not message_id.strip():
             return ValidationResult(False, "invalid_message_id", None)
 

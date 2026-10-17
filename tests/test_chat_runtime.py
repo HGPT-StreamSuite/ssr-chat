@@ -122,12 +122,36 @@ class ChatRuntimeTests(unittest.TestCase):
         self.assertIn("護盾解除", guide["answer"])
 
     def test_weather_and_item_are_separate_queries_with_sources(self) -> None:
+        class RecordingQuery:
+            def __init__(self, delegate):
+                self.delegate = delegate
+                self.query_text = None
+
+            def execute(self, question, snapshot):
+                self.query_text = question
+                return self.delegate.execute(question, snapshot)
+
+        weather_query = RecordingQuery(self.runtime.queries["weather"])
+        item_query = RecordingQuery(self.runtime.queries["game_item"])
+        self.runtime.queries["weather"] = weather_query
+        self.runtime.queries["game_item"] = item_query
         result = self.runtime.handle(self.event("multi-weather-item.json"))
         by_purpose = dict(zip(result["analysis"]["intents"], result["queries"]))
 
         self.assertEqual(set(by_purpose), {"weather", "game_item"})
         self.assertEqual(by_purpose["weather"]["status"], "ok")
         self.assertEqual(by_purpose["game_item"]["status"], "ok")
+        query_text_by_purpose = {
+            target["purpose"]: target["query_text"]
+            for target in result["analysis"]["queries"]
+        }
+        self.assertNotIn("藥水", query_text_by_purpose["weather"])
+        self.assertNotIn("天氣", query_text_by_purpose["game_item"])
+        self.assertEqual(weather_query.query_text, query_text_by_purpose["weather"])
+        self.assertEqual(item_query.query_text, query_text_by_purpose["game_item"])
+        self.assertEqual(
+            self.model.prompts[-1].analysis["queries"], result["analysis"]["queries"]
+        )
         self.assertIn("fixture://weather", by_purpose["weather"]["sources"][0]["locator"])
         self.assertIn("回復 30 點能量", result["answer"])
         self.assertIn("虛構 fixture", result["answer"])
@@ -202,6 +226,18 @@ class ChatRuntimeTests(unittest.TestCase):
         self.assertEqual(result["status"], "held")
         self.assertEqual(result["reason"], "missing_or_invalid_text")
         self.assertFalse(result["public_reply"])
+
+    def test_missing_stable_message_id_is_recorded_as_invalid(self) -> None:
+        event = self.event("general.json")
+        event.pop("message_id")
+
+        result = self.runtime.handle(event)
+
+        self.assertEqual(result["status"], "held")
+        self.assertEqual(result["reason"], "missing_message_id")
+        self.assertEqual(len(JsonlLog(self.state / "conversation_events.jsonl").read_all()), 1)
+        self.assertEqual(len(JsonlLog(self.state / "sop_events.jsonl").read_all()), 1)
+        self.assertFalse((self.state / "run_traces.jsonl").exists())
 
     def test_duplicate_message_is_logged_and_held_after_runtime_restart(self) -> None:
         original = self.runtime.handle(self.event("general.json"))

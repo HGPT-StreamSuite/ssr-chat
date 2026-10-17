@@ -113,7 +113,9 @@ class ChatRuntime:
         snapshot = self.context.snapshot_for(message)
         analysis = self.analyzer.analyze(message.text, snapshot)
         results: list[QueryResult] = []
-        for purpose in analysis.intents:
+        for query_target in analysis.queries:
+            purpose = query_target.purpose
+            query_text = query_target.query_text
             query = self.queries.get(purpose)
             if query is None:
                 result = QueryResult(
@@ -123,7 +125,7 @@ class ChatRuntime:
                 )
             else:
                 try:
-                    result = query.execute(analysis.query_text, snapshot)
+                    result = query.execute(query_text, snapshot)
                 except Exception as exc:
                     result = QueryResult(
                         purpose=purpose,
@@ -141,7 +143,7 @@ class ChatRuntime:
                         "run_id": run_id,
                         "message_id": message.message_id,
                         "purpose": purpose,
-                        "question": analysis.query_text,
+                        "question": query_text,
                         "reason": "knowledge_gap",
                         "created_at": datetime.now(timezone.utc).isoformat(),
                     }

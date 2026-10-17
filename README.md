@@ -52,6 +52,7 @@ fixture 中的角色、遊戲、道具、攻略與天氣數值都是虛構測試
 ## 本地延伸能力
 
 - 原始聊天室事件與執行 trace 分開保存。有效事件以 source、conversation_id、message_id 去重；重啟後會從本地事件記錄重建索引，重複事件記錄後交固定 SOP。
+- message_id 是穩定事件鍵的必要欄位；缺漏事件記入原始事件並交固定 SOP，不再生成隨機替代 ID。多需求分析以本機關鍵字和明確分隔符產生各用途 query text；同一含多用途的模糊子句可能分送到多個用途，這是規則型原型的限制。
 - 前文按 conversation_id 隔離。知識 reader 要求素材標明 publication_status=published 並帶非空版本；候選素材不會當作無資料或知識缺口回覆。
 - 模型失敗會記錄 run_status=model_error，answer 為 null，輸出狀態為 not_attempted，並交固定 SOP。輸出失敗亦記錄 trace 和 SOP；無法判定平台是否收到時，delivery_state 為 unknown，不自動重送。
 - ModelAdapter、TextOutputAdapter、WeatherAdapter 與 KnowledgeReaderAdapter 僅是本 repo 的 Python 介面契約，沒有接通真實模型、平台或資料供應商。預設輸出仍是 dry-run。

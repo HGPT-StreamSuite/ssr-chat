@@ -57,13 +57,24 @@ class QuestionAnalysis:
     intents: tuple[str, ...]
     query_text: str
     snapshot_id: str
+    queries: tuple["QueryTarget", ...]
 
     def as_dict(self) -> dict[str, Any]:
         return {
             "intents": list(self.intents),
             "query_text": self.query_text,
             "snapshot_id": self.snapshot_id,
+            "queries": [query.as_dict() for query in self.queries],
         }
+
+
+@dataclass(frozen=True)
+class QueryTarget:
+    purpose: str
+    query_text: str
+
+    def as_dict(self) -> dict[str, str]:
+        return {"purpose": self.purpose, "query_text": self.query_text}
 
 
 @dataclass(frozen=True)
