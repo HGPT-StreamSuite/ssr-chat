@@ -2,6 +2,13 @@
 
 本 repo 是獨立可執行的本機直播文字問答原型。只用 Python 標準函式庫與本 repo 的虛構 fixture；不連真實直播平台、模型、天氣或人物服務，也不依賴其他 repo。
 
+## 功能與來源狀態
+
+- 本機功能已完成：事件必要欄位／來源驗證、觸發與固定 SOP、前文 snapshot 回程、多用途規則拆分、各用途 query、Prompt、事件／trace 分開記錄、去重及模型／輸出失敗追蹤。
+- Fixture／stub only：事件來源、天氣資料、人物／遊戲知識與模型使用本機 fixture；文字輸出為 dry-run。
+- 真實 provider 尚待決定及接線：直播平台、正式模型、即時天氣。人物／遊戲素材方向已定為自有資料格式及人工整理的 Wiki／網路材料；目前沒有網路抓取 provider。
+- 跨 repo 資料匯入、共用套件與 STT 明確延後，不是本 repo 本機驗收缺口。
+
 ## 執行
 
 uv 管理環境與 lockfile；不需安裝第三方套件。
@@ -19,9 +26,9 @@ uv --cache-dir .uv-cache --offline run python -m ssr_chat chat --input fixtures/
 
 run trace、聊天室原文、SOP 與知識缺口分別寫入 .local-state 下的 JSONL 檔。輸出預設 dry-run，不會送到聊天室。
 
-## 查詢回傳與預留 STT
+## 查詢回傳與明確延後的 STT
 
-五類查詢各自回傳 `status`、`materials`、`sources`；診斷細節只留在問答執行 trace。STT 目前未實作。未來主播逐字稿需帶來源與時間範圍，獨立查詢可回答「剛剛說了什麼」；一般逐字稿不觸發回覆，明確喚醒詞規則待決定。
+五類查詢各自回傳 `status`、`materials`、`sources`；診斷細節只留在問答執行 trace。STT／逐字稿輸入與獨立 query 已明確延後，未來若重新排入，逐字稿需帶來源與時間範圍；一般逐字稿不觸發回覆。
 
 ## 本機 API
 
