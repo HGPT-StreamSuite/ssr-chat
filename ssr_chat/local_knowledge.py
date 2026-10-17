@@ -7,8 +7,12 @@ from typing import Any
 from .models import QueryResult
 
 
+class KnowledgeArtifactError(ValueError):
+    pass
+
+
 class LocalKnowledgeReader:
-    """Reads only this repo's published fixture file; no service or other repo."""
+    """Reads only this repo's explicitly published fixture; no service or other repo."""
 
     BUCKETS = {
         "person": "people",
@@ -29,8 +33,17 @@ class LocalKnowledgeReader:
         bucket_name = self.BUCKETS[purpose]
         with self.fixture_path.open("r", encoding="utf-8") as handle:
             data = json.load(handle)
+        if not isinstance(data, dict):
+            raise KnowledgeArtifactError("published knowledge artifact must be an object")
+        if data.get("publication_status") != "published":
+            raise KnowledgeArtifactError("knowledge artifact is not published")
+        version = data.get("artifact_version")
+        if not isinstance(version, str) or not version.strip():
+            raise KnowledgeArtifactError("published knowledge artifact has no version")
 
         bucket = data.get(bucket_name, {})
+        if not isinstance(bucket, dict):
+            raise KnowledgeArtifactError(f"published artifact bucket {bucket_name} is invalid")
         context = " ".join([question, *(item["text"] for item in context_messages)])
         matched = [
             entry

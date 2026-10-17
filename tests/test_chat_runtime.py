@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -35,6 +36,16 @@ class CapturingModel(FixtureModelClient):
 class FailingWeatherAdapter:
     def fetch(self, question, context_messages):
         raise RuntimeError("fixture timeout diagnostic")
+
+
+class FailingModel:
+    def generate(self, prompt):
+        raise RuntimeError("fixture model diagnostic")
+
+
+class FailingOutput:
+    def send(self, message, answer, run_id):
+        raise RuntimeError("fixture output diagnostic")
 
 
 class ChatRuntimeTests(unittest.TestCase):
@@ -191,3 +202,71 @@ class ChatRuntimeTests(unittest.TestCase):
         self.assertEqual(result["status"], "held")
         self.assertEqual(result["reason"], "missing_or_invalid_text")
         self.assertFalse(result["public_reply"])
+
+    def test_duplicate_message_is_logged_and_held_after_runtime_restart(self) -> None:
+        original = self.runtime.handle(self.event("general.json"))
+        restarted = build_runtime(self.state, FIXTURES, model=self.model)
+        duplicate = restarted.handle(self.event("general.json"))
+
+        self.assertEqual(original["status"], "answered")
+        self.assertEqual(duplicate["status"], "held")
+        self.assertEqual(duplicate["reason"], "duplicate_message_id")
+        self.assertFalse(duplicate["public_reply"])
+        self.assertEqual(len(JsonlLog(self.state / "conversation_events.jsonl").read_all()), 2)
+        self.assertEqual(len(RunTraceStore(self.state / "run_traces.jsonl").read_all()), 1)
+        self.assertEqual(len(JsonlLog(self.state / "sop_events.jsonl").read_all()), 1)
+
+    def test_conversation_snapshot_does_not_leak_between_rooms(self) -> None:
+        self.runtime.handle(self.event("general.json"))
+        followup = self.event("followup.json")
+        followup["conversation_id"] = "separate-room"
+        result = self.runtime.handle(followup)
+
+        self.assertEqual(result["status"], "answered")
+        self.assertEqual(self.analyzer.snapshots_seen[-1].messages, ())
+        self.assertEqual(self.answer_context.snapshots_seen[-1].messages, ())
+
+    def test_unpublished_knowledge_is_a_tool_error_not_a_gap(self) -> None:
+        draft_fixtures = self.state / "draft-fixtures"
+        shutil.copytree(FIXTURES, draft_fixtures)
+        artifact_path = draft_fixtures / "published_knowledge.json"
+        artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+        artifact["publication_status"] = "candidate"
+        artifact_path.write_text(json.dumps(artifact, ensure_ascii=False), encoding="utf-8")
+        runtime = build_runtime(self.state / "draft", draft_fixtures, model=self.model)
+
+        result = runtime.handle(self.event("person.json"))
+
+        self.assertEqual(result["queries"][0]["status"], "tool_error")
+        self.assertFalse((self.state / "draft" / "knowledge_gaps.jsonl").exists())
+
+    def test_model_failure_is_traced_and_does_not_call_output(self) -> None:
+        class CountingOutput:
+            calls = 0
+
+            def send(self, message, answer, run_id):
+                self.calls += 1
+                return {"status": "dry_run_not_sent", "attempted": False, "public_reply": False}
+
+        output = CountingOutput()
+        runtime = build_runtime(self.state / "model-failure", FIXTURES, model=FailingModel(), output=output)
+        result = runtime.handle(self.event("general.json"))
+        trace = RunTraceStore(self.state / "model-failure" / "run_traces.jsonl").read_all()[0]
+
+        self.assertEqual(result["reason"], "model_error")
+        self.assertFalse(result["public_reply"])
+        self.assertEqual(output.calls, 0)
+        self.assertEqual(trace["run_status"], "model_error")
+        self.assertEqual(trace["send_result"]["status"], "not_attempted")
+        self.assertEqual(JsonlLog(self.state / "model-failure" / "sop_events.jsonl").read_all()[0]["reason"], "model_error")
+
+    def test_output_failure_is_traced_and_sent_to_sop(self) -> None:
+        runtime = build_runtime(self.state / "output-failure", FIXTURES, model=self.model, output=FailingOutput())
+        result = runtime.handle(self.event("general.json"))
+        trace = RunTraceStore(self.state / "output-failure" / "run_traces.jsonl").read_all()[0]
+
+        self.assertEqual(result["reason"], "output_error")
+        self.assertFalse(result["public_reply"])
+        self.assertEqual(trace["run_status"], "output_error")
+        self.assertEqual(trace["send_result"]["status"], "output_error")
+        self.assertEqual(JsonlLog(self.state / "output-failure" / "sop_events.jsonl").read_all()[0]["reason"], "output_error")

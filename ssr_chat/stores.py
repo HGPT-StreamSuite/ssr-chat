@@ -34,9 +34,35 @@ class JsonlLog:
 class ConversationEventStore:
     def __init__(self, path: str | Path) -> None:
         self.log = JsonlLog(path)
+        self._lock = threading.RLock()
+        self._seen_message_keys: set[tuple[str, str, str]] = set()
+        for record in self.log.read_all():
+            validation = record.get("validation", {})
+            message = record.get("normalized_event")
+            if validation.get("valid") and isinstance(message, dict):
+                source = message.get("source")
+                conversation_id = message.get("conversation_id")
+                message_id = message.get("message_id")
+                if all(isinstance(value, str) for value in (source, conversation_id, message_id)):
+                    self._seen_message_keys.add((source, conversation_id, message_id))
 
-    def append_event(self, record: dict[str, Any]) -> None:
-        self.log.append(record)
+    def append_event(self, record: dict[str, Any]) -> bool:
+        """Persist every arrival and return whether it repeats a valid source/message key."""
+        validation = record.get("validation", {})
+        message = record.get("normalized_event")
+        key = None
+        if validation.get("valid") and isinstance(message, dict):
+            source = message.get("source")
+            conversation_id = message.get("conversation_id")
+            message_id = message.get("message_id")
+            if all(isinstance(value, str) for value in (source, conversation_id, message_id)):
+                key = (source, conversation_id, message_id)
+        with self._lock:
+            duplicate = key is not None and key in self._seen_message_keys
+            self.log.append(record)
+            if key is not None:
+                self._seen_message_keys.add(key)
+            return duplicate
 
     def prior_messages(
         self, conversation_id: str, excluding_message_id: str, limit: int
