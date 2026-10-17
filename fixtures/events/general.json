@@ -1,0 +1,7 @@
+{
+  "message_id": "demo-general-001",
+  "conversation_id": "demo-room",
+  "author_id": "viewer-1",
+  "source": "local-fixture",
+  "text": "!ask 星界遠征是什麼遊戲？"
+}

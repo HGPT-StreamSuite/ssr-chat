@@ -1,0 +1,7 @@
+{
+  "message_id": "demo-person-003",
+  "conversation_id": "demo-person-room",
+  "author_id": "viewer-2",
+  "source": "local-fixture",
+  "text": "!ask 誰是露娜？"
+}

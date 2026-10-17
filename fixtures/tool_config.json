@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "adapter": "FixtureWeatherAdapter",
+  "source_id": "fixture-weather",
+  "interface_version": "fixture-v1",
+  "parameters": ["location"],
+  "outputs": ["summary", "temperature_c", "note"],
+  "network_enabled": false
+}

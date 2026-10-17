@@ -1,0 +1,8 @@
+{
+  "message_id": "demo-self-007",
+  "conversation_id": "demo-room",
+  "author_id": "ssr-bot-fixture",
+  "source": "local-fixture",
+  "text": "!ask 星界遠征是什麼遊戲？",
+  "is_self": true
+}

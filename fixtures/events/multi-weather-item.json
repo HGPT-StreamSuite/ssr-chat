@@ -1,0 +1,7 @@
+{
+  "message_id": "demo-multi-004",
+  "conversation_id": "demo-multi-room",
+  "author_id": "viewer-3",
+  "source": "local-fixture",
+  "text": "!ask 台北天氣如何？月光藥水有什麼效果？"
+}

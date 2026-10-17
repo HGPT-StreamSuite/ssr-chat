@@ -1,0 +1,7 @@
+{
+  "message_id": "demo-followup-002",
+  "conversation_id": "demo-room",
+  "author_id": "viewer-1",
+  "source": "local-fixture",
+  "text": "!ask 那款遊戲還有哪些特色？"
+}

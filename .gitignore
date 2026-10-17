@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+.venv/
+.local-state*/
+.uv-cache/
+.test-temp/
