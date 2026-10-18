@@ -11,6 +11,14 @@ class ModelAdapter(Protocol):
     def generate(self, prompt: AnswerPrompt) -> str: ...
 
 
+class ModelAdapterError(RuntimeError):
+    """Model adapter failure with a diagnostic safe to persist in run traces."""
+
+    def __init__(self, code: str, detail: str) -> None:
+        super().__init__(detail)
+        self.safe_diagnostic = {"code": code, "detail": detail}
+
+
 class TextOutputAdapter(Protocol):
     """Repository-local contract for text delivery or dry-run output."""
 

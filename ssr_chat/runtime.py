@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from typing import Any
 from uuid import uuid4
 
-from .adapters import ModelAdapter, TextOutputAdapter
+from .adapters import ModelAdapter, ModelAdapterError, TextOutputAdapter
 from .analysis import QuestionAnalyzer, TriggerDetector
 from .answer_context import AnswerContextBuilder
 from .context import ConversationContext
@@ -163,9 +163,12 @@ class ChatRuntime:
         try:
             answer = self.model.generate(prompt)
         except Exception as exc:
-            diagnostics.append(
-                {"stage": "model", "detail": f"{type(exc).__name__}: model adapter failed"}
-            )
+            if isinstance(exc, ModelAdapterError):
+                diagnostics.append({"stage": "model", **exc.safe_diagnostic})
+            else:
+                diagnostics.append(
+                    {"stage": "model", "detail": f"{type(exc).__name__}: model adapter failed"}
+                )
             send_result = {
                 "status": "not_attempted",
                 "attempted": False,

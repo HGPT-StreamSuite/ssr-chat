@@ -1,5 +1,26 @@
 # ssr-chat
 
+## 本機 Ollama 模型 adapter
+
+正式整合前可在本機用 Ollama 試跑模型；內部仍透過可替換的 `ModelAdapter` 介面呼叫。預設 adapter 是離線 fixture，只有指定 `--model-adapter ollama` 才會呼叫 Ollama。
+
+連線預設為 `http://127.0.0.1:11434`。可用 `SSR_CHAT_OLLAMA_ENDPOINT`、`SSR_CHAT_OLLAMA_MODEL` 設定端點與已安裝模型，或在命令列傳入 `--ollama-endpoint`、`--ollama-model`。端點只接受 loopback HTTP 網址，prompt 不會送往遠端主機。
+
+先列出本機已安裝的模型，再用合成問題驗證模型是否能依據提供材料回答；這些命令不會下載模型：
+
+```powershell
+python -m ssr_chat models
+python -m ssr_chat verify-ollama --ollama-model <已安裝模型名稱>
+```
+
+用模型處理 fixture 事件時，指定 adapter 和模型：
+
+```powershell
+python -m ssr_chat chat --input fixtures/events/general.json --state-dir .local-state --model-adapter ollama --ollama-model <已安裝模型名稱>
+```
+
+模型只接收 runtime 組裝的使用者問題、同一份前文 snapshot、分析結果，以及各用途查詢回傳的素材和來源。模型請求失敗會記錄 `model_error`、不呼叫輸出 adapter，並交由固定 SOP；安全診斷只記錄錯誤代碼和通用說明，不記錄 prompt。需要 Ollama 已在本機啟動且指定模型已安裝；沒有 Ollama 或模型時，`verify-ollama` 會回報阻塞，不會自動安裝或下載。
+
 本 repo 是獨立可執行的本機直播文字問答原型。只用 Python 標準函式庫與本 repo 的虛構 fixture；不連真實直播平台、模型、天氣或人物服務，也不依賴其他 repo。
 
 ## 功能與來源狀態
