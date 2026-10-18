@@ -14,7 +14,7 @@ $script:ModelsDirectory = Join-Path $script:RuntimeRoot "models"
 $script:StatePath = Join-Path $script:RuntimeRoot "server-owner.json"
 $script:Endpoint = "http://127.0.0.1:11435"
 $script:OllamaHost = "127.0.0.1:11435"
-$script:ModelName = "qwen3.5:4b-q4_K_M"
+$script:ModelName = "qwen3.5:9b-q4_K_M"
 $script:Port = 11435
 
 function Read-OwnerState {

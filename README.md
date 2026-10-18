@@ -86,12 +86,13 @@ fixture 中的角色、遊戲、道具、攻略與天氣數值都是虛構測試
 - ModelAdapter、TextOutputAdapter、WeatherAdapter 與 KnowledgeReaderAdapter 僅是本 repo 的 Python 介面契約，沒有接通真實模型、平台或資料供應商。預設輸出仍是 dry-run。
 
 ## 專案自管 Ollama runtime
+受管理預設模型固定為 qwen3.5:9b-q4_K_M（Q4_K_M 量化，官方標示 6.6GB）。原有的 qwen3.5:4b-q4_K_M 保留在專案私有 .runtime/ollama/models 中；pull 僅安裝指定 9B 標籤，不會覆寫或刪除既有模型。
 
 Windows 可由本 repo 啟動官方 standalone runtime。執行檔、模型與 logs 放在 Git 忽略的 .runtime/ollama/。不會修改全域 PATH、使用者環境變數、登入啟動、Windows 服務或防火牆。server 僅綁定 127.0.0.1:11435。啟動時若 port 被占用，管理器會停止並回報，不會連接或終止該程序；停止時會比對 owner record 的 PID、啟動時間與執行檔完整路徑，只停止本 repo 啟動的 server。
 
 目前鎖定 Ollama v0.40.6 官方 standalone ollama-windows-amd64.zip，SHA-256：e359637575302f288d76c0007c408a4be9c7376d59c4f28684d63b232a44b427。本機下載檔為 1,471,164,488 bytes（1.37 GiB）；解壓後為 1,942,921,587 bytes。ZIP 內含 Ollama CLI 及 CUDA/Vulkan runtime DLL，沒有附第三方授權文字；Ollama 原始碼採 MIT，模型權重有自己的授權條款。本 repo 不重新散布 runtime 或模型。
 
-已知 Ollama 預設 store 與舊專案設定路徑都沒有 qwen3.5:4b-q4_K_M manifest，因此未複製或搬移模型，也沒有刪除任何舊資料。首次 pull 會將官方模型頁列為 3.3GB 的模型放進 .runtime/ollama/models/；實際占用以本機 blob 大小為準。
+已知 Ollama 預設 store 與舊專案設定路徑都沒有 qwen3.5:9b-q4_K_M manifest，因此未複製或搬移模型，也沒有刪除任何舊資料。首次 pull 會將官方模型頁列為 6.6GB 的模型放進 .runtime/ollama/models/；實際占用以本機 blob 大小為準。
 
 Windows 命令（在 ssr-chat repo 根目錄執行）：
 
@@ -103,7 +104,7 @@ Windows 命令（在 ssr-chat repo 根目錄執行）：
 
 使用 runtime 處理本 repo 的合成 fixture：
 
-    uv --cache-dir .uv-cache --offline run python -m ssr_chat chat --input fixtures/events/general.json --state-dir .local-state-ollama --model-adapter ollama --ollama-endpoint http://127.0.0.1:11435 --ollama-model qwen3.5:4b-q4_K_M
+    uv --cache-dir .uv-cache --offline run python -m ssr_chat chat --input fixtures/events/general.json --state-dir .local-state-ollama --model-adapter ollama --ollama-endpoint http://127.0.0.1:11435 --ollama-model qwen3.5:9b-q4_K_M
 
 結束後執行 .\scripts\ollama-runtime.ps1 stop 停止專案啟動的 server。models、pull 與 verify 只會呼叫已確認由本 repo 啟動且健康的 endpoint。
 補充：start 會持續維持 server process；請在另一個 PowerShell 視窗執行 status、pull、models、verify 與 stop。stop 後 start 指令返回。管理器只在專案子程序環境設定 OLLAMA_NO_CLOUD=1，停用 Ollama cloud 功能；官方模型 registry 下載仍由 pull 執行。
