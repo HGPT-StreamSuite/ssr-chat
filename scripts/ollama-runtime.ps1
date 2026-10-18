@@ -1,7 +1,8 @@
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("start", "status", "stop", "pull", "models", "verify")]
-    [string]$Action = "status"
+    [ValidateSet("start", "status", "stop", "pull", "models", "verify", "run-9b")]
+    [string]$Action = "status",
+    [switch]$ReturnAfterHealthy
 )
 
 $ErrorActionPreference = "Stop"
@@ -16,6 +17,7 @@ $script:Endpoint = "http://127.0.0.1:11435"
 $script:OllamaHost = "127.0.0.1:11435"
 $script:ModelName = "qwen3.5:9b-q4_K_M"
 $script:Port = 11435
+Import-Module (Join-Path $PSScriptRoot "ollama-runtime-lifecycle.psm1") -Force
 
 function Read-OwnerState {
     if (-not (Test-Path -LiteralPath $script:StatePath -PathType Leaf)) {
@@ -29,7 +31,7 @@ function Read-OwnerState {
     return $state
 }
 
-function Get-RecordedProcess {
+function Get-OwnerProcessObservation {
     param([Parameter(Mandatory = $true)]$State)
 
     try {
@@ -37,34 +39,43 @@ function Get-RecordedProcess {
     }
     catch {
         if ($_.Exception -is [System.ArgumentException] -or $_.Exception.InnerException -is [System.ArgumentException]) {
-            return $null
+            return [pscustomobject]@{ status = "absent"; process = $null; identity = $null }
         }
-        throw
+        return [pscustomobject]@{ status = "unknown"; process = $null; identity = $null }
     }
 
     if ($process.HasExited) {
-        return $null
+        return [pscustomobject]@{ status = "absent"; process = $null; identity = $null }
     }
 
     try {
-        $actualPath = [System.IO.Path]::GetFullPath($process.MainModule.FileName)
+        $identity = [ordered]@{
+            pid = $process.Id
+            executable = [System.IO.Path]::GetFullPath($process.MainModule.FileName)
+            startedUtc = $process.StartTime.ToUniversalTime().ToString("o")
+        }
     }
     catch {
-        throw "Cannot verify the recorded process image. No process was changed."
+        return [pscustomobject]@{ status = "unknown"; process = $null; identity = $null }
     }
 
-    $expectedPath = [System.IO.Path]::GetFullPath($script:Executable)
-    if (-not [string]::Equals($actualPath, $expectedPath, [System.StringComparison]::OrdinalIgnoreCase)) {
-        throw "The recorded PID now points to a different executable. No process was changed."
+    if (Test-OllamaProcessIdentityMatch -Expected $State -Actual $identity) {
+        return [pscustomobject]@{ status = "owned"; process = $process; identity = $identity }
     }
 
-    $expectedStart = [DateTime]::Parse([string]$State.startedUtc).ToUniversalTime().Ticks
-    $actualStart = $process.StartTime.ToUniversalTime().Ticks
-    if ($expectedStart -ne $actualStart) {
-        throw "The recorded PID has been reused by another process. No process was changed."
-    }
+    return [pscustomobject]@{ status = "reused"; process = $process; identity = $identity }
+}
 
-    return $process
+function Get-RecordedProcess {
+    param([Parameter(Mandatory = $true)]$State)
+
+    $observation = Get-OwnerProcessObservation -State $State
+    switch ($observation.status) {
+        "owned" { return $observation.process }
+        "absent" { return $null }
+        "reused" { throw "The recorded PID has been reused by another process. No process was changed." }
+        default { throw "Cannot verify the recorded process identity. No process was changed." }
+    }
 }
 
 function Test-PortAvailable {
@@ -84,28 +95,61 @@ function Test-PortAvailable {
     }
 }
 
+function Test-PortHasListener {
+    try {
+        $listeners = [System.Net.NetworkInformation.IPGlobalProperties]::GetIPGlobalProperties().GetActiveTcpListeners()
+    }
+    catch {
+        throw "Could not determine whether port $($script:Port) has a listener. Owner state was preserved."
+    }
+
+    return (@($listeners | Where-Object { $_.Port -eq [int]$script:Port }).Count -gt 0)
+}
+
 function Get-EndpointVersion {
-    $request = $null
-    $response = $null
+    $client = [System.Net.Sockets.TcpClient]::new([System.Net.Sockets.AddressFamily]::InterNetwork)
     $reader = $null
     try {
-        $request = [System.Net.HttpWebRequest]::Create("$($script:Endpoint)/api/version")
-        $request.Proxy = $null
-        $request.Timeout = 2000
-        $response = $request.GetResponse()
-        $reader = [System.IO.StreamReader]::new($response.GetResponseStream())
-        $payload = $reader.ReadToEnd() | ConvertFrom-Json
+        $connect = $client.ConnectAsync([System.Net.IPAddress]::Parse("127.0.0.1"), [int]$script:Port)
+        if (-not $connect.Wait(2000)) {
+            throw [System.TimeoutException]::new("Loopback connection timed out.")
+        }
+        [void]$connect.GetAwaiter().GetResult()
+
+        $stream = $client.GetStream()
+        $stream.ReadTimeout = 2000
+        $stream.WriteTimeout = 2000
+        $request = "GET /api/version HTTP/1.1`r`nHost: 127.0.0.1:$($script:Port)`r`nConnection: close`r`n`r`n"
+        $requestBytes = [System.Text.Encoding]::ASCII.GetBytes($request)
+        $stream.Write($requestBytes, 0, $requestBytes.Length)
+        $reader = [System.IO.StreamReader]::new($stream, [System.Text.Encoding]::UTF8, $false, 1024, $true)
+        $responseText = $reader.ReadToEnd()
+        $separator = $responseText.IndexOf("`r`n`r`n")
+        if ($separator -lt 0) {
+            throw [System.IO.InvalidDataException]::new("Loopback health response has no HTTP body separator.")
+        }
+        $lineEnd = $responseText.IndexOf("`r`n")
+        $statusLine = $responseText.Substring(0, $lineEnd)
+        if ($statusLine -notmatch '^HTTP/1\.[01] 200 ') {
+            throw [System.IO.InvalidDataException]::new("Loopback health response was not HTTP 200.")
+        }
+        $payload = $responseText.Substring($separator + 4) | ConvertFrom-Json
         return [string]$payload.version
     }
     catch {
+        $failure = $_.Exception
+        $detail = "{0}: {1}" -f $failure.GetType().Name, $failure.Message
+        if ($failure.InnerException) {
+            $detail += " | {0}: {1}" -f $failure.InnerException.GetType().Name, $failure.InnerException.Message
+        }
+        $script:LastEndpointError = $detail
         return $null
     }
     finally {
         if ($reader) { $reader.Dispose() }
-        if ($response) { $response.Dispose() }
+        $client.Dispose()
     }
 }
-
 function Write-OwnerState {
     param(
         [Parameter(Mandatory = $true)]$Process,
@@ -130,22 +174,60 @@ function Write-OwnerState {
     return $state
 }
 
-function Start-ManagedRuntime {
+function Get-ProcessIdentityFromHandle {
+    param([Parameter(Mandatory = $true)]$Process)
+
+    $Process.Refresh()
+    if ($Process.HasExited) { return $null }
+
+    try {
+        return [ordered]@{
+            pid = $Process.Id
+            executable = [System.IO.Path]::GetFullPath($Process.MainModule.FileName)
+            startedUtc = $Process.StartTime.ToUniversalTime().ToString("o")
+        }
+    }
+    catch {
+        throw "Cannot verify the held Process object identity. No process was changed."
+    }
+}
+
+function Resolve-OwnerBeforeStart {
+    $state = Read-OwnerState
+    if (-not $state) {
+        return @{ status = "none"; process = $null }
+    }
+
+    $observation = Get-OwnerProcessObservation -State $state
+    if ($observation.status -eq "owned") {
+        return @{ status = "owned"; process = $observation.process; state = $state }
+    }
+    if ($observation.status -notin @("absent", "reused")) {
+        throw "Could not prove that the recorded project process is gone. Owner state was preserved."
+    }
+
+    $hasListener = Test-PortHasListener
+    $archivePath = Move-StaleOllamaOwnerRecordIfSafe `
+        -OwnerPath $script:StatePath `
+        -ExpectedState $state `
+        -ProcessStatus $observation.status `
+        -HasListener $hasListener
+    [Console]::WriteLine("stale_owner_record_archived=$archivePath")
+    return @{ status = "stale"; process = $null; archivePath = $archivePath }
+}
+
+function Start-ManagedRuntimeProcess {
+    param([Parameter(Mandatory = $true)]$OwnerResolution)
+
     if (-not (Test-Path -LiteralPath $script:Executable -PathType Leaf)) {
         throw "Project runtime is missing: $($script:Executable)"
     }
 
-    $state = Read-OwnerState
-    if ($state) {
-        $existing = Get-RecordedProcess -State $state
-        if ($existing) {
-            $version = Get-EndpointVersion
-            if ($version) {
-                Write-Output "running=true endpoint=$($script:Endpoint) version=$version owner_pid=$($existing.Id)"
-                return
-            }
-            throw "The project-owned server process exists but is not healthy. Inspect its runtime logs; no duplicate was started."
-        }
+    if ($OwnerResolution.status -eq "owned") {
+        throw "A project-owned server is already running from another invocation. This workflow will not adopt or stop it."
+    }
+    if ($OwnerResolution.status -notin @("none", "stale")) {
+        throw "Owner state is unresolved. No process was started."
     }
 
     if (-not (Test-PortAvailable)) {
@@ -184,32 +266,179 @@ function Start-ManagedRuntime {
         if ($hadNoCloud) { $env:OLLAMA_NO_CLOUD = $oldNoCloud } else { Remove-Item Env:OLLAMA_NO_CLOUD -ErrorAction SilentlyContinue }
     }
 
-    $state = Write-OwnerState -Process $process -StdoutLog $stdoutLog -StderrLog $stderrLog
-    $deadline = [DateTime]::UtcNow.AddSeconds(60)
+    try {
+        $identity = Get-ProcessIdentityFromHandle -Process $process
+        if (-not $identity) { throw "The launched Ollama process exited before its identity could be recorded." }
+        $null = Write-OwnerState -Process $process -StdoutLog $stdoutLog -StderrLog $stderrLog
+    }
+    catch {
+        $process.Refresh()
+        if (-not $process.HasExited) {
+            $process.Kill()
+            $null = $process.WaitForExit(10000)
+        }
+        throw
+    }
+    return $process
+}
+
+function Wait-ManagedRuntimeHealthy {
+    param(
+        [Parameter(Mandatory = $true)]$Process,
+        [Parameter(Mandatory = $true)]$Identity,
+        [int]$TimeoutSeconds = 60
+    )
+
+    $deadline = [DateTime]::UtcNow.AddSeconds($TimeoutSeconds)
     while ([DateTime]::UtcNow -lt $deadline) {
-        $version = Get-EndpointVersion
-        if ($version) {
-            Write-Output "running=true endpoint=$($script:Endpoint) version=$version owner_pid=$($process.Id)"
-            while ($true) {
-                $process.Refresh()
-                if ($process.HasExited) {
-                    Write-Output "running=false owner_pid=$($process.Id) exit_code=$($process.ExitCode)"
-                    return
-                }
-                $process.WaitForExit(1000) | Out-Null
-            }
+        $Process.Refresh()
+        if ($Process.HasExited) {
+            throw "The held project-owned Ollama process exited during startup. No other process was inspected or changed."
         }
 
-        $process.Refresh()
-        if ($process.HasExited) {
-            throw "The project-owned Ollama process exited during startup. Inspect $stderrLog"
+        $currentIdentity = Get-ProcessIdentityFromHandle -Process $Process
+        if (-not (Test-OllamaProcessIdentityMatch -Expected $Identity -Actual $currentIdentity)) {
+            throw "The held project Process identity changed during startup. No process was changed."
         }
+
+        $version = Get-EndpointVersion
+        if ($version) { return $version }
         Start-Sleep -Seconds 1
     }
 
-    throw "The project-owned Ollama process did not become healthy within 60 seconds. Inspect $stderrLog"
+    throw "The held project-owned Ollama process did not become healthy within $TimeoutSeconds seconds. Health error: $script:LastEndpointError"
 }
 
+function Start-ManagedRuntime {
+    param([switch]$ReturnAfterHealthy)
+
+    $ownerResolution = Resolve-OwnerBeforeStart
+    if ($ownerResolution.status -eq "owned") {
+        $process = $ownerResolution.process
+        $identity = Get-ProcessIdentityFromHandle -Process $process
+        if (-not $identity) { throw "The project-owned server exited before health validation." }
+    }
+    else {
+        $process = Start-ManagedRuntimeProcess -OwnerResolution $ownerResolution
+        $identity = Get-ProcessIdentityFromHandle -Process $process
+    }
+
+    $version = Wait-ManagedRuntimeHealthy -Process $process -Identity $identity
+    Write-Output "running=true endpoint=$($script:Endpoint) version=$version owner_pid=$($process.Id)"
+    if ($ReturnAfterHealthy) { return }
+
+    while ($true) {
+        $process.Refresh()
+        if ($process.HasExited) {
+            Write-Output "running=false owner_pid=$($process.Id) exit_code=$($process.ExitCode)"
+            return
+        }
+        $process.WaitForExit(1000) | Out-Null
+    }
+}
+
+function Assert-HealthyOwnedRuntime {
+    param(
+        [Parameter(Mandatory = $true)]$Process,
+        [Parameter(Mandatory = $true)]$Identity
+    )
+
+    $Process.Refresh()
+    if ($Process.HasExited) { throw "The held project-owned Ollama process has exited." }
+    $currentIdentity = Get-ProcessIdentityFromHandle -Process $Process
+    if (-not (Test-OllamaProcessIdentityMatch -Expected $Identity -Actual $currentIdentity)) {
+        throw "The held project Process identity no longer matches. No process was changed."
+    }
+    $version = Get-EndpointVersion
+    if (-not $version) { throw "The held project process does not answer at $($script:Endpoint)." }
+    return $version
+}
+
+function Test-HeldRuntimeProcessOwned {
+    param(
+        [Parameter(Mandatory = $true)]$Process,
+        [Parameter(Mandatory = $true)]$Identity
+    )
+
+    $Process.Refresh()
+    if ($Process.HasExited) { return $true }
+    try {
+        $currentIdentity = Get-ProcessIdentityFromHandle -Process $Process
+        return (Test-OllamaProcessIdentityMatch -Expected $Identity -Actual $currentIdentity)
+    }
+    catch {
+        return $false
+    }
+}
+
+function Move-CompletedOwnerRecord {
+    param([Parameter(Mandatory = $true)]$Identity, [Parameter(Mandatory = $true)][string]$Outcome)
+
+    $state = Read-OwnerState
+    if (-not $state) { return }
+    if (-not (Test-OllamaProcessIdentityMatch -Expected $Identity -Actual $state)) {
+        throw "Owner state no longer identifies this workflow's process; it was preserved."
+    }
+
+    $stamp = [DateTime]::UtcNow.ToString("yyyyMMddTHHmmssfffZ")
+    $suffix = [Guid]::NewGuid().ToString("N")
+    $directory = Split-Path -Parent $script:StatePath
+    $archivePath = Join-Path $directory "server-owner.$Outcome-$stamp-$suffix.json"
+    Move-Item -LiteralPath $script:StatePath -Destination $archivePath -ErrorAction Stop
+    [Console]::WriteLine("owner_record_archived=$archivePath")
+}
+
+function Stop-HeldRuntimeProcess {
+    param(
+        [Parameter(Mandatory = $true)]$Process,
+        [Parameter(Mandatory = $true)]$Identity
+    )
+
+    $Process.Refresh()
+    if (-not $Process.HasExited) {
+        $currentIdentity = Get-ProcessIdentityFromHandle -Process $Process
+        if (-not (Test-OllamaProcessIdentityMatch -Expected $Identity -Actual $currentIdentity)) {
+            throw "The held Process identity does not match; no process was stopped."
+        }
+        $Process.Kill()
+        if (-not $Process.WaitForExit(10000)) {
+            throw "The verified workflow-owned process did not stop within 10 seconds."
+        }
+    }
+
+    if (Test-PortHasListener) {
+        throw "A listener remains on port $($script:Port) after stopping this workflow's child. Owner state was preserved."
+    }
+    Move-CompletedOwnerRecord -Identity $Identity -Outcome "stopped"
+    Write-Output "running=false stopped_owner_pid=$($Identity.pid)"
+}
+
+function Invoke-Run9BWorkflow {
+    $start = { param()
+        $resolution = Resolve-OwnerBeforeStart
+        Start-ManagedRuntimeProcess -OwnerResolution $resolution
+    }
+    $getIdentity = { param($Process) Get-ProcessIdentityFromHandle -Process $Process }
+    $assertHealthy = { param($Process, $Identity) Wait-ManagedRuntimeHealthy -Process $Process -Identity $Identity }
+    $pull = { param($Process, $Identity) Invoke-ModelPull -RuntimeProcess $Process -RuntimeIdentity $Identity }
+    $verify = {
+        param($Process, $Identity)
+        Show-Models -RuntimeProcess $Process -RuntimeIdentity $Identity
+        Invoke-SyntheticVerification -RuntimeProcess $Process -RuntimeIdentity $Identity
+        Invoke-SyntheticFixtureChat -RuntimeProcess $Process -RuntimeIdentity $Identity
+    }
+    $testOwned = { param($Process, $Identity) Test-HeldRuntimeProcessOwned -Process $Process -Identity $Identity }
+    $stop = { param($Process, $Identity) Stop-HeldRuntimeProcess -Process $Process -Identity $Identity }
+
+    Invoke-OllamaOwnedProcessLifecycle `
+        -StartProcess $start `
+        -GetIdentity $getIdentity `
+        -AssertHealthy $assertHealthy `
+        -Pull $pull `
+        -Verify $verify `
+        -TestOwnedProcess $testOwned `
+        -StopProcess $stop
+}
 function Get-HealthyManagedRuntime {
     $state = Read-OwnerState
     if (-not $state) {
@@ -241,21 +470,31 @@ function Stop-ManagedRuntime {
 
     $process = Get-RecordedProcess -State $state
     if (-not $process) {
-        if (-not (Test-PortAvailable)) {
-            throw "The recorded process is not running and port $($script:Port) is occupied. Owner state was preserved; no process was changed."
+        $observation = Get-OwnerProcessObservation -State $state
+        if ($observation.status -notin @("absent", "reused")) {
+            throw "Could not prove the recorded process is gone. Owner state was preserved."
         }
-
-        Remove-Item -LiteralPath $script:StatePath
-        Write-Output "running=false stale_owner_record_cleared=true"
+        $hasListener = Test-PortHasListener
+        $archivePath = Move-StaleOllamaOwnerRecordIfSafe `
+            -OwnerPath $script:StatePath `
+            -ExpectedState $state `
+            -ProcessStatus $observation.status `
+            -HasListener $hasListener
+        Write-Output "running=false stale_owner_record_archived=$archivePath"
         return
     }
 
+    $identity = Get-ProcessIdentityFromHandle -Process $process
+    if (-not $identity) { throw "The verified project-owned process exited before stop. Owner state was preserved." }
     $process.Kill()
     if (-not $process.WaitForExit(10000)) {
         throw "The verified project-owned process did not stop within 10 seconds. Owner state was preserved."
     }
 
-    Remove-Item -LiteralPath $script:StatePath
+    if (Test-PortHasListener) {
+        throw "Another listener now occupies port $($script:Port). The owner record was preserved."
+    }
+    Move-CompletedOwnerRecord -Identity $identity -Outcome "stopped"
     Write-Output "running=false stopped_owner_pid=$($process.Id)"
 }
 
@@ -273,7 +512,7 @@ function Invoke-WithRuntimeEnvironment {
         $env:OLLAMA_MODELS = [System.IO.Path]::GetFullPath($script:ModelsDirectory)
         $env:OLLAMA_NO_CLOUD = "1"
         & $Command
-        return $LASTEXITCODE
+        $script:LastRuntimeCommandExitCode = $LASTEXITCODE
     }
     finally {
         if ($hadHost) { $env:OLLAMA_HOST = $oldHost } else { Remove-Item Env:OLLAMA_HOST -ErrorAction SilentlyContinue }
@@ -283,34 +522,51 @@ function Invoke-WithRuntimeEnvironment {
 }
 
 function Invoke-ModelPull {
-    $null = Get-HealthyManagedRuntime
+    param($RuntimeProcess, $RuntimeIdentity)
+
+    if ($RuntimeProcess) {
+        $null = Assert-HealthyOwnedRuntime -Process $RuntimeProcess -Identity $RuntimeIdentity
+    }
+    else {
+        $null = Get-HealthyManagedRuntime
+    }
     Write-Output "pulling model=$($script:ModelName) endpoint=$($script:Endpoint)"
-    $code = Invoke-WithRuntimeEnvironment { & $script:Executable pull $script:ModelName }
+    Invoke-WithRuntimeEnvironment { & $script:Executable pull $script:ModelName }
+    $code = $script:LastRuntimeCommandExitCode
     if ($code -ne 0) {
         throw "Ollama model pull failed with exit code $code. The project-owned server remains running."
     }
 }
 
 function Show-Models {
-    $null = Get-HealthyManagedRuntime
-    $code = Invoke-WithRuntimeEnvironment { & $script:Executable list }
+    param($RuntimeProcess, $RuntimeIdentity)
+
+    if ($RuntimeProcess) {
+        $null = Assert-HealthyOwnedRuntime -Process $RuntimeProcess -Identity $RuntimeIdentity
+    }
+    else {
+        $null = Get-HealthyManagedRuntime
+    }
+    Invoke-WithRuntimeEnvironment { & $script:Executable list }
+    $code = $script:LastRuntimeCommandExitCode
     if ($code -ne 0) {
         throw "Ollama model listing failed with exit code $code."
     }
 }
 
 function Invoke-SyntheticVerification {
-    $null = Get-HealthyManagedRuntime
-    $python = Join-Path $script:RepoRoot ".venv\Scripts\python.exe"
-    if (-not (Test-Path -LiteralPath $python -PathType Leaf)) {
-        $pythonCommand = Get-Command python -ErrorAction SilentlyContinue
-        if (-not $pythonCommand) {
-            throw "Python was not found. Create the project environment using its README instructions."
-        }
-        $python = $pythonCommand.Source
-    }
+    param($RuntimeProcess, $RuntimeIdentity)
 
-    & $python -m ssr_chat verify-ollama `
+    if ($RuntimeProcess) {
+        $null = Assert-HealthyOwnedRuntime -Process $RuntimeProcess -Identity $RuntimeIdentity
+    }
+    else {
+        $null = Get-HealthyManagedRuntime
+    }
+    $uv = Get-Command uv -ErrorAction SilentlyContinue
+    if (-not $uv) { throw "uv was not found for the synthetic Ollama verification." }
+
+    & $uv.Source --cache-dir .uv-cache --offline run python -m ssr_chat verify-ollama `
         --ollama-endpoint $script:Endpoint `
         --ollama-model $script:ModelName
     if ($LASTEXITCODE -ne 0) {
@@ -318,9 +574,31 @@ function Invoke-SyntheticVerification {
     }
 }
 
+function Invoke-SyntheticFixtureChat {
+    param(
+        [Parameter(Mandatory = $true)]$RuntimeProcess,
+        [Parameter(Mandatory = $true)]$RuntimeIdentity
+    )
+
+    $null = Assert-HealthyOwnedRuntime -Process $RuntimeProcess -Identity $RuntimeIdentity
+    $uv = Get-Command uv -ErrorAction SilentlyContinue
+    if (-not $uv) { throw "uv was not found for the project fixture chat." }
+
+    & $uv.Source --cache-dir .uv-cache --offline run python -m ssr_chat chat `
+        --input fixtures/events/general.json `
+        --state-dir .local-state-ollama `
+        --model-adapter ollama `
+        --ollama-endpoint $script:Endpoint `
+        --ollama-model $script:ModelName `
+        --ollama-timeout 300
+    if ($LASTEXITCODE -ne 0) {
+        throw "Synthetic fixture chat failed with exit code $LASTEXITCODE."
+    }
+}
+
 try {
     switch ($Action) {
-        "start" { Start-ManagedRuntime }
+        "start" { Start-ManagedRuntime -ReturnAfterHealthy:$ReturnAfterHealthy }
         "status" {
             $state = Read-OwnerState
             if (-not $state) {
@@ -344,6 +622,7 @@ try {
         "pull" { Invoke-ModelPull }
         "models" { Show-Models }
         "verify" { Invoke-SyntheticVerification }
+        "run-9b" { Invoke-Run9BWorkflow }
     }
 }
 catch {

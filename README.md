@@ -107,4 +107,18 @@ Windows 命令（在 ssr-chat repo 根目錄執行）：
     uv --cache-dir .uv-cache --offline run python -m ssr_chat chat --input fixtures/events/general.json --state-dir .local-state-ollama --model-adapter ollama --ollama-endpoint http://127.0.0.1:11435 --ollama-model qwen3.5:9b-q4_K_M
 
 結束後執行 .\scripts\ollama-runtime.ps1 stop 停止專案啟動的 server。models、pull 與 verify 只會呼叫已確認由本 repo 啟動且健康的 endpoint。
-補充：start 會持續維持 server process；請在另一個 PowerShell 視窗執行 status、pull、models、verify 與 stop。stop 後 start 指令返回。管理器只在專案子程序環境設定 OLLAMA_NO_CLOUD=1，停用 Ollama cloud 功能；官方模型 registry 下載仍由 pull 執行。
+補充：一般 `start` 會持續等待 server 結束；`start -ReturnAfterHealthy` 可在 health 成功後返回，供同一 PowerShell 工作階段執行 `status`、`pull`、`models`、`verify`、`stop`。若要讓 9B 的完整啟動、health、pull、verify、fixture 問答與 finally stop 保留同一個 Process 物件，請使用：
+
+```powershell
+.\scripts\ollama-runtime.ps1 run-9b
+```
+
+`run-9b` 僅會停止本次啟動且仍由 Process 物件驗明身分的子程序。舊 owner record 只有在同一執行確認原程序已不存在或 PID 已重用，且 11435 沒有 listener 時，才會改名封存為 `server-owner.stale-*.json`；無法證明時會保留記錄並停止。
+
+PowerShell lifecycle 測試：
+
+```powershell
+.\tests\test_ollama_runtime_lifecycle.ps1
+```
+
+管理器只在專案子程序環境設定 `OLLAMA_NO_CLOUD=1`，停用 Ollama cloud 功能；官方模型 registry 下載仍由 pull 執行。
