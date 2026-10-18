@@ -121,6 +121,7 @@ class OllamaModelClientTests(unittest.TestCase):
         self.assertEqual(request.full_url, "http://127.0.0.1:11434/api/chat")
         self.assertEqual(body["model"], "test-model")
         self.assertFalse(body["stream"])
+        self.assertFalse(body["think"])
         self.assertEqual(body["messages"][1]["role"], "user")
         encoded_prompt = body["messages"][1]["content"]
         self.assertIn("snapshot-test-1", encoded_prompt)
@@ -334,7 +335,18 @@ class OllamaModelClientTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=test_temp) as directory:
             state = Path(directory) / "state"
             output = StringIO()
-            with local_http_server(payload={"message": {"content": ""}}) as server:
+            with local_http_server(
+                payload={
+                    "message": {
+                        "content": "",
+                        "thinking": "synthetic reasoning must never become the answer",
+                    },
+                    "done": True,
+                    "done_reason": "length",
+                    "eval_count": 3768,
+                    "prompt_eval_count": 328,
+                }
+            ) as server:
                 with patch("ssr_chat.output.DryRunOutput.send") as output_send:
                     with redirect_stdout(output):
                         exit_code = main(

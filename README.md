@@ -8,6 +8,8 @@
 
 ## 本機 Ollama 模型 adapter
 
+本 repo 對 chat API 明確送出 `think: false`。本機 Ollama v0.40.6 回報 `qwen3.5:9b-q4_K_M` 預設 thinking 為 true；省略此欄時，合成 fixture 曾生成 3,768 tokens thinking 並耗盡 4,096-token runner context，`message.content` 為空。相同 fixture 明確關閉 thinking 後回覆長 36 字元、`done_reason=stop`、`eval_count=24`，CLI 回 `answered`。adapter 只使用 `message.content`，不會把 `message.thinking` 當答案；目前不覆寫 `num_predict` 或 `num_ctx`。此設定適用聊天室最終回答，其他需要 thinking 的工作模式尚未實作。
+
 正式整合前可在本機用 Ollama 試跑模型；內部仍透過可替換的 `ModelAdapter` 介面呼叫。預設 adapter 是離線 fixture，只有指定 `--model-adapter ollama` 才會呼叫 Ollama。
 
 連線預設為 `http://127.0.0.1:11434`。可用 `SSR_CHAT_OLLAMA_ENDPOINT`、`SSR_CHAT_OLLAMA_MODEL` 設定端點與已安裝模型，或在命令列傳入 `--ollama-endpoint`、`--ollama-model`。端點只接受 loopback HTTP 網址，prompt 不會送往遠端主機。

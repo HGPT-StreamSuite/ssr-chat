@@ -124,6 +124,7 @@ class OllamaModelClient:
         request_body = {
             "model": self.model,
             "stream": False,
+            "think": False,
             "options": {"temperature": 0.2},
             "messages": [
                 {"role": "system", "content": system},

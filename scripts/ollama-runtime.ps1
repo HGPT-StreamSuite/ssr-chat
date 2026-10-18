@@ -586,7 +586,7 @@ function Invoke-SyntheticVerification {
     $uv = Get-Command uv -ErrorAction SilentlyContinue
     if (-not $uv) { throw "uv was not found for the synthetic Ollama verification." }
 
-    & $uv.Source --cache-dir .uv-cache --offline run python -m ssr_chat verify-ollama `
+    & $uv.Source --cache-dir .uv-cache --offline run python -X utf8 -m ssr_chat verify-ollama `
         --ollama-endpoint $script:Endpoint `
         --ollama-model $script:ModelName
     if ($LASTEXITCODE -ne 0) {
@@ -621,7 +621,7 @@ function Invoke-SyntheticFixtureChat {
     $uvArguments = @(
         "--cache-dir", ".uv-cache",
         "--offline",
-        "run", "python", "-m", "ssr_chat", "chat",
+        "run", "python", "-X", "utf8", "-m", "ssr_chat", "chat",
         "--input", $eventPath,
         "--state-dir", $stateDirectory,
         "--model-adapter", "ollama",
