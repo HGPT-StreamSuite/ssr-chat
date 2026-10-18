@@ -1,5 +1,11 @@
 # ssr-chat
 
+## CLI 結果與 9B 驗收
+
+`chat` 將無效事件、未觸發事件及重複事件記錄並交由固定 SOP；這些正常的 `held` 結果仍以 exit code 0 表示已處理。模型失敗與輸出失敗會分別回傳 `failed`、`delivery_failed`，並以非零 exit code 表示執行未完成。
+
+`verify-ollama` 會確認模型回答明確肯定素材中的「30 點能量」數值，並拒絕其他數值、否定句及像「300 點」這類包含 30 子字串的答案。`run-9b` 每次建立新的 fixture message ID、conversation ID 與 gitignored state，並核對回答、trace 及 dry-run 狀態；成功不代表已連接真實平台或送出公開回覆。這個流程只驗證已安裝的 `qwen3.5:9b-q4_K_M`；缺少模型時會停止，需另外明確執行 `pull`。
+
 ## 本機 Ollama 模型 adapter
 
 正式整合前可在本機用 Ollama 試跑模型；內部仍透過可替換的 `ModelAdapter` 介面呼叫。預設 adapter 是離線 fixture，只有指定 `--model-adapter ollama` 才會呼叫 Ollama。

@@ -46,7 +46,9 @@ class ConversationEventStore:
                 if all(isinstance(value, str) for value in (source, conversation_id, message_id)):
                     self._seen_message_keys.add((source, conversation_id, message_id))
 
-    def append_event(self, record: dict[str, Any]) -> bool:
+    def append_event(
+        self, record: dict[str, Any], *, context_eligible: bool = True
+    ) -> bool:
         """Persist every arrival and return whether it repeats a valid source/message key."""
         validation = record.get("validation", {})
         message = record.get("normalized_event")
@@ -59,6 +61,9 @@ class ConversationEventStore:
                 key = (source, conversation_id, message_id)
         with self._lock:
             duplicate = key is not None and key in self._seen_message_keys
+            record["accepted_for_context"] = bool(
+                key is not None and not duplicate and context_eligible
+            )
             self.log.append(record)
             if key is not None:
                 self._seen_message_keys.add(key)
@@ -68,12 +73,30 @@ class ConversationEventStore:
         self, conversation_id: str, excluding_message_id: str, limit: int
     ) -> tuple[dict[str, str], ...]:
         messages: list[dict[str, str]] = []
+        seen_keys: set[tuple[str, str, str]] = set()
         for record in self.log.read_all():
             validation = record.get("validation", {})
             message = record.get("normalized_event")
             if not validation.get("valid") or not isinstance(message, dict):
                 continue
             if message.get("conversation_id") != conversation_id:
+                continue
+            source = message.get("source")
+            event_conversation_id = message.get("conversation_id")
+            message_id = message.get("message_id")
+            if not all(
+                isinstance(value, str)
+                for value in (source, event_conversation_id, message_id)
+            ):
+                continue
+            key = (source, event_conversation_id, message_id)
+            if key in seen_keys:
+                continue
+            seen_keys.add(key)
+            accepted = record.get("accepted_for_context")
+            if accepted is False:
+                continue
+            if accepted is not None and not isinstance(accepted, bool):
                 continue
             if message.get("message_id") == excluding_message_id or message.get("is_self"):
                 continue

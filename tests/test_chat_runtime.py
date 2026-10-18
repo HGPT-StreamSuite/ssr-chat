@@ -4,11 +4,14 @@ import json
 import shutil
 import tempfile
 import unittest
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
 
 from ssr_chat.analysis import QuestionAnalyzer
 from ssr_chat.answer_context import AnswerContextBuilder
 from ssr_chat.application import build_runtime
+from ssr_chat.cli import main
 from ssr_chat.model import FixtureModelClient
 from ssr_chat.stores import JsonlLog, RunTraceStore
 
@@ -170,6 +173,11 @@ class ChatRuntimeTests(unittest.TestCase):
         self.assertFalse(own["public_reply"])
         self.assertEqual(len(JsonlLog(self.state / "sop_events.jsonl").read_all()), 3)
         self.assertEqual(len(JsonlLog(self.state / "conversation_events.jsonl").read_all()), 3)
+        arrivals = JsonlLog(self.state / "conversation_events.jsonl").read_all()
+        self.assertEqual(
+            [arrival["accepted_for_context"] for arrival in arrivals],
+            [False, True, False],
+        )
         self.assertFalse((self.state / "run_traces.jsonl").exists())
 
     def test_missing_knowledge_records_gap_but_tool_error_does_not(self) -> None:
@@ -251,6 +259,65 @@ class ChatRuntimeTests(unittest.TestCase):
         self.assertEqual(len(JsonlLog(self.state / "conversation_events.jsonl").read_all()), 2)
         self.assertEqual(len(RunTraceStore(self.state / "run_traces.jsonl").read_all()), 1)
         self.assertEqual(len(JsonlLog(self.state / "sop_events.jsonl").read_all()), 1)
+
+    def test_changed_duplicate_arrival_does_not_enter_followup_context(self) -> None:
+        original_event = self.event("general.json")
+        original_text = original_event["text"].strip()
+        original = self.runtime.handle(original_event)
+
+        duplicate_event = {**original_event, "text": "!ask invented duplicate context"}
+        duplicate = self.runtime.handle(duplicate_event)
+        followup = self.runtime.handle(self.event("followup.json"))
+        snapshot = self.analyzer.snapshots_seen[-1]
+        arrivals = JsonlLog(self.state / "conversation_events.jsonl").read_all()
+
+        self.assertEqual(original["status"], "answered")
+        self.assertEqual(duplicate["reason"], "duplicate_message_id")
+        self.assertEqual(followup["status"], "answered")
+        self.assertEqual(len(snapshot.messages), 1)
+        self.assertEqual(snapshot.messages[0]["message_id"], original_event["message_id"])
+        self.assertEqual(snapshot.messages[0]["text"], original_text)
+        self.assertNotIn("invented duplicate context", snapshot.messages[0]["text"])
+        self.assertEqual(
+            [arrival["accepted_for_context"] for arrival in arrivals],
+            [True, False, True],
+        )
+
+    def test_legacy_duplicate_arrivals_are_deduplicated_when_reading_context(self) -> None:
+        self.runtime.handle(self.event("general.json"))
+        log = JsonlLog(self.state / "conversation_events.jsonl")
+        original = log.read_all()[0]
+        legacy_duplicate = {
+            **original,
+            "normalized_event": {
+                **original["normalized_event"],
+                "text": "!ask changed legacy duplicate",
+            },
+        }
+        legacy_duplicate.pop("accepted_for_context")
+        log.append(legacy_duplicate)
+
+        self.runtime.handle(self.event("followup.json"))
+        snapshot = self.analyzer.snapshots_seen[-1]
+
+        self.assertEqual(len(snapshot.messages), 1)
+        self.assertEqual(snapshot.messages[0]["text"], original["normalized_event"]["text"])
+
+    def test_cli_keeps_normal_sop_hold_as_successful_processing(self) -> None:
+        output = StringIO()
+        with redirect_stdout(output):
+            exit_code = main(
+                [
+                    "chat",
+                    "--input",
+                    str(FIXTURES / "events" / "untriggered.json"),
+                    "--state-dir",
+                    str(self.state / "cli-held"),
+                ]
+            )
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(json.loads(output.getvalue())["reason"], "not_triggered")
 
     def test_conversation_snapshot_does_not_leak_between_rooms(self) -> None:
         self.runtime.handle(self.event("general.json"))

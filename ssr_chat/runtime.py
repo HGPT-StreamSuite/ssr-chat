@@ -56,6 +56,12 @@ class ChatRuntime:
         validation = self.validator.validate(raw_event)
         normalized = validation.normalized
         message_id = normalized.get("message_id") if normalized else None
+        context_eligible = bool(
+            validation.valid
+            and normalized is not None
+            and not normalized.get("is_self")
+            and normalized.get("author_id") != self.bot_id
+        )
         duplicate = self.conversation_store.append_event(
             {
                 "received_at": datetime.now(timezone.utc).isoformat(),
@@ -65,7 +71,8 @@ class ChatRuntime:
                     "reason": validation.reason,
                 },
                 "normalized_event": normalized,
-            }
+            },
+            context_eligible=context_eligible,
         )
 
         if duplicate and normalized is not None:

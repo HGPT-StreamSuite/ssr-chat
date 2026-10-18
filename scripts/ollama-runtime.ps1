@@ -420,7 +420,7 @@ function Invoke-Run9BWorkflow {
     }
     $getIdentity = { param($Process) Get-ProcessIdentityFromHandle -Process $Process }
     $assertHealthy = { param($Process, $Identity) Wait-ManagedRuntimeHealthy -Process $Process -Identity $Identity }
-    $pull = { param($Process, $Identity) Invoke-ModelPull -RuntimeProcess $Process -RuntimeIdentity $Identity }
+    $pull = { param($Process, $Identity) Assert-ConfiguredModelInstalled -RuntimeProcess $Process -RuntimeIdentity $Identity }
     $verify = {
         param($Process, $Identity)
         Show-Models -RuntimeProcess $Process -RuntimeIdentity $Identity
@@ -554,6 +554,26 @@ function Show-Models {
     }
 }
 
+function Assert-ConfiguredModelInstalled {
+    param($RuntimeProcess, $RuntimeIdentity)
+
+    if ($RuntimeProcess) {
+        $null = Assert-HealthyOwnedRuntime -Process $RuntimeProcess -Identity $RuntimeIdentity
+    }
+    else {
+        $null = Get-HealthyManagedRuntime
+    }
+    $modelLines = @(Invoke-WithRuntimeEnvironment { & $script:Executable list })
+    if ($script:LastRuntimeCommandExitCode -ne 0) {
+        throw "Ollama model listing failed with exit code $script:LastRuntimeCommandExitCode."
+    }
+    $modelPattern = '^\s*' + [regex]::Escape($script:ModelName) + '\s'
+    if (-not ($modelLines | Where-Object { $_ -match $modelPattern })) {
+        throw "The required local model is not installed. Use the explicit pull action before run-9b."
+    }
+    Write-Output "model_already_installed=$($script:ModelName)"
+}
+
 function Invoke-SyntheticVerification {
     param($RuntimeProcess, $RuntimeIdentity)
 
@@ -584,16 +604,87 @@ function Invoke-SyntheticFixtureChat {
     $uv = Get-Command uv -ErrorAction SilentlyContinue
     if (-not $uv) { throw "uv was not found for the project fixture chat." }
 
-    & $uv.Source --cache-dir .uv-cache --offline run python -m ssr_chat chat `
-        --input fixtures/events/general.json `
-        --state-dir .local-state-ollama `
-        --model-adapter ollama `
-        --ollama-endpoint $script:Endpoint `
-        --ollama-model $script:ModelName `
-        --ollama-timeout 300
-    if ($LASTEXITCODE -ne 0) {
-        throw "Synthetic fixture chat failed with exit code $LASTEXITCODE."
+    $runToken = [guid]::NewGuid().ToString("N")
+    $messageId = "run-9b-$runToken"
+    $stateDirectory = Join-Path $script:RepoRoot (Join-Path ".local-state-ollama" ("run-9b-" + $runToken))
+    New-Item -ItemType Directory -Path $stateDirectory -Force | Out-Null
+
+    $fixturePath = Join-Path $script:RepoRoot (Join-Path "fixtures" (Join-Path "events" "general.json"))
+    $event = Get-Content -LiteralPath $fixturePath -Raw -Encoding UTF8 | ConvertFrom-Json
+    $event.message_id = $messageId
+    $event.conversation_id = "run-9b-$runToken"
+    $eventJson = $event | ConvertTo-Json -Depth 32 -Compress
+    $eventPath = Join-Path $stateDirectory "event.json"
+    [System.IO.File]::WriteAllText($eventPath, $eventJson, [System.Text.UTF8Encoding]::new($false))
+
+    $stderrPath = Join-Path $stateDirectory "cli-stderr.log"
+    $uvArguments = @(
+        "--cache-dir", ".uv-cache",
+        "--offline",
+        "run", "python", "-m", "ssr_chat", "chat",
+        "--input", $eventPath,
+        "--state-dir", $stateDirectory,
+        "--model-adapter", "ollama",
+        "--ollama-endpoint", $script:Endpoint,
+        "--ollama-model", $script:ModelName,
+        "--ollama-timeout", "300"
+    )
+    Push-Location $script:RepoRoot
+    try {
+        $chatOutput = @(& $uv.Source @uvArguments 2> $stderrPath)
+        $chatExitCode = $LASTEXITCODE
     }
+    finally {
+        Pop-Location
+    }
+    $chatText = $chatOutput -join [Environment]::NewLine
+    if ($chatExitCode -ne 0) {
+        $stderr = if (Test-Path -LiteralPath $stderrPath) {
+            (Get-Content -LiteralPath $stderrPath -Raw -Encoding UTF8).Trim()
+        }
+        else { "" }
+        throw "Synthetic fixture chat failed with exit code $chatExitCode. $stderr"
+    }
+    try {
+        $result = $chatText | ConvertFrom-Json -ErrorAction Stop
+    }
+    catch {
+        throw "Synthetic fixture chat did not return valid JSON. State: $stateDirectory"
+    }
+    $fixtureGatePassed = $result.status -eq "answered"
+    $fixtureGatePassed = $fixtureGatePassed -and ($result.answer -is [string])
+    $fixtureGatePassed = $fixtureGatePassed -and -not [string]::IsNullOrWhiteSpace($result.answer)
+    $fixtureGatePassed = $fixtureGatePassed -and $result.send_result.status -eq "dry_run_not_sent"
+    $fixtureGatePassed = $fixtureGatePassed -and $result.send_result.attempted -eq $false
+    $fixtureGatePassed = $fixtureGatePassed -and $result.send_result.public_reply -eq $false
+    if (-not $fixtureGatePassed) {
+        throw "Synthetic fixture chat failed the answered, nonempty, dry-run, no-public-reply gate. State: $stateDirectory"
+    }
+
+    $tracePath = Join-Path $stateDirectory "run_traces.jsonl"
+    if (-not (Test-Path -LiteralPath $tracePath -PathType Leaf)) {
+        throw "Synthetic fixture chat did not write a run trace. State: $stateDirectory"
+    }
+    $traces = @(Get-Content -LiteralPath $tracePath -Encoding UTF8 | Where-Object { $_.Trim() } | ForEach-Object { $_ | ConvertFrom-Json })
+    $matchingTraces = @($traces | Where-Object { $_.run_id -eq $result.run_id -and $_.message_id -eq $messageId })
+    $traceGatePassed = $matchingTraces.Count -eq 1
+    if ($traceGatePassed) {
+        $traceGatePassed = $matchingTraces[0].run_status -eq "completed"
+        $traceGatePassed = $traceGatePassed -and $matchingTraces[0].send_result.status -eq "dry_run_not_sent"
+        $traceGatePassed = $traceGatePassed -and $matchingTraces[0].send_result.attempted -eq $false
+        $traceGatePassed = $traceGatePassed -and $matchingTraces[0].send_result.public_reply -eq $false
+    }
+    if (-not $traceGatePassed) {
+        throw "Synthetic fixture chat trace did not confirm one completed dry-run with no public reply. State: $stateDirectory"
+    }
+    $arrivalPath = Join-Path $stateDirectory "conversation_events.jsonl"
+    $arrivals = @(Get-Content -LiteralPath $arrivalPath -Encoding UTF8 | Where-Object { $_.Trim() } | ForEach-Object { $_ | ConvertFrom-Json })
+    $matchingArrivals = @($arrivals | Where-Object { $_.normalized_event.message_id -eq $messageId })
+    if ($matchingArrivals.Count -ne 1 -or $matchingArrivals[0].accepted_for_context -ne $true) {
+        throw "Synthetic fixture chat did not record one accepted unique event. State: $stateDirectory"
+    }
+    Write-Output $chatText
+    Write-Output "verified_fixture_message_id=$messageId state=$stateDirectory run_id=$($result.run_id)"
 }
 
 try {

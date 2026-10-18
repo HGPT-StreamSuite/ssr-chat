@@ -1,12 +1,18 @@
 from __future__ import annotations
 
 import json
+import ipaddress
 import math
 import os
 import socket
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
-from urllib.request import Request, urlopen
+from urllib.request import (
+    HTTPRedirectHandler,
+    ProxyHandler,
+    Request,
+    build_opener,
+)
 
 from .adapters import ModelAdapterError
 from .models import AnswerPrompt
@@ -14,6 +20,18 @@ from .models import AnswerPrompt
 
 _MAX_RESPONSE_BYTES = 1_048_576
 _DEFAULT_ENDPOINT = "http://127.0.0.1:11434"
+
+
+class _NoRedirectHandler(HTTPRedirectHandler):
+    def redirect_request(self, request, response, code, message, headers, new_url):
+        return None
+
+
+_LOCAL_ONLY_OPENER = build_opener(ProxyHandler({}), _NoRedirectHandler())
+
+
+def _open_local_request(request: Request, timeout: float):
+    return _LOCAL_ONLY_OPENER.open(request, timeout=timeout)
 
 
 class OllamaModelError(ModelAdapterError):
@@ -53,11 +71,15 @@ class OllamaModelClient:
         try:
             parsed = urlsplit(endpoint.strip())
             port = parsed.port
+            hostname = parsed.hostname
+            address = ipaddress.ip_address(hostname) if hostname else None
         except ValueError as exc:
             raise ValueError("Ollama endpoint must be a loopback HTTP URL") from exc
         if (
             parsed.scheme != "http"
-            or parsed.hostname not in {"localhost", "127.0.0.1", "::1"}
+            or address is None
+            or not address.is_loopback
+            or "%" in (hostname or "")
             or parsed.username is not None
             or parsed.password is not None
             or parsed.query
@@ -133,7 +155,7 @@ class OllamaModelClient:
             method="POST" if encoded is not None else "GET",
         )
         try:
-            response = urlopen(request, timeout=self.timeout)
+            response = _open_local_request(request, timeout=self.timeout)
             try:
                 status = getattr(response, "status", None)
                 if status is None:
