@@ -639,11 +639,10 @@ function Invoke-SyntheticFixtureChat {
     }
     $chatText = $chatOutput -join [Environment]::NewLine
     if ($chatExitCode -ne 0) {
-        $stderr = if (Test-Path -LiteralPath $stderrPath) {
-            (Get-Content -LiteralPath $stderrPath -Raw -Encoding UTF8).Trim()
-        }
-        else { "" }
-        throw "Synthetic fixture chat failed with exit code $chatExitCode. $stderr"
+        $stderr = Get-OptionalStderrText -Path $stderrPath
+        $failureMessage = "Synthetic fixture chat failed with exit code $chatExitCode."
+        $failureMessage += " stdout: $chatText stderr: $stderr state: $stateDirectory"
+        throw $failureMessage
     }
     try {
         $result = $chatText | ConvertFrom-Json -ErrorAction Stop

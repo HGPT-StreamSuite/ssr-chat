@@ -67,6 +67,21 @@ function Move-StaleOllamaOwnerRecordIfSafe {
     return $archivePath
 }
 
+function Get-OptionalStderrText {
+    param([AllowNull()][string]$Path)
+
+    if ([string]::IsNullOrWhiteSpace($Path)) { return "" }
+    try {
+        if (-not [System.IO.File]::Exists($Path)) { return "" }
+        $content = [System.IO.File]::ReadAllText($Path, [System.Text.Encoding]::UTF8)
+        if ($null -eq $content) { return "" }
+        return $content.Trim()
+    }
+    catch {
+        return ""
+    }
+}
+
 function Invoke-OllamaOwnedProcessLifecycle {
     param(
         [Parameter(Mandatory = $true)][scriptblock]$StartProcess,
@@ -122,4 +137,9 @@ function Invoke-OllamaOwnedProcessLifecycle {
     if ($null -ne $failure) { throw $failure }
 }
 
-Export-ModuleMember -Function Test-OllamaProcessIdentityMatch, Move-StaleOllamaOwnerRecordIfSafe, Invoke-OllamaOwnedProcessLifecycle
+Export-ModuleMember -Function @(
+    "Test-OllamaProcessIdentityMatch",
+    "Move-StaleOllamaOwnerRecordIfSafe",
+    "Get-OptionalStderrText",
+    "Invoke-OllamaOwnedProcessLifecycle"
+)

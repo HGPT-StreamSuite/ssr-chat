@@ -54,6 +54,13 @@ $tempBase = [System.IO.Path]::GetFullPath($PSScriptRoot)
 $tempRoot = Join-Path $tempBase (".tmp-ollama-runtime-lifecycle-" + [Guid]::NewGuid().ToString("N"))
 New-Item -ItemType Directory -Path $tempRoot -Force | Out-Null
 try {
+    $emptyStderrPath = Join-Path $tempRoot "empty-stderr.log"
+    [System.IO.File]::WriteAllText($emptyStderrPath, "")
+    Assert-True ([string]::IsNullOrEmpty((Get-OptionalStderrText -Path $emptyStderrPath))) "An empty stderr file must be treated as empty text."
+    Assert-True ([string]::IsNullOrEmpty((Get-OptionalStderrText -Path (Join-Path $tempRoot "missing-stderr.log")))) "A missing stderr file must be treated as empty text."
+    Assert-True ([string]::IsNullOrEmpty((Get-OptionalStderrText -Path $null))) "A null stderr path must be treated as empty text."
+    Mark-TestPassed "empty, missing, and null stderr paths return empty diagnostics"
+
     $ownerPath = Join-Path $tempRoot "server-owner.json"
     $identity | ConvertTo-Json | Set-Content -LiteralPath $ownerPath -Encoding UTF8
     $archive = Move-StaleOllamaOwnerRecordIfSafe -OwnerPath $ownerPath -ExpectedState $identity -ProcessStatus absent -HasListener $false
@@ -121,6 +128,33 @@ try {
     Assert-Sequence @("start", "health", "pull", "ownership", "stop") $events.ToArray() "Finally cleanup did not run after pull failure."
     $script:passed++
     Write-Output "PASS pull failure still invokes finally cleanup"
+
+    $events.Clear()
+    $stdoutModelFailure = '{"status":"failed","reason":"model_error","answer":null,"send_result":{"status":"not_attempted","attempted":false,"public_reply":false}}'
+    $verifyModelFailure = {
+        param($Process, $ProcessIdentity)
+        $events.Add("verify")
+        $stderrText = Get-OptionalStderrText -Path $null
+        throw "Synthetic fixture chat failed with exit code 1. stdout: $stdoutModelFailure stderr: $stderrText"
+    }.GetNewClosure()
+    $stopAfterModelFailure = {
+        param($Process, $ProcessIdentity)
+        $events.Add("stop")
+        throw "synthetic cleanup failure"
+    }.GetNewClosure()
+    $originalFailure = $null
+    try {
+        Invoke-OllamaOwnedProcessLifecycle -StartProcess $start -GetIdentity $getIdentity -AssertHealthy $health -Pull $pull -Verify $verifyModelFailure -TestOwnedProcess $isOwned -StopProcess $stopAfterModelFailure
+    }
+    catch {
+        $originalFailure = $_.Exception
+    }
+    Assert-True ($null -ne $originalFailure) "An empty model response must remain a failed workflow."
+    Assert-True ($originalFailure.Message.Contains("exit code 1")) "The original nonzero exit code must remain in the failure."
+    Assert-True ($originalFailure.Message.Contains($stdoutModelFailure)) "The original model_error stdout JSON must remain in the failure."
+    Assert-True (-not $originalFailure.Message.Contains("synthetic cleanup failure")) "Cleanup errors must not replace the original model failure."
+    Assert-Sequence @("start", "health", "pull", "verify", "ownership", "stop") $events.ToArray() "Failure reporting must still perform verified cleanup."
+    Mark-TestPassed "empty model failure preserves stdout and exit code through cleanup"
 
     $events.Clear()
     $notOwned = { param($Process, $ProcessIdentity) $events.Add("ownership"); return $false }.GetNewClosure()

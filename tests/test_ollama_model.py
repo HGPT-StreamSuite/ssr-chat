@@ -328,6 +328,57 @@ class OllamaModelClientTests(unittest.TestCase):
         self.assertEqual(traces[0]["send_result"]["status"], "not_attempted")
         self.assertEqual(sop_events[0]["reason"], "model_error")
 
+    def test_empty_model_answer_records_failure_trace_sop_and_skips_output(self) -> None:
+        test_temp = Path(__file__).resolve().parents[1] / ".test-temp"
+        test_temp.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=test_temp) as directory:
+            state = Path(directory) / "state"
+            output = StringIO()
+            with local_http_server(payload={"message": {"content": ""}}) as server:
+                with patch("ssr_chat.output.DryRunOutput.send") as output_send:
+                    with redirect_stdout(output):
+                        exit_code = main(
+                            [
+                                "chat",
+                                "--input",
+                                str(FIXTURES / "events" / "general.json"),
+                                "--state-dir",
+                                str(state),
+                                "--model-adapter",
+                                "ollama",
+                                "--ollama-endpoint",
+                                f"http://127.0.0.1:{server.server_port}",
+                                "--ollama-model",
+                                "synthetic:test",
+                            ]
+                        )
+
+            result = json.loads(output.getvalue())
+            traces = RunTraceStore(state / "run_traces.jsonl").read_all()
+            sop_events = JsonlLog(state / "sop_events.jsonl").read_all()
+
+        self.assertEqual(exit_code, 1)
+        self.assertEqual(server.request_paths, [("POST", "/api/chat")])
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["reason"], "model_error")
+        self.assertIsNone(result["answer"])
+        self.assertEqual(result["send_result"]["status"], "not_attempted")
+        self.assertFalse(result["send_result"]["attempted"])
+        self.assertFalse(result["public_reply"])
+        output_send.assert_not_called()
+        self.assertEqual(traces[0]["run_status"], "model_error")
+        self.assertIsNone(traces[0]["answer"])
+        self.assertEqual(traces[0]["send_result"]["status"], "not_attempted")
+        self.assertEqual(
+            traces[0]["diagnostics"][-1],
+            {
+                "stage": "model",
+                "code": "invalid_response",
+                "detail": "Ollama returned no answer text.",
+            },
+        )
+        self.assertEqual(sop_events[0]["reason"], "model_error")
+
 
 if __name__ == "__main__":
     unittest.main()
