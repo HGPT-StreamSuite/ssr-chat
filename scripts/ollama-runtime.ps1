@@ -241,7 +241,13 @@ function Stop-ManagedRuntime {
 
     $process = Get-RecordedProcess -State $state
     if (-not $process) {
-        throw "The recorded process is not running. Owner state was preserved; no process was changed."
+        if (-not (Test-PortAvailable)) {
+            throw "The recorded process is not running and port $($script:Port) is occupied. Owner state was preserved; no process was changed."
+        }
+
+        Remove-Item -LiteralPath $script:StatePath
+        Write-Output "running=false stale_owner_record_cleared=true"
+        return
     }
 
     $process.Kill()
