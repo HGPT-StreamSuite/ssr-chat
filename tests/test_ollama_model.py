@@ -221,6 +221,7 @@ class OllamaModelClientTests(unittest.TestCase):
         for answer in (
             "該道具可恢復30點能量。",
             "可以回復三十點能量。",
+            "能量回復30點。",
             "不是40點，而是30點能量。",
             "不只是30點能量，還能恢復其他資源。",
             "It restores 30 points of energy.",
@@ -235,6 +236,10 @@ class OllamaModelClientTests(unittest.TestCase):
             "該道具只能恢復20點能量。",
             "該道具不能恢復30點能量。",
             "該道具不恢復30點能量。",
+            "能量回復300點。",
+            "能量回復300。",
+            "回復130點能量。",
+            "能量回復三百三十點。",
             "The item does not restore 30 points of energy.",
             "不是30點能量，而是300點能量。",
             "30 points of energy is incorrect.",

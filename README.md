@@ -113,7 +113,7 @@ Windows 命令（在 ssr-chat repo 根目錄執行）：
     uv --cache-dir .uv-cache --offline run python -m ssr_chat chat --input fixtures/events/general.json --state-dir .local-state-ollama --model-adapter ollama --ollama-endpoint http://127.0.0.1:11435 --ollama-model qwen3.5:9b-q4_K_M
 
 結束後執行 .\scripts\ollama-runtime.ps1 stop 停止專案啟動的 server。models、pull 與 verify 只會呼叫已確認由本 repo 啟動且健康的 endpoint。
-補充：一般 `start` 會持續等待 server 結束；`start -ReturnAfterHealthy` 可在 health 成功後返回，供同一 PowerShell 工作階段執行 `status`、`pull`、`models`、`verify`、`stop`。若要讓 9B 的完整啟動、health、pull、verify、fixture 問答與 finally stop 保留同一個 Process 物件，請使用：
+補充：一般 `start` 會持續等待 server 結束；`start -ReturnAfterHealthy` 可在 health 成功後返回，供同一 PowerShell 工作階段執行 `status`、`models`、`verify`、`stop`。若要讓 9B 的完整啟動、health、verify、fixture 問答與 finally stop 保留同一個 Process 物件，請使用：
 
 ```powershell
 .\scripts\ollama-runtime.ps1 run-9b
