@@ -1,0 +1,7 @@
+{
+  "message_id": "demo-invalid-008",
+  "conversation_id": "demo-room",
+  "author_id": "viewer-5",
+  "source": "untrusted-source",
+  "text": "!ask 星界遠征是什麼遊戲？"
+}

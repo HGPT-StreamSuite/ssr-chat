@@ -1,0 +1,19 @@
+{
+  "disclaimer": "Fictional test data; this is not a live forecast.",
+  "forecasts": [
+    {
+      "location": "台北",
+      "summary": "多雲（示範值）",
+      "temperature_c": 24,
+      "note": "虛構 fixture，非即時天氣",
+      "source_id": "fixture-weather"
+    },
+    {
+      "location": "高雄",
+      "summary": "晴（示範值）",
+      "temperature_c": 29,
+      "note": "虛構 fixture，非即時天氣",
+      "source_id": "fixture-weather"
+    }
+  ]
+}

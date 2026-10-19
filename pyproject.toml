@@ -1,0 +1,10 @@
+[project]
+name = "ssr-chat"
+version = "0.1.0"
+description = "本機直播文字問答原型"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.uv]
+package = false

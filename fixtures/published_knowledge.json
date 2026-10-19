@@ -1,0 +1,63 @@
+{
+  "publication_status": "published",
+  "artifact_version": "chat-fixture-local-1",
+  "disclaimer": "All records below are fictional test data.",
+  "sources": {
+    "fixture-game-wiki": {
+      "source_id": "fixture-game-wiki",
+      "name": "本機虛構遊戲資料 fixture",
+      "locator": "fixture://game-wiki"
+    },
+    "fixture-person-wiki": {
+      "source_id": "fixture-person-wiki",
+      "name": "本機虛構人物資料 fixture",
+      "locator": "fixture://person-wiki"
+    },
+    "fixture-guide-wiki": {
+      "source_id": "fixture-guide-wiki",
+      "name": "本機虛構攻略 fixture",
+      "locator": "fixture://guide-wiki"
+    },
+    "fixture-item-wiki": {
+      "source_id": "fixture-item-wiki",
+      "name": "本機虛構道具 fixture",
+      "locator": "fixture://item-wiki"
+    }
+  },
+  "people": {
+    "露娜": [
+      {
+        "title": "露娜（虛構 fixture）",
+        "text": "測試資料設定露娜是導航員角色，負責星圖探索。",
+        "source_id": "fixture-person-wiki"
+      }
+    ]
+  },
+  "game_info": {
+    "星界遠征": [
+      {
+        "title": "星界遠征（虛構 fixture）",
+        "text": "測試資料設定星界遠征是科幻策略遊戲，玩家探索星系並經營艦隊。",
+        "source_id": "fixture-game-wiki"
+      }
+    ]
+  },
+  "game_guide": {
+    "迷霧森林Boss": [
+      {
+        "title": "迷霧森林 Boss 攻略（虛構 fixture）",
+        "text": "測試攻略設定護盾解除後再攻擊；此內容僅為虛構測試資料。",
+        "source_id": "fixture-guide-wiki"
+      }
+    ]
+  },
+  "game_item": {
+    "月光藥水": [
+      {
+        "title": "月光藥水效果（虛構 fixture）",
+        "text": "測試資料設定月光藥水回復 30 點能量。",
+        "source_id": "fixture-item-wiki"
+      }
+    ]
+  }
+}
