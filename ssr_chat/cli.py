@@ -84,6 +84,8 @@ def _default_fixtures() -> Path:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="ssr-chat")
     sub = parser.add_subparsers(dest="command", required=True)
+    live = sub.add_parser("twitch-live", help="Opt-in authenticated Twitch receive and local dry-run; use twitch-live --help")
+    live.add_argument("live_args", nargs=argparse.REMAINDER)
 
     chat = sub.add_parser("chat", help="處理一個本機 JSON 事件")
     chat.add_argument("--input", required=True, help="JSON 檔路徑，或 - 表示 stdin")
@@ -95,6 +97,7 @@ def build_parser() -> argparse.ArgumentParser:
     api = sub.add_parser("serve", help="啟動僅綁 localhost 的 HTTP API")
     api.add_argument("--port", type=int, default=8765)
     api.add_argument("--state-dir", default=".local-state")
+    api.add_argument("--lifecycle-dir", help="New local directory for generation-bound request drain/status control; opt-in only")
     api.add_argument("--fixture-dir", default=str(_default_fixtures()))
     _add_model_options(api)
     _add_knowledge_options(api)
@@ -269,6 +272,12 @@ def _run_ollama_command(args: argparse.Namespace) -> int:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    # Keep the authenticated receiver's account/scope gates in its own parser.
+    # Delegating before parse_args also preserves its normal --help behavior.
+    arguments = list(sys.argv[1:] if argv is None else argv)
+    if arguments and arguments[0] == "twitch-live":
+        from .twitch_live import main as live_main
+        return live_main(arguments[1:])
     args = build_parser().parse_args(argv)
     if args.command == "identity-records":
         from .identity_records import IdentityRecordGateway
@@ -560,7 +569,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "detail":"Synthetic archiving requires explicit source/storage mapping and authored fixture receipts."}}), file=sys.stderr)
                 return 2
         serve(runtime, args.port, retrieval_gateway=retrieval_gateway, retrieval_routes=retrieval_routes, answer_routes=answer_routes,
-              entry_gateway=entry_gateway, twitch_replay_gateway=twitch_replay_gateway, twitch_archive_gateway=twitch_archive_gateway)
+              entry_gateway=entry_gateway, twitch_replay_gateway=twitch_replay_gateway, twitch_archive_gateway=twitch_archive_gateway,
+              lifecycle_dir=args.lifecycle_dir)
         return 0
 
     try:
