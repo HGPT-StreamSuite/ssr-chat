@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.1",
+  "policy_id": "synthetic-own-chat-answer-v1",
+  "grants": [
+    {
+      "scope": {
+        "domain": "chat_history",
+        "platform": "synthetic-platform",
+        "channel_id": "room-a",
+        "game_id": null,
+        "session_id": "session-now",
+        "content_version": null
+      },
+      "source_id": "synthetic-chat",
+      "record_id": "r-revision",
+      "revision": 2,
+      "layer": "raw",
+      "source_kind": "synthetic",
+      "actor_account_id": "alice",
+      "content_sha256": "447948e5f5b112d47eccb2e2aa709284193b1dc3b7d0d84b86d998356bdd8843",
+      "ai_input": {
+        "status": "allowed",
+        "basis": "Explicit AI-input permission for authored synthetic own-chat record; isolated local test only"
+      }
+    }
+  ]
+}

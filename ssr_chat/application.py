@@ -5,10 +5,12 @@ from pathlib import Path
 from .analysis import QuestionAnalyzer, TriggerDetector
 from .answer_context import AnswerContextBuilder
 from .context import ConversationContext
+from .catalog_knowledge import CatalogKnowledgeReader
 from .input_validation import EventValidator
 from .local_knowledge import LocalKnowledgeReader
 from .model import FixtureModelClient
 from .output import DryRunOutput
+from .ollama_model import OllamaModelClient
 from .queries import (
     GameGuideQuery,
     GameInfoQuery,
@@ -31,6 +33,7 @@ def build_runtime(
     state_dir: str | Path,
     fixture_dir: str | Path | None = None,
     *,
+    knowledge_reader=None,
     weather_adapter=None,
     analyzer=None,
     answer_context=None,
@@ -48,7 +51,9 @@ def build_runtime(
     sop_store = SopEventStore(state / "sop_events.jsonl")
     gap_store = KnowledgeGapStore(state / "knowledge_gaps.jsonl")
 
-    local_reader = LocalKnowledgeReader(fixtures / "published_knowledge.json")
+    local_reader = knowledge_reader if knowledge_reader is not None else LocalKnowledgeReader(
+        fixtures / "published_knowledge.json"
+    )
     weather = weather_adapter or FixtureWeatherAdapter(
         fixtures / "weather.json", fixtures / "tool_config.json"
     )
@@ -80,4 +85,12 @@ def build_runtime(
         run_traces=run_traces,
         sop=sop,
         gaps=gap_store,
+        execution_profile={
+            "knowledge": ("catalog" if isinstance(local_reader, CatalogKnowledgeReader)
+                          else "fixture" if isinstance(local_reader, LocalKnowledgeReader) else "custom"),
+            "model": ("ollama" if isinstance(local_model, OllamaModelClient)
+                      else "fixture" if isinstance(local_model, FixtureModelClient) else "custom"),
+            "weather": "fixture" if isinstance(weather, FixtureWeatherAdapter) else "custom",
+            "output": "dry_run" if isinstance(dry_run_output, DryRunOutput) else "custom",
+        },
     )

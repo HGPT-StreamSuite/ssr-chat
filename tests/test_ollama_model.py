@@ -130,6 +130,57 @@ class OllamaModelClientTests(unittest.TestCase):
         self.assertIn("fixture-item-wiki", encoded_prompt)
         self.assertTrue(fake_response.closed)
 
+    def test_publication_absence_claims_become_evidence_insufficiency(self) -> None:
+        client = OllamaModelClient(model="test-model")
+        prompt = AnswerPrompt("合成未知問題", "synthetic-unknown", (), {}, ())
+        # Includes the observed failure plus unrelated domains and paraphrases.
+        for raw in (
+            "精確重置時刻、時區與特定版本的例外尚未公開，所以無法給出時間。",
+            "測試產品的規格，官方尚未公布。",
+            "原廠沒有對外公開詳細規格。",
+            "官方並未提供日期。",
+            "官方还未公开细节。",
+            "The vendor has not yet disclosed the exact date.",
+            "The official source never published those details.",
+        ):
+            with self.subTest(raw=raw), patch(
+                "ssr_chat.ollama_model._open_local_request",
+                return_value=response({"message": {"content": raw}}),
+            ):
+                self.assertEqual(client.generate(prompt), "目前提供的資料不足，無法確認。")
+
+    def test_uncertainty_guard_preserves_supported_lines_and_does_not_rewrite_facts(self) -> None:
+        client = OllamaModelClient(model="test-model")
+        raw = "合成測試：週期為三天。\n官方尚未公開精確時間。\n資料沒有提供可確認的時區。"
+        with patch("ssr_chat.ollama_model._open_local_request", return_value=response({"message": {"content": raw}})):
+            actual = client.generate(AnswerPrompt("合成測試", "s", (), {}, ()))
+        self.assertEqual(actual, "合成測試：週期為三天。\n目前提供的資料不足，無法確認。\n資料沒有提供可確認的時區。")
+
+    def test_supported_publication_and_evidence_limited_uncertainty_are_unchanged(self) -> None:
+        client = OllamaModelClient(model="test-model")
+        for raw in (
+            "目前提供的資料不足，無法確認。",
+            "無法確認官方是否已公開。",
+            "根據提供的公告，官方已公開日期。",
+            "目前提供的資料中沒有相關資訊。",
+            "It is unknown whether the date was published.",
+        ):
+            with self.subTest(raw=raw), patch("ssr_chat.ollama_model._open_local_request", return_value=response({"message": {"content": raw}})):
+                self.assertEqual(client.generate(AnswerPrompt("synthetic", "s", (), {}, ())), raw)
+
+    def test_runtime_outputs_only_the_constrained_answer(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            state = Path(directory)
+            client = OllamaModelClient(model="test-model")
+            event = {"message_id": "synthetic-guard", "conversation_id": "synthetic-room", "author_id": "synthetic",
+                     "source": "local-fixture", "text": "!ask 合成未知道具的日期？"}
+            with patch("ssr_chat.ollama_model._open_local_request", return_value=response({"message": {"content": "官方尚未公布。"}})):
+                result = build_runtime(state, FIXTURES, model=client).handle(event)
+            self.assertEqual(result["answer"], "目前提供的資料不足，無法確認。")
+            self.assertEqual(result["send_result"]["status"], "dry_run_not_sent")
+            trace = RunTraceStore(state/"run_traces.jsonl").read_all()[0]
+            self.assertEqual(trace["answer"], result["answer"])
+
     def test_list_models_only_reports_installed_models(self) -> None:
         client = OllamaModelClient()
         fake_response = response(

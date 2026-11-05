@@ -37,6 +37,7 @@ class ChatRuntime:
         sop: FixedSop,
         gaps: KnowledgeGapStore,
         bot_id: str = "ssr-bot-fixture",
+        execution_profile: dict[str, str] | None = None,
     ) -> None:
         self.validator = validator
         self.trigger_detector = trigger_detector
@@ -51,6 +52,14 @@ class ChatRuntime:
         self.sop = sop
         self.gaps = gaps
         self.bot_id = bot_id
+        self._execution_profile = dict(execution_profile or {
+            "knowledge": "custom", "model": "custom", "weather": "custom", "output": "custom",
+        })
+
+    @property
+    def execution_profile(self) -> dict[str, str]:
+        """Configured adapters only; does not assert provider connectivity."""
+        return dict(self._execution_profile)
 
     def handle(self, raw_event: Any) -> dict[str, Any]:
         validation = self.validator.validate(raw_event)

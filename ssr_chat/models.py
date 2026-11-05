@@ -101,9 +101,11 @@ class AnswerPrompt:
     context_messages: tuple[dict[str, str], ...]
     analysis: dict[str, Any]
     query_results: tuple[dict[str, Any], ...]
+    evidence_citations: bool = False
 
     def as_dict(self) -> dict[str, Any]:
         return {
+            **({"evidence_citations": True} if self.evidence_citations is True else {}),
             "user_text": self.user_text,
             "context_snapshot_id": self.context_snapshot_id,
             "context_messages": [dict(item) for item in self.context_messages],

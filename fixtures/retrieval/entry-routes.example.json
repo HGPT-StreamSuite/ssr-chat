@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.1",
+  "routing": "explicit_command_v1",
+  "targets": {
+    "/game": "/retrieve/game-knowledge",
+    "/channel": "/answer/channel-knowledge",
+    "/history": "/answer/chat-history",
+    "/transcript": "/answer/stt-transcript"
+  }
+}

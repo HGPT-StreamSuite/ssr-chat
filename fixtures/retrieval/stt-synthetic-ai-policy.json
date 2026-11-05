@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.1",
+  "policy_id": "synthetic-stt-answer-v1",
+  "grants": [
+    {
+      "scope": {
+        "domain": "stt_transcript",
+        "platform": "synthetic-authored-stt",
+        "channel_id": "synthetic-answer-channel",
+        "game_id": null,
+        "session_id": "synthetic-answer-session",
+        "content_version": "synthetic-stt-v1"
+      },
+      "source_id": "synthetic-authored-stt-source",
+      "record_id": "synthetic-answer-synthetic-answer-segment-a",
+      "revision": 2,
+      "layer": "raw",
+      "source_kind": "synthetic",
+      "actor_account_id": "synthetic-answer-speaker-a",
+      "content_sha256": "7164c0c509a0b7289f4d955546d02b44e912d8ab35e423a2f0638116f93f9ae4",
+      "ai_input": {
+        "status": "allowed",
+        "basis": "Explicit AI-input permission for independently authored synthetic STT text and metadata; isolated local test only"
+      }
+    }
+  ]
+}
