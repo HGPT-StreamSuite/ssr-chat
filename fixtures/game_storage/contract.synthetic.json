@@ -1,0 +1,575 @@
+{
+  "binding": {
+    "source_id": "synthetic-game-note",
+    "source_locator": "document:synthetic-game-note",
+    "actor_account_id": null,
+    "scope": {
+      "domain": "game_knowledge",
+      "platform": "synthetic-local-document",
+      "channel_id": null,
+      "game_id": "synthetic-game-A",
+      "session_id": null,
+      "content_version": "synthetic-v1"
+    }
+  },
+  "importer_caller": {
+    "read_scopes": [
+      {
+        "domain": "game_knowledge",
+        "platform": {
+          "mode": "exact",
+          "value": "synthetic-local-document"
+        },
+        "channel_id": {
+          "mode": "exact",
+          "value": null
+        },
+        "game_id": {
+          "mode": "exact",
+          "value": "synthetic-game-A"
+        },
+        "session_id": {
+          "mode": "exact",
+          "value": null
+        },
+        "content_version": {
+          "mode": "exact",
+          "value": "synthetic-v1"
+        }
+      }
+    ],
+    "write_scopes": [
+      {
+        "domain": "game_knowledge",
+        "platform": {
+          "mode": "exact",
+          "value": "synthetic-local-document"
+        },
+        "channel_id": {
+          "mode": "exact",
+          "value": null
+        },
+        "game_id": {
+          "mode": "exact",
+          "value": "synthetic-game-A"
+        },
+        "session_id": {
+          "mode": "exact",
+          "value": null
+        },
+        "content_version": {
+          "mode": "exact",
+          "value": "synthetic-v1"
+        }
+      }
+    ]
+  },
+  "snapshots": {
+    "first": {
+      "content": "﻿合成遊戲手冊\r\n  道具甲：測試用效果。  \r\n",
+      "source": {
+        "source_id": "synthetic-game-note",
+        "source_locator": "document:synthetic-game-note",
+        "source_kind": "synthetic",
+        "adapter": "local_file",
+        "authorized": true,
+        "scope": {
+          "domain": "game_knowledge",
+          "platform": "synthetic-local-document",
+          "channel_id": null,
+          "game_id": "synthetic-game-A",
+          "session_id": null,
+          "content_version": "synthetic-v1"
+        },
+        "settings": {
+          "path": "source.txt",
+          "format": "utf8",
+          "event": {
+            "record_id": "synthetic-game-record-1",
+            "source_event_id": "synthetic-game-event-1",
+            "revision": 1,
+            "event_time": "2026-11-03T23:00:00.123456789Z",
+            "received_at": "2026-11-03T23:01:00Z",
+            "actor_account_id": null,
+            "record_kind": "raw_event",
+            "quality_flags": [
+              "synthetic"
+            ],
+            "source_refs": [
+              {
+                "source_id": "synthetic-game-note",
+                "record_id": "synthetic-game-record-1",
+                "revision": 1,
+                "locator": "document:synthetic-game-note",
+                "transformation_version": null
+              }
+            ]
+          },
+          "acquisition": {
+            "mode": "provided_local",
+            "synthetic": true,
+            "source_policy": {
+              "decision": "approved",
+              "authority": "synthetic-fixture-owner",
+              "checked_at": "2026-10-29T09:00:00Z",
+              "reference": "urn:synthetic:local-permission",
+              "purpose": "local_cache"
+            },
+            "robots": {
+              "decision": "not_applicable",
+              "authority": "synthetic-local-adapter",
+              "checked_at": "2026-10-29T09:00:00Z",
+              "reference": "urn:synthetic:no-network"
+            },
+            "policy": {
+              "uses": {
+                "local_cache": {
+                  "status": "allowed",
+                  "basis": "synthetic fixture local import approval"
+                },
+                "search_index": {
+                  "status": "denied",
+                  "basis": "synthetic fixture; no indexing approval"
+                },
+                "ai_input": {
+                  "status": "denied",
+                  "basis": "synthetic fixture; no AI permission"
+                },
+                "ai_train": {
+                  "status": "denied",
+                  "basis": "synthetic fixture; no training permission"
+                }
+              }
+            }
+          }
+        },
+        "source_access_scope": {
+          "read_scopes": [
+            {
+              "domain": "game_knowledge",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-local-document"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": "synthetic-game-A"
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": "synthetic-v1"
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "game_knowledge",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-local-document"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": "synthetic-game-A"
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": "synthetic-v1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "revision2": {
+      "content": "合成遊戲手冊第二修訂：道具甲的新測試效果。",
+      "source": {
+        "source_id": "synthetic-game-note",
+        "source_locator": "document:synthetic-game-note",
+        "source_kind": "synthetic",
+        "adapter": "local_file",
+        "authorized": true,
+        "scope": {
+          "domain": "game_knowledge",
+          "platform": "synthetic-local-document",
+          "channel_id": null,
+          "game_id": "synthetic-game-A",
+          "session_id": null,
+          "content_version": "synthetic-v1"
+        },
+        "settings": {
+          "path": "source.txt",
+          "format": "utf8",
+          "event": {
+            "record_id": "synthetic-game-record-1",
+            "source_event_id": "synthetic-game-event-1",
+            "revision": 2,
+            "event_time": "2026-11-03T23:00:00.123456789Z",
+            "received_at": "2026-11-03T23:01:00Z",
+            "actor_account_id": null,
+            "record_kind": "raw_event",
+            "quality_flags": [
+              "synthetic"
+            ],
+            "source_refs": [
+              {
+                "source_id": "synthetic-game-note",
+                "record_id": "synthetic-game-record-1",
+                "revision": 2,
+                "locator": "document:synthetic-game-note",
+                "transformation_version": null
+              }
+            ]
+          },
+          "acquisition": {
+            "mode": "provided_local",
+            "synthetic": true,
+            "source_policy": {
+              "decision": "approved",
+              "authority": "synthetic-fixture-owner",
+              "checked_at": "2026-10-29T09:00:00Z",
+              "reference": "urn:synthetic:local-permission",
+              "purpose": "local_cache"
+            },
+            "robots": {
+              "decision": "not_applicable",
+              "authority": "synthetic-local-adapter",
+              "checked_at": "2026-10-29T09:00:00Z",
+              "reference": "urn:synthetic:no-network"
+            },
+            "policy": {
+              "uses": {
+                "local_cache": {
+                  "status": "allowed",
+                  "basis": "synthetic fixture local import approval"
+                },
+                "search_index": {
+                  "status": "denied",
+                  "basis": "synthetic fixture; no indexing approval"
+                },
+                "ai_input": {
+                  "status": "denied",
+                  "basis": "synthetic fixture; no AI permission"
+                },
+                "ai_train": {
+                  "status": "denied",
+                  "basis": "synthetic fixture; no training permission"
+                }
+              }
+            }
+          }
+        },
+        "source_access_scope": {
+          "read_scopes": [
+            {
+              "domain": "game_knowledge",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-local-document"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": "synthetic-game-A"
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": "synthetic-v1"
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "game_knowledge",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-local-document"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": "synthetic-game-A"
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": "synthetic-v1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "equal-text-other-event": {
+      "content": "﻿合成遊戲手冊\r\n  道具甲：測試用效果。  \r\n",
+      "source": {
+        "source_id": "synthetic-game-note",
+        "source_locator": "document:synthetic-game-note",
+        "source_kind": "synthetic",
+        "adapter": "local_file",
+        "authorized": true,
+        "scope": {
+          "domain": "game_knowledge",
+          "platform": "synthetic-local-document",
+          "channel_id": null,
+          "game_id": "synthetic-game-A",
+          "session_id": null,
+          "content_version": "synthetic-v1"
+        },
+        "settings": {
+          "path": "source.txt",
+          "format": "utf8",
+          "event": {
+            "record_id": "synthetic-game-record-2",
+            "source_event_id": "synthetic-game-event-2",
+            "revision": 1,
+            "event_time": "2026-11-03T23:00:00.123456789Z",
+            "received_at": "2026-11-03T23:01:00Z",
+            "actor_account_id": null,
+            "record_kind": "raw_event",
+            "quality_flags": [
+              "synthetic"
+            ],
+            "source_refs": [
+              {
+                "source_id": "synthetic-game-note",
+                "record_id": "synthetic-game-record-2",
+                "revision": 1,
+                "locator": "document:synthetic-game-note",
+                "transformation_version": null
+              }
+            ]
+          },
+          "acquisition": {
+            "mode": "provided_local",
+            "synthetic": true,
+            "source_policy": {
+              "decision": "approved",
+              "authority": "synthetic-fixture-owner",
+              "checked_at": "2026-10-29T09:00:00Z",
+              "reference": "urn:synthetic:local-permission",
+              "purpose": "local_cache"
+            },
+            "robots": {
+              "decision": "not_applicable",
+              "authority": "synthetic-local-adapter",
+              "checked_at": "2026-10-29T09:00:00Z",
+              "reference": "urn:synthetic:no-network"
+            },
+            "policy": {
+              "uses": {
+                "local_cache": {
+                  "status": "allowed",
+                  "basis": "synthetic fixture local import approval"
+                },
+                "search_index": {
+                  "status": "denied",
+                  "basis": "synthetic fixture; no indexing approval"
+                },
+                "ai_input": {
+                  "status": "denied",
+                  "basis": "synthetic fixture; no AI permission"
+                },
+                "ai_train": {
+                  "status": "denied",
+                  "basis": "synthetic fixture; no training permission"
+                }
+              }
+            }
+          }
+        },
+        "source_access_scope": {
+          "read_scopes": [
+            {
+              "domain": "game_knowledge",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-local-document"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": "synthetic-game-A"
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": "synthetic-v1"
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "game_knowledge",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-local-document"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": "synthetic-game-A"
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": "synthetic-v1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "store_policy": {
+    "principal": "synthetic-game-operator",
+    "synthetic_only": true,
+    "caller_access_scope": {
+      "read_scopes": [],
+      "write_scopes": [
+        {
+          "domain": "game_knowledge",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-local-document"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": "synthetic-game-A"
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": "synthetic-v1"
+          }
+        }
+      ]
+    },
+    "grants": [
+      {
+        "scope": {
+          "domain": "game_knowledge",
+          "platform": "synthetic-local-document",
+          "channel_id": null,
+          "game_id": "synthetic-game-A",
+          "session_id": null,
+          "content_version": "synthetic-v1"
+        },
+        "operations": [
+          "ingest"
+        ],
+        "source_ids": [
+          "synthetic-game-note"
+        ],
+        "source_kind": "synthetic",
+        "source_access_scope": {
+          "read_scopes": [
+            {
+              "domain": "game_knowledge",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-local-document"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": "synthetic-game-A"
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": "synthetic-v1"
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "game_knowledge",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-local-document"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": "synthetic-game-A"
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": "synthetic-v1"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "input": {
+    "request_id": "synthetic-game-demo",
+    "synthetic": true,
+    "snapshots": [
+      "first"
+    ]
+  }
+}

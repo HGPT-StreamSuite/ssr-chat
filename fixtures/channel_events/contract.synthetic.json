@@ -1,0 +1,1958 @@
+{
+  "binding": {
+    "source_id": "synthetic-channel-events-source",
+    "actor_account_id": "synthetic-events-account",
+    "scope": {
+      "domain": "person_profile",
+      "platform": "synthetic-events-platform",
+      "channel_id": "synthetic-events-channel",
+      "game_id": null,
+      "session_id": "synthetic-events-session",
+      "content_version": null
+    }
+  },
+  "record_visibility": {
+    "read_scopes": [
+      {
+        "domain": "person_profile",
+        "platform": {
+          "mode": "exact",
+          "value": "synthetic-events-platform"
+        },
+        "channel_id": {
+          "mode": "exact",
+          "value": "synthetic-events-channel"
+        },
+        "game_id": {
+          "mode": "exact",
+          "value": null
+        },
+        "session_id": {
+          "mode": "exact",
+          "value": "synthetic-events-session"
+        },
+        "content_version": {
+          "mode": "exact",
+          "value": null
+        }
+      }
+    ],
+    "write_scopes": [
+      {
+        "domain": "person_profile",
+        "platform": {
+          "mode": "exact",
+          "value": "synthetic-events-platform"
+        },
+        "channel_id": {
+          "mode": "exact",
+          "value": "synthetic-events-channel"
+        },
+        "game_id": {
+          "mode": "exact",
+          "value": null
+        },
+        "session_id": {
+          "mode": "exact",
+          "value": "synthetic-events-session"
+        },
+        "content_version": {
+          "mode": "exact",
+          "value": null
+        }
+      }
+    ]
+  },
+  "writer_policy": {
+    "schema_version": "1.0.1",
+    "operations": [
+      "ingest"
+    ],
+    "access_scope": {
+      "read_scopes": [],
+      "write_scopes": [
+        {
+          "domain": "person_profile",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-events-platform"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "synthetic-events-channel"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": "synthetic-events-session"
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": null
+          }
+        }
+      ]
+    },
+    "sources": {
+      "synthetic-channel-events-source": {
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "policy": {
+          "uses": {
+            "local_cache": {
+              "status": "allowed",
+              "basis": "authored-synthetic-event-fixture-only"
+            },
+            "search_index": {
+              "status": "allowed",
+              "basis": "authored-synthetic-event-fixture-only"
+            },
+            "ai_input": {
+              "status": "denied",
+              "basis": "authored-synthetic-event-fixture-only"
+            },
+            "ai_train": {
+              "status": "denied",
+              "basis": "authored-synthetic-event-fixture-only"
+            }
+          }
+        }
+      }
+    }
+  },
+  "reader_policy": {
+    "schema_version": "1.0.1",
+    "operations": [
+      "get",
+      "export"
+    ],
+    "access_scope": {
+      "read_scopes": [
+        {
+          "domain": "person_profile",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-events-platform"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "synthetic-events-channel"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": "synthetic-events-session"
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": null
+          }
+        }
+      ],
+      "write_scopes": []
+    },
+    "sources": {
+      "synthetic-channel-events-source": {
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        },
+        "policy": {
+          "uses": {
+            "local_cache": {
+              "status": "allowed",
+              "basis": "authored-synthetic-event-fixture-only"
+            },
+            "search_index": {
+              "status": "allowed",
+              "basis": "authored-synthetic-event-fixture-only"
+            },
+            "ai_input": {
+              "status": "denied",
+              "basis": "authored-synthetic-event-fixture-only"
+            },
+            "ai_train": {
+              "status": "denied",
+              "basis": "authored-synthetic-event-fixture-only"
+            }
+          }
+        }
+      }
+    }
+  },
+  "events": {
+    "active": {
+      "envelope": {
+        "record": {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-events-source",
+          "source_event_id": "synthetic-channel-event-1",
+          "record_id": "synthetic-channel-record-1",
+          "revision": 1,
+          "event_time": "2026-11-04T00:00:00Z",
+          "received_at": "2026-11-04T00:06:00Z",
+          "actor_account_id": "synthetic-events-account",
+          "text": "合成事件原文。",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "person_profile",
+            "platform": "synthetic-events-platform",
+            "channel_id": "synthetic-events-channel",
+            "game_id": null,
+            "session_id": "synthetic-events-session",
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-events-source",
+              "record_id": "synthetic-channel-record-1",
+              "revision": 1,
+              "locator": "synthetic://channel-events/1/1",
+              "transformation_version": null
+            }
+          ]
+        },
+        "facts": {
+          "event_type": "relationship",
+          "relationship_type": "membership",
+          "status": "active",
+          "effective_from": "2026-11-04T00:00:00Z",
+          "effective_to": null
+        },
+        "source_kind": "synthetic"
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-channel-events-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "payload_sha256": "a6cb3d1e2c517fafa902c63f4a89b359f31a94c747fe12dc749e83b32bf9370e",
+        "basis": "explicit authored synthetic source declaration; not human account-link approval"
+      }
+    },
+    "revoked": {
+      "envelope": {
+        "record": {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-events-source",
+          "source_event_id": "synthetic-channel-event-1",
+          "record_id": "synthetic-channel-record-1",
+          "revision": 3,
+          "event_time": "2026-11-04T00:03:00Z",
+          "received_at": "2026-11-04T00:06:00Z",
+          "actor_account_id": "synthetic-events-account",
+          "text": "合成來源明確撤銷此關係。",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "person_profile",
+            "platform": "synthetic-events-platform",
+            "channel_id": "synthetic-events-channel",
+            "game_id": null,
+            "session_id": "synthetic-events-session",
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-events-source",
+              "record_id": "synthetic-channel-record-1",
+              "revision": 3,
+              "locator": "synthetic://channel-events/1/3",
+              "transformation_version": null
+            }
+          ]
+        },
+        "facts": {
+          "event_type": "relationship",
+          "relationship_type": "membership",
+          "status": "revoked",
+          "effective_from": "2026-11-04T00:00:00Z",
+          "effective_to": "2026-11-04T00:02:00Z"
+        },
+        "source_kind": "synthetic"
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-channel-events-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "payload_sha256": "539ccb66946e28c41b12265d9ed7ce6dcb7c4e724e030183c897492d4b506f6b",
+        "basis": "explicit authored synthetic source declaration; not human account-link approval"
+      }
+    },
+    "late-active": {
+      "envelope": {
+        "record": {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-events-source",
+          "source_event_id": "synthetic-channel-event-1",
+          "record_id": "synthetic-channel-record-1",
+          "revision": 2,
+          "event_time": "2026-11-04T00:01:00Z",
+          "received_at": "2026-11-04T00:06:00Z",
+          "actor_account_id": "synthetic-events-account",
+          "text": "合成事件原文。",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "person_profile",
+            "platform": "synthetic-events-platform",
+            "channel_id": "synthetic-events-channel",
+            "game_id": null,
+            "session_id": "synthetic-events-session",
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-events-source",
+              "record_id": "synthetic-channel-record-1",
+              "revision": 2,
+              "locator": "synthetic://channel-events/1/2",
+              "transformation_version": null
+            }
+          ]
+        },
+        "facts": {
+          "event_type": "relationship",
+          "relationship_type": "membership",
+          "status": "active",
+          "effective_from": "2026-11-04T00:00:00Z",
+          "effective_to": null
+        },
+        "source_kind": "synthetic"
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-channel-events-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "payload_sha256": "6341407a517c73b170afee7a67d15c0cb4cd2c292996a999602fe86914e3c414",
+        "basis": "explicit authored synthetic source declaration; not human account-link approval"
+      }
+    },
+    "revision4": {
+      "envelope": {
+        "record": {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-events-source",
+          "source_event_id": "synthetic-channel-event-1",
+          "record_id": "synthetic-channel-record-1",
+          "revision": 4,
+          "event_time": "2026-11-04T00:04:00Z",
+          "received_at": "2026-11-04T00:06:00Z",
+          "actor_account_id": "synthetic-events-account",
+          "text": "合成撤銷文字修訂，未恢復關係。",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "person_profile",
+            "platform": "synthetic-events-platform",
+            "channel_id": "synthetic-events-channel",
+            "game_id": null,
+            "session_id": "synthetic-events-session",
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-events-source",
+              "record_id": "synthetic-channel-record-1",
+              "revision": 4,
+              "locator": "synthetic://channel-events/1/4",
+              "transformation_version": null
+            }
+          ]
+        },
+        "facts": {
+          "event_type": "relationship",
+          "relationship_type": "membership",
+          "status": "revoked",
+          "effective_from": "2026-11-04T00:00:00Z",
+          "effective_to": "2026-11-04T00:02:00Z"
+        },
+        "source_kind": "synthetic"
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-channel-events-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "payload_sha256": "bb5b7d2c1bb1430bb862d355983fc45bf59f014fb7339ac96c229e644487460c",
+        "basis": "explicit authored synthetic source declaration; not human account-link approval"
+      }
+    },
+    "visit": {
+      "envelope": {
+        "record": {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-events-source",
+          "source_event_id": "synthetic-channel-event-2",
+          "record_id": "synthetic-channel-record-2",
+          "revision": 1,
+          "event_time": "2026-11-04T00:01:00Z",
+          "received_at": "2026-11-04T00:06:00Z",
+          "actor_account_id": "synthetic-events-account",
+          "text": "合成事件原文。",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "person_profile",
+            "platform": "synthetic-events-platform",
+            "channel_id": "synthetic-events-channel",
+            "game_id": null,
+            "session_id": "synthetic-events-session",
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-events-source",
+              "record_id": "synthetic-channel-record-2",
+              "revision": 1,
+              "locator": "synthetic://channel-events/2/1",
+              "transformation_version": null
+            }
+          ]
+        },
+        "facts": {
+          "event_type": "visit",
+          "effective_at": "2026-11-04T00:01:00Z"
+        },
+        "source_kind": "synthetic"
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-channel-events-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "payload_sha256": "9175e7d0f738b449b7c7096dc1c0a015fecf54bf134df850aaf23b105bf58dfa",
+        "basis": "explicit authored synthetic source declaration; not human account-link approval"
+      }
+    },
+    "visit2": {
+      "envelope": {
+        "record": {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-events-source",
+          "source_event_id": "synthetic-channel-event-3",
+          "record_id": "synthetic-channel-record-3",
+          "revision": 1,
+          "event_time": "2026-11-04T00:01:00Z",
+          "received_at": "2026-11-04T00:06:00Z",
+          "actor_account_id": "synthetic-events-account",
+          "text": "合成事件原文。",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "person_profile",
+            "platform": "synthetic-events-platform",
+            "channel_id": "synthetic-events-channel",
+            "game_id": null,
+            "session_id": "synthetic-events-session",
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-events-source",
+              "record_id": "synthetic-channel-record-3",
+              "revision": 1,
+              "locator": "synthetic://channel-events/3/1",
+              "transformation_version": null
+            }
+          ]
+        },
+        "facts": {
+          "event_type": "visit",
+          "effective_at": "2026-11-04T00:01:00Z"
+        },
+        "source_kind": "synthetic"
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-channel-events-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "payload_sha256": "d418bb2ef2ccafdd3d3768b425e613ddfcf6d7e514cb55a2567804ea0f03aa39",
+        "basis": "explicit authored synthetic source declaration; not human account-link approval"
+      }
+    },
+    "unknown-status": {
+      "envelope": {
+        "record": {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-events-source",
+          "source_event_id": "synthetic-channel-event-4",
+          "record_id": "synthetic-channel-record-4",
+          "revision": 1,
+          "event_time": "2026-11-04T00:00:00Z",
+          "received_at": "2026-11-04T00:06:00Z",
+          "actor_account_id": "synthetic-events-account",
+          "text": "合成事件原文。",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "person_profile",
+            "platform": "synthetic-events-platform",
+            "channel_id": "synthetic-events-channel",
+            "game_id": null,
+            "session_id": "synthetic-events-session",
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-events-source",
+              "record_id": "synthetic-channel-record-4",
+              "revision": 1,
+              "locator": "synthetic://channel-events/4/1",
+              "transformation_version": null
+            }
+          ]
+        },
+        "facts": {
+          "event_type": "relationship",
+          "relationship_type": "membership",
+          "status": "unknown",
+          "effective_from": "2026-11-04T00:00:00Z",
+          "effective_to": null
+        },
+        "source_kind": "synthetic"
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-channel-events-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "payload_sha256": "d8e8590729096acf90ca3bbc68ed3094fbdeb270d68c2aa4b1286374c55b62bc",
+        "basis": "explicit authored synthetic source declaration; not human account-link approval"
+      }
+    },
+    "conflict": {
+      "envelope": {
+        "record": {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-events-source",
+          "source_event_id": "synthetic-channel-event-1",
+          "record_id": "synthetic-channel-record-1",
+          "revision": 3,
+          "event_time": "2026-11-04T00:03:00Z",
+          "received_at": "2026-11-04T00:06:00Z",
+          "actor_account_id": "synthetic-events-account",
+          "text": "SAME_REVISION_SYNTHETIC_CONFLICT",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "person_profile",
+            "platform": "synthetic-events-platform",
+            "channel_id": "synthetic-events-channel",
+            "game_id": null,
+            "session_id": "synthetic-events-session",
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-events-source",
+              "record_id": "synthetic-channel-record-1",
+              "revision": 3,
+              "locator": "synthetic://channel-events/1/3",
+              "transformation_version": null
+            }
+          ]
+        },
+        "facts": {
+          "event_type": "relationship",
+          "relationship_type": "membership",
+          "status": "revoked",
+          "effective_from": "2026-11-04T00:00:00Z",
+          "effective_to": "2026-11-04T00:02:00Z"
+        },
+        "source_kind": "synthetic"
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-channel-events-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "payload_sha256": "d5901cea4878786f60355480fa25842c2f0fc701842132caef99197d510f8d37",
+        "basis": "explicit authored synthetic source declaration; not human account-link approval"
+      }
+    },
+    "invalid-time": {
+      "envelope": {
+        "record": {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-events-source",
+          "source_event_id": "synthetic-channel-event-5",
+          "record_id": "synthetic-channel-record-5",
+          "revision": 1,
+          "event_time": "invalid-time",
+          "received_at": "2026-11-04T00:06:00Z",
+          "actor_account_id": "synthetic-events-account",
+          "text": "合成事件原文。",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "person_profile",
+            "platform": "synthetic-events-platform",
+            "channel_id": "synthetic-events-channel",
+            "game_id": null,
+            "session_id": "synthetic-events-session",
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-events-source",
+              "record_id": "synthetic-channel-record-5",
+              "revision": 1,
+              "locator": "synthetic://channel-events/5/1",
+              "transformation_version": null
+            }
+          ]
+        },
+        "facts": {
+          "event_type": "relationship",
+          "relationship_type": "membership",
+          "status": "active",
+          "effective_from": "2026-11-04T00:00:00Z",
+          "effective_to": null
+        },
+        "source_kind": "synthetic"
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-channel-events-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "payload_sha256": "ed42d78e5ce33d8ae753b0311947b14c031e15f33d41e1fa950e407c1089c287",
+        "basis": "explicit authored synthetic source declaration; not human account-link approval"
+      }
+    },
+    "missing-facts": {
+      "envelope": {
+        "record": {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-events-source",
+          "source_event_id": "synthetic-channel-event-6",
+          "record_id": "synthetic-channel-record-6",
+          "revision": 1,
+          "event_time": "2026-11-04T00:00:00Z",
+          "received_at": "2026-11-04T00:06:00Z",
+          "actor_account_id": "synthetic-events-account",
+          "text": "合成事件原文。",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "person_profile",
+            "platform": "synthetic-events-platform",
+            "channel_id": "synthetic-events-channel",
+            "game_id": null,
+            "session_id": "synthetic-events-session",
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "person_profile",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-events-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-channel"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-events-session"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-events-source",
+              "record_id": "synthetic-channel-record-6",
+              "revision": 1,
+              "locator": "synthetic://channel-events/6/1",
+              "transformation_version": null
+            }
+          ]
+        },
+        "facts": {},
+        "source_kind": "synthetic"
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-channel-events-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "payload_sha256": "45f065c4def3ad3f3e48e736afca537a964ba63bf71e01894540c8af3d426478",
+        "basis": "explicit authored synthetic source declaration; not human account-link approval"
+      }
+    }
+  },
+  "queries": {
+    "all": {
+      "operation": "get",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-channel-events-template",
+        "text": "explicit synthetic event query",
+        "intent": "get",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "actor_account_id": "synthetic-events-account",
+        "person_id": null,
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {},
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "active": {
+      "operation": "get",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-channel-events-template",
+        "text": "explicit synthetic event query",
+        "intent": "get",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "actor_account_id": "synthetic-events-account",
+        "person_id": null,
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {
+          "event_type": "relationship",
+          "relationship_status": "active"
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "revoked": {
+      "operation": "get",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-channel-events-template",
+        "text": "explicit synthetic event query",
+        "intent": "get",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "actor_account_id": "synthetic-events-account",
+        "person_id": null,
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {
+          "event_type": "relationship",
+          "relationship_status": "revoked"
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "visits": {
+      "operation": "get",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-channel-events-template",
+        "text": "explicit synthetic event query",
+        "intent": "get",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "actor_account_id": "synthetic-events-account",
+        "person_id": null,
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {
+          "event_type": "visit"
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "unknown": {
+      "operation": "get",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-channel-events-template",
+        "text": "explicit synthetic event query",
+        "intent": "get",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "actor_account_id": "synthetic-events-account",
+        "person_id": null,
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {
+          "event_type": "relationship",
+          "relationship_status": "unknown"
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "before-revocation": {
+      "operation": "get",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-channel-events-template",
+        "text": "explicit synthetic event query",
+        "intent": "get",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "actor_account_id": "synthetic-events-account",
+        "person_id": null,
+        "time_from": null,
+        "time_to": "2026-11-04T00:02:00Z",
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {
+          "event_type": "relationship"
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "as-of": {
+      "operation": "get",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-channel-events-template",
+        "text": "explicit synthetic event query",
+        "intent": "get",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "actor_account_id": "synthetic-events-account",
+        "person_id": null,
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {
+          "event_type": "relationship",
+          "as_of": "2026-11-04T00:01:00Z"
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "bad-condition": {
+      "operation": "get",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-channel-events-template",
+        "text": "explicit synthetic event query",
+        "intent": "get",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "actor_account_id": "synthetic-events-account",
+        "person_id": null,
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {
+          "question_only": true
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "history": {
+      "operation": "export",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-channel-events-template",
+        "text": "explicit synthetic event query",
+        "intent": "export",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "actor_account_id": null,
+        "person_id": null,
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {},
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "history-first": {
+      "operation": "export",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-channel-events-template",
+        "text": "explicit synthetic event query",
+        "intent": "export",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "actor_account_id": null,
+        "person_id": null,
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 1,
+        "layer": "raw",
+        "conditions": {},
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "history-after1": {
+      "operation": "export",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-channel-events-template",
+        "text": "explicit synthetic event query",
+        "intent": "export",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-events-platform",
+          "channel_id": "synthetic-events-channel",
+          "game_id": null,
+          "session_id": "synthetic-events-session",
+          "content_version": null
+        },
+        "actor_account_id": null,
+        "person_id": null,
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {
+          "after_sequence": 1
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-events-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-events-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-events-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    }
+  }
+}

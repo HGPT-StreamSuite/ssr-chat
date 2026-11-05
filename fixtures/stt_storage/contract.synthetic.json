@@ -1,0 +1,337 @@
+{
+  "binding": {
+    "source_id": "synthetic-stt-text-1",
+    "actor_account_id": "synthetic-stt-account-1",
+    "scope": {
+      "domain": "stt_transcript",
+      "platform": "synthetic-stt",
+      "channel_id": "synthetic-stt-channel",
+      "game_id": null,
+      "session_id": "synthetic-stt-stream-1",
+      "content_version": null
+    }
+  },
+  "normalizer_policy": {
+    "schema_version": "1.0.1",
+    "low_confidence_threshold": 0.6,
+    "caller_access_scope": {
+      "read_scopes": [],
+      "write_scopes": [
+        {
+          "domain": "stt_transcript",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-stt"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "synthetic-stt-channel"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": "synthetic-stt-stream-1"
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": null
+          }
+        }
+      ]
+    },
+    "grants": [
+      {
+        "source_id": "synthetic-stt-text-1",
+        "source_kind": "synthetic",
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "stt_transcript",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-stt"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-stt-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-stt-stream-1"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "stt_transcript",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-stt"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-stt-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-stt-stream-1"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "existing_write_allowed": true
+      }
+    ]
+  },
+  "store_sources": {
+    "sources": [
+      {
+        "source_id": "synthetic-stt-text-1",
+        "source_kind": "synthetic",
+        "scopes": [
+          {
+            "domain": "stt_transcript",
+            "platform": "synthetic-stt",
+            "channel_id": "synthetic-stt-channel",
+            "game_id": null,
+            "session_id": "synthetic-stt-stream-1",
+            "content_version": null
+          }
+        ],
+        "operations": [
+          "ingest"
+        ],
+        "policy_ref": "synthetic:explicit-stt-storage-only",
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "stt_transcript",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-stt"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-stt-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-stt-stream-1"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "stt_transcript",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-stt"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-stt-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-stt-stream-1"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "store_caller": {
+    "read_scopes": [],
+    "write_scopes": [
+      {
+        "domain": "stt_transcript",
+        "platform": {
+          "mode": "exact",
+          "value": "synthetic-stt"
+        },
+        "channel_id": {
+          "mode": "exact",
+          "value": "synthetic-stt-channel"
+        },
+        "game_id": {
+          "mode": "exact",
+          "value": null
+        },
+        "session_id": {
+          "mode": "exact",
+          "value": "synthetic-stt-stream-1"
+        },
+        "content_version": {
+          "mode": "exact",
+          "value": null
+        }
+      }
+    ]
+  },
+  "purpose_policy": {
+    "source_id": "synthetic-stt-text-1",
+    "scope": {
+      "domain": "stt_transcript",
+      "platform": "synthetic-stt",
+      "channel_id": "synthetic-stt-channel",
+      "game_id": null,
+      "session_id": "synthetic-stt-stream-1",
+      "content_version": null
+    },
+    "uses": {
+      "local_cache": {
+        "status": "allowed",
+        "basis": "authored-synthetic-storage-only"
+      },
+      "search_index": {
+        "status": "denied",
+        "basis": "authored-synthetic-storage-only"
+      },
+      "ai_input": {
+        "status": "denied",
+        "basis": "authored-synthetic-storage-only"
+      },
+      "ai_train": {
+        "status": "denied",
+        "basis": "authored-synthetic-storage-only"
+      }
+    }
+  },
+  "input": {
+    "request_id": "synthetic-stt-demo",
+    "synthetic": true,
+    "events": [
+      {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-stt-text-1",
+        "source_event_id": "synthetic-segment-1",
+        "record_id": "synthetic-stt-record-1",
+        "revision": 1,
+        "event_time": "2026-11-03T23:00:00.123456789Z",
+        "received_at": "2026-11-03T23:00:02+00:00",
+        "actor_account_id": "synthetic-stt-account-1",
+        "text": "  合成逐字稿第一段\n保留空白、換行與原始標點。  ",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "stt_transcript",
+          "platform": "synthetic-stt",
+          "channel_id": "synthetic-stt-channel",
+          "game_id": null,
+          "session_id": "synthetic-stt-stream-1",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "stt_transcript",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-stt"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-stt-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-stt-stream-1"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "stt_transcript",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-stt"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-stt-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-stt-stream-1"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-stt-text-1",
+            "record_id": "synthetic-stt-record-1",
+            "revision": 1,
+            "locator": "synthetic://stt-storage/segment-1/1",
+            "transformation_version": null
+          }
+        ],
+        "extensions": {
+          "stt": {
+            "segment_id": "synthetic-segment-1",
+            "segment_revision": 1,
+            "state": "partial",
+            "speaker_id": null,
+            "started_at": "2026-11-03T23:00:00.123456789Z",
+            "ended_at": "2026-11-03T23:00:01.987654321Z",
+            "source_confidence": 0.4
+          }
+        }
+      }
+    ]
+  }
+}

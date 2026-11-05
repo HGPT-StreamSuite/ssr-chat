@@ -1,0 +1,433 @@
+{
+  "binding": {
+    "source_id": "synthetic-counts-chat",
+    "actor_account_id": "synthetic-counts-account",
+    "scope": {
+      "domain": "chat_history",
+      "platform": "synthetic-counts-platform",
+      "channel_id": "synthetic-counts-channel",
+      "game_id": null,
+      "session_id": "synthetic-counts-session",
+      "content_version": null
+    }
+  },
+  "reader_policy": {
+    "access_scope": {
+      "read_scopes": [
+        {
+          "domain": "chat_history",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-counts-platform"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "synthetic-counts-channel"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": "synthetic-counts-session"
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": null
+          }
+        }
+      ],
+      "write_scopes": []
+    },
+    "operations": [
+      "export"
+    ],
+    "sources": {
+      "synthetic-counts-chat": "synthetic"
+    },
+    "source_access_scopes": {
+      "synthetic-counts-chat": {
+        "read_scopes": [
+          {
+            "domain": "chat_history",
+            "platform": {
+              "mode": "exact",
+              "value": "synthetic-counts-platform"
+            },
+            "channel_id": {
+              "mode": "exact",
+              "value": "synthetic-counts-channel"
+            },
+            "game_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "session_id": {
+              "mode": "exact",
+              "value": "synthetic-counts-session"
+            },
+            "content_version": {
+              "mode": "exact",
+              "value": null
+            }
+          }
+        ],
+        "write_scopes": [
+          {
+            "domain": "chat_history",
+            "platform": {
+              "mode": "exact",
+              "value": "synthetic-counts-platform"
+            },
+            "channel_id": {
+              "mode": "exact",
+              "value": "synthetic-counts-channel"
+            },
+            "game_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "session_id": {
+              "mode": "exact",
+              "value": "synthetic-counts-session"
+            },
+            "content_version": {
+              "mode": "exact",
+              "value": null
+            }
+          }
+        ]
+      }
+    }
+  },
+  "counts_context": {
+    "principal_id": "synthetic-counts-reader",
+    "access_scope": {
+      "read_scopes": [
+        {
+          "domain": "chat_history",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-counts-platform"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "synthetic-counts-channel"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": "synthetic-counts-session"
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": null
+          }
+        }
+      ],
+      "write_scopes": []
+    },
+    "layers": [
+      "raw"
+    ],
+    "allow_personlinks": false,
+    "source_read_decisions": {
+      "synthetic-counts-chat": {
+        "allowed": true,
+        "basis": "authored-synthetic-counts-read-decision"
+      }
+    }
+  },
+  "purpose_policy": {
+    "source_id": "synthetic-counts-chat",
+    "scope": {
+      "domain": "chat_history",
+      "platform": "synthetic-counts-platform",
+      "channel_id": "synthetic-counts-channel",
+      "game_id": null,
+      "session_id": "synthetic-counts-session",
+      "content_version": null
+    },
+    "local_cache": {
+      "status": "allowed",
+      "basis": "authored-synthetic-snapshot-cache"
+    },
+    "activity_counts": {
+      "status": "allowed",
+      "basis": "authored-synthetic-speech-count-only"
+    }
+  },
+  "records": [
+    {
+      "record": {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-counts-chat",
+        "source_event_id": "synthetic-counts-event-1",
+        "record_id": "synthetic-counts-record-1",
+        "revision": 1,
+        "event_time": "2026-11-04T00:00:00Z",
+        "received_at": "2026-11-04T00:04:00Z",
+        "actor_account_id": "synthetic-counts-account",
+        "text": "合成聊天訊息。",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "chat_history",
+          "platform": "synthetic-counts-platform",
+          "channel_id": "synthetic-counts-channel",
+          "game_id": null,
+          "session_id": "synthetic-counts-session",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "chat_history",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-counts-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-counts-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-counts-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "chat_history",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-counts-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-counts-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-counts-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-counts-chat",
+            "record_id": "synthetic-counts-record-1",
+            "revision": 1,
+            "locator": "synthetic://activity-counts/1/1",
+            "transformation_version": null
+          }
+        ]
+      },
+      "kinds": [
+        "speech"
+      ]
+    },
+    {
+      "record": {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-counts-chat",
+        "source_event_id": "synthetic-counts-event-1",
+        "record_id": "synthetic-counts-record-1",
+        "revision": 2,
+        "event_time": "2026-11-04T00:03:00Z",
+        "received_at": "2026-11-04T00:04:00Z",
+        "actor_account_id": "synthetic-counts-account",
+        "text": "這個標點是問號？但沒有問題標記。",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "chat_history",
+          "platform": "synthetic-counts-platform",
+          "channel_id": "synthetic-counts-channel",
+          "game_id": null,
+          "session_id": "synthetic-counts-session",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "chat_history",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-counts-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-counts-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-counts-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "chat_history",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-counts-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-counts-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-counts-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-counts-chat",
+            "record_id": "synthetic-counts-record-1",
+            "revision": 2,
+            "locator": "synthetic://activity-counts/1/2",
+            "transformation_version": null
+          }
+        ]
+      },
+      "kinds": [
+        "speech"
+      ]
+    },
+    {
+      "record": {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-counts-chat",
+        "source_event_id": "synthetic-counts-event-2",
+        "record_id": "synthetic-counts-record-2",
+        "revision": 1,
+        "event_time": "2026-11-04T00:00:00Z",
+        "received_at": "2026-11-04T00:04:00Z",
+        "actor_account_id": "synthetic-counts-account",
+        "text": "合成聊天訊息。",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "chat_history",
+          "platform": "synthetic-counts-platform",
+          "channel_id": "synthetic-counts-channel",
+          "game_id": null,
+          "session_id": "synthetic-counts-session",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "chat_history",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-counts-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-counts-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-counts-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "chat_history",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-counts-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-counts-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-counts-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-counts-chat",
+            "record_id": "synthetic-counts-record-2",
+            "revision": 1,
+            "locator": "synthetic://activity-counts/2/1",
+            "transformation_version": null
+          }
+        ]
+      },
+      "kinds": [
+        "speech"
+      ]
+    }
+  ]
+}

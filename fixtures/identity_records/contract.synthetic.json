@@ -1,0 +1,1633 @@
+{
+  "binding": {
+    "source_id": "synthetic-identity-records-source",
+    "scope": {
+      "domain": "person_profile",
+      "platform": "synthetic-identity-platform",
+      "channel_id": "synthetic-identity-channel",
+      "game_id": null,
+      "session_id": "synthetic-identity-session",
+      "content_version": null
+    },
+    "person_ids": [
+      "synthetic-person-1",
+      "synthetic-person-2",
+      "synthetic-person-empty"
+    ],
+    "account_ids": [
+      "synthetic-account-main",
+      "synthetic-account-alt",
+      "synthetic-account-empty"
+    ]
+  },
+  "record_visibility": {
+    "read_scopes": [
+      {
+        "domain": "person_profile",
+        "platform": {
+          "mode": "exact",
+          "value": "synthetic-identity-platform"
+        },
+        "channel_id": {
+          "mode": "exact",
+          "value": "synthetic-identity-channel"
+        },
+        "game_id": {
+          "mode": "exact",
+          "value": null
+        },
+        "session_id": {
+          "mode": "exact",
+          "value": "synthetic-identity-session"
+        },
+        "content_version": {
+          "mode": "exact",
+          "value": null
+        }
+      }
+    ],
+    "write_scopes": [
+      {
+        "domain": "person_profile",
+        "platform": {
+          "mode": "exact",
+          "value": "synthetic-identity-platform"
+        },
+        "channel_id": {
+          "mode": "exact",
+          "value": "synthetic-identity-channel"
+        },
+        "game_id": {
+          "mode": "exact",
+          "value": null
+        },
+        "session_id": {
+          "mode": "exact",
+          "value": "synthetic-identity-session"
+        },
+        "content_version": {
+          "mode": "exact",
+          "value": null
+        }
+      }
+    ]
+  },
+  "writer_access": {
+    "read_scopes": [],
+    "write_scopes": [
+      {
+        "domain": "person_profile",
+        "platform": {
+          "mode": "exact",
+          "value": "synthetic-identity-platform"
+        },
+        "channel_id": {
+          "mode": "exact",
+          "value": "synthetic-identity-channel"
+        },
+        "game_id": {
+          "mode": "exact",
+          "value": null
+        },
+        "session_id": {
+          "mode": "exact",
+          "value": "synthetic-identity-session"
+        },
+        "content_version": {
+          "mode": "exact",
+          "value": null
+        }
+      }
+    ]
+  },
+  "reader_access": {
+    "read_scopes": [
+      {
+        "domain": "person_profile",
+        "platform": {
+          "mode": "exact",
+          "value": "synthetic-identity-platform"
+        },
+        "channel_id": {
+          "mode": "exact",
+          "value": "synthetic-identity-channel"
+        },
+        "game_id": {
+          "mode": "exact",
+          "value": null
+        },
+        "session_id": {
+          "mode": "exact",
+          "value": "synthetic-identity-session"
+        },
+        "content_version": {
+          "mode": "exact",
+          "value": null
+        }
+      }
+    ],
+    "write_scopes": []
+  },
+  "purpose_policy": {
+    "source_id": "synthetic-identity-records-source",
+    "scope": {
+      "domain": "person_profile",
+      "platform": "synthetic-identity-platform",
+      "channel_id": "synthetic-identity-channel",
+      "game_id": null,
+      "session_id": "synthetic-identity-session",
+      "content_version": null
+    },
+    "read_decision": {
+      "allowed": true,
+      "basis": "authored synthetic identity raw read"
+    },
+    "write_decision": {
+      "allowed": true,
+      "basis": "authored synthetic identity raw write"
+    },
+    "uses": {
+      "local_cache": {
+        "status": "allowed",
+        "basis": "authored synthetic identity use only"
+      },
+      "search_index": {
+        "status": "allowed",
+        "basis": "authored synthetic identity use only"
+      },
+      "ai_input": {
+        "status": "denied",
+        "basis": "authored synthetic identity use only"
+      },
+      "ai_train": {
+        "status": "denied",
+        "basis": "authored synthetic identity use only"
+      }
+    }
+  },
+  "events": {
+    "person1": {
+      "entity_kind": "person",
+      "person_id": "synthetic-person-1",
+      "record": {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-identity-records-source",
+        "source_event_id": "synthetic-identity-event-1",
+        "record_id": "synthetic-identity-record-1",
+        "revision": 1,
+        "event_time": "2026-11-04T00:00:00Z",
+        "received_at": "2026-11-04T00:06:00Z",
+        "actor_account_id": null,
+        "text": "{\"display_name\":\"合成同名註記\"}",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-identity-records-source",
+            "record_id": "synthetic-identity-record-1",
+            "revision": 1,
+            "locator": "synthetic://identity-records/1/1",
+            "transformation_version": null
+          }
+        ]
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-identity-records-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "payload_sha256": "2ad7c3ba114c7711fbe4381374893ae01445ef4f7d88e74f39965f5df4d41bbb",
+        "basis": "authored synthetic raw annotation only; no person-account link or human approval claimed"
+      }
+    },
+    "person2": {
+      "entity_kind": "person",
+      "person_id": "synthetic-person-2",
+      "record": {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-identity-records-source",
+        "source_event_id": "synthetic-identity-event-2",
+        "record_id": "synthetic-identity-record-2",
+        "revision": 1,
+        "event_time": "2026-11-04T00:00:00Z",
+        "received_at": "2026-11-04T00:06:00Z",
+        "actor_account_id": null,
+        "text": "{\"display_name\":\"合成同名註記\"}",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-identity-records-source",
+            "record_id": "synthetic-identity-record-2",
+            "revision": 1,
+            "locator": "synthetic://identity-records/2/1",
+            "transformation_version": null
+          }
+        ]
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-identity-records-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "payload_sha256": "9bc1d8e947c7e072764ae7746cbae5dce565b5b726e98a15e93b0c9a0829e303",
+        "basis": "authored synthetic raw annotation only; no person-account link or human approval claimed"
+      }
+    },
+    "account-main": {
+      "entity_kind": "platform_account",
+      "person_id": null,
+      "record": {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-identity-records-source",
+        "source_event_id": "synthetic-identity-event-3",
+        "record_id": "synthetic-identity-record-3",
+        "revision": 1,
+        "event_time": "2026-11-04T00:00:00Z",
+        "received_at": "2026-11-04T00:06:00Z",
+        "actor_account_id": "synthetic-account-main",
+        "text": "{\"display_name\":\"合成同名註記\"}",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-identity-records-source",
+            "record_id": "synthetic-identity-record-3",
+            "revision": 1,
+            "locator": "synthetic://identity-records/3/1",
+            "transformation_version": null
+          }
+        ]
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-identity-records-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "payload_sha256": "de5b3a836f72db5d50f2021c6d2b62c1ecc47037c99716788898ea958beef434",
+        "basis": "authored synthetic raw annotation only; no person-account link or human approval claimed"
+      }
+    },
+    "account-alt": {
+      "entity_kind": "platform_account",
+      "person_id": null,
+      "record": {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-identity-records-source",
+        "source_event_id": "synthetic-identity-event-4",
+        "record_id": "synthetic-identity-record-4",
+        "revision": 1,
+        "event_time": "2026-11-04T00:00:00Z",
+        "received_at": "2026-11-04T00:06:00Z",
+        "actor_account_id": "synthetic-account-alt",
+        "text": "{\"display_name\":\"合成同名註記\"}",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-identity-records-source",
+            "record_id": "synthetic-identity-record-4",
+            "revision": 1,
+            "locator": "synthetic://identity-records/4/1",
+            "transformation_version": null
+          }
+        ]
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-identity-records-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "payload_sha256": "a07bf60280608475cf92cc9dab54c4d434125015a67562990870ef4f4664cfc1",
+        "basis": "authored synthetic raw annotation only; no person-account link or human approval claimed"
+      }
+    },
+    "main-revision3": {
+      "entity_kind": "platform_account",
+      "person_id": null,
+      "record": {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-identity-records-source",
+        "source_event_id": "synthetic-identity-event-3",
+        "record_id": "synthetic-identity-record-3",
+        "revision": 3,
+        "event_time": "2026-11-04T00:03:00Z",
+        "received_at": "2026-11-04T00:06:00Z",
+        "actor_account_id": "synthetic-account-main",
+        "text": "{\"display_name\":\"合成修訂三\"}",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-identity-records-source",
+            "record_id": "synthetic-identity-record-3",
+            "revision": 3,
+            "locator": "synthetic://identity-records/3/3",
+            "transformation_version": null
+          }
+        ]
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-identity-records-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "payload_sha256": "fd019c740e8fd47f24f95cda4560e17a5a58e1221395525386a693f63fb96d32",
+        "basis": "authored synthetic raw annotation only; no person-account link or human approval claimed"
+      }
+    },
+    "main-late2": {
+      "entity_kind": "platform_account",
+      "person_id": null,
+      "record": {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-identity-records-source",
+        "source_event_id": "synthetic-identity-event-3",
+        "record_id": "synthetic-identity-record-3",
+        "revision": 2,
+        "event_time": "2026-11-04T00:02:00Z",
+        "received_at": "2026-11-04T00:06:00Z",
+        "actor_account_id": "synthetic-account-main",
+        "text": "{\"display_name\":\"合成修訂二\"}",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-identity-records-source",
+            "record_id": "synthetic-identity-record-3",
+            "revision": 2,
+            "locator": "synthetic://identity-records/3/2",
+            "transformation_version": null
+          }
+        ]
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-identity-records-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "payload_sha256": "df51f0eb3ce943902e5dd8992922986111288c3db7bc915cbc9cf69edbd8a81d",
+        "basis": "authored synthetic raw annotation only; no person-account link or human approval claimed"
+      }
+    },
+    "conflict": {
+      "entity_kind": "platform_account",
+      "person_id": null,
+      "record": {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-identity-records-source",
+        "source_event_id": "synthetic-identity-event-3",
+        "record_id": "synthetic-identity-record-3",
+        "revision": 3,
+        "event_time": "2026-11-04T00:03:00Z",
+        "received_at": "2026-11-04T00:06:00Z",
+        "actor_account_id": "synthetic-account-main",
+        "text": "SYNTHETIC_SAME_REVISION_CONFLICT",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-identity-records-source",
+            "record_id": "synthetic-identity-record-3",
+            "revision": 3,
+            "locator": "synthetic://identity-records/3/3",
+            "transformation_version": null
+          }
+        ]
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-identity-records-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "payload_sha256": "f47b7ba9b73c5c0c986a37dc0631db3dabd324658f298204fec0b52d840c10fd",
+        "basis": "authored synthetic raw annotation only; no person-account link or human approval claimed"
+      }
+    },
+    "actor-conflict": {
+      "entity_kind": "platform_account",
+      "person_id": null,
+      "record": {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-identity-records-source",
+        "source_event_id": "synthetic-identity-event-3",
+        "record_id": "synthetic-identity-record-3",
+        "revision": 4,
+        "event_time": "2026-11-04T00:00:00Z",
+        "received_at": "2026-11-04T00:06:00Z",
+        "actor_account_id": "synthetic-account-alt",
+        "text": "{\"display_name\":\"合成同名註記\"}",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-identity-records-source",
+            "record_id": "synthetic-identity-record-3",
+            "revision": 4,
+            "locator": "synthetic://identity-records/3/4",
+            "transformation_version": null
+          }
+        ]
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-identity-records-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "payload_sha256": "4fe11a681f022dbdbad198b7aafc35171d1544b8d51c5001e913aed31ecb7782",
+        "basis": "authored synthetic raw annotation only; no person-account link or human approval claimed"
+      }
+    },
+    "person-rebind": {
+      "entity_kind": "person",
+      "person_id": "synthetic-person-2",
+      "record": {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-identity-records-source",
+        "source_event_id": "synthetic-identity-event-1",
+        "record_id": "synthetic-identity-record-1",
+        "revision": 2,
+        "event_time": "2026-11-04T00:00:00Z",
+        "received_at": "2026-11-04T00:06:00Z",
+        "actor_account_id": null,
+        "text": "{\"display_name\":\"合成同名註記\"}",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-identity-records-source",
+            "record_id": "synthetic-identity-record-1",
+            "revision": 2,
+            "locator": "synthetic://identity-records/1/2",
+            "transformation_version": null
+          }
+        ]
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-identity-records-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "payload_sha256": "463f6bcba65365b6ff4d3f342eebde785b5e59035ede0d01b8aa19fb0072d39f",
+        "basis": "authored synthetic raw annotation only; no person-account link or human approval claimed"
+      }
+    },
+    "invalid-time": {
+      "entity_kind": "platform_account",
+      "person_id": null,
+      "record": {
+        "schema_version": "1.0.1",
+        "source_id": "synthetic-identity-records-source",
+        "source_event_id": "synthetic-identity-event-5",
+        "record_id": "synthetic-identity-record-5",
+        "revision": 1,
+        "event_time": "invalid-time",
+        "received_at": "2026-11-04T00:06:00Z",
+        "actor_account_id": "synthetic-account-main",
+        "text": "{\"display_name\":\"合成同名註記\"}",
+        "record_kind": "raw_event",
+        "quality_flags": [
+          "synthetic"
+        ],
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "source_refs": [
+          {
+            "source_id": "synthetic-identity-records-source",
+            "record_id": "synthetic-identity-record-5",
+            "revision": 1,
+            "locator": "synthetic://identity-records/5/1",
+            "transformation_version": null
+          }
+        ]
+      },
+      "declaration": {
+        "status": "declared",
+        "source_id": "synthetic-identity-records-source",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "payload_sha256": "8602fedcea623c173f21a4bf938b367faa9f215d26bba5a48d5157ac15326f4d",
+        "basis": "authored synthetic raw annotation only; no person-account link or human approval claimed"
+      }
+    }
+  },
+  "queries": {
+    "person1": {
+      "operation": "query",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-identity-template",
+        "text": "explicit synthetic raw identity query; no name matching",
+        "intent": "person_profile_lookup",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "actor_account_id": null,
+        "person_id": "synthetic-person-1",
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {},
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "person2": {
+      "operation": "query",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-identity-template",
+        "text": "explicit synthetic raw identity query; no name matching",
+        "intent": "person_profile_lookup",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "actor_account_id": null,
+        "person_id": "synthetic-person-2",
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {},
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "account-main": {
+      "operation": "query",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-identity-template",
+        "text": "explicit synthetic raw identity query; no name matching",
+        "intent": "person_profile_lookup",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "actor_account_id": "synthetic-account-main",
+        "person_id": null,
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {},
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "account-alt": {
+      "operation": "query",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-identity-template",
+        "text": "explicit synthetic raw identity query; no name matching",
+        "intent": "person_profile_lookup",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "actor_account_id": "synthetic-account-alt",
+        "person_id": null,
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {},
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "empty": {
+      "operation": "query",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-identity-template",
+        "text": "explicit synthetic raw identity query; no name matching",
+        "intent": "person_profile_lookup",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "actor_account_id": null,
+        "person_id": "synthetic-person-empty",
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {},
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "combined": {
+      "operation": "query",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-identity-template",
+        "text": "explicit synthetic raw identity query; no name matching",
+        "intent": "person_profile_lookup",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "actor_account_id": "synthetic-account-main",
+        "person_id": "synthetic-person-1",
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {},
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "before-current": {
+      "operation": "query",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-identity-template",
+        "text": "explicit synthetic raw identity query; no name matching",
+        "intent": "person_profile_lookup",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "actor_account_id": "synthetic-account-main",
+        "person_id": null,
+        "time_from": null,
+        "time_to": "2026-11-04T00:02:00Z",
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {},
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "bad-condition": {
+      "operation": "query",
+      "query": {
+        "schema_version": "1.0.1",
+        "request_id": "synthetic-identity-template",
+        "text": "explicit synthetic raw identity query; no name matching",
+        "intent": "person_profile_lookup",
+        "scope": {
+          "domain": "person_profile",
+          "platform": "synthetic-identity-platform",
+          "channel_id": "synthetic-identity-channel",
+          "game_id": null,
+          "session_id": "synthetic-identity-session",
+          "content_version": null
+        },
+        "actor_account_id": null,
+        "person_id": "synthetic-person-1",
+        "time_from": null,
+        "time_to": null,
+        "exclude_event_ids": [],
+        "limit": 100,
+        "layer": "raw",
+        "conditions": {
+          "display_name": "合成同名註記"
+        },
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "person_profile",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-identity-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-channel"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-identity-session"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    },
+    "main-history": {
+      "operation": "history",
+      "source_event_id": "synthetic-identity-event-3",
+      "revision": null
+    },
+    "main-get1": {
+      "operation": "get",
+      "source_event_id": "synthetic-identity-event-3",
+      "revision": 1
+    },
+    "main-current": {
+      "operation": "get",
+      "source_event_id": "synthetic-identity-event-3",
+      "revision": null
+    }
+  }
+}
