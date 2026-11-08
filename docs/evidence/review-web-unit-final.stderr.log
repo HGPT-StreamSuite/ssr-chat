@@ -1,0 +1,28 @@
+test_cross_origin_token_and_host_rejections_do_not_execute (test_review_web.HttpReviewTests.test_cross_origin_token_and_host_rejections_do_not_execute) ... skipped 'real loopback tests blocked by WinError 10013; require fresh authorization before opt-in'
+test_evidence_labels_history_and_unresolved_g01 (test_review_web.HttpReviewTests.test_evidence_labels_history_and_unresolved_g01) ... skipped 'real loopback tests blocked by WinError 10013; require fresh authorization before opt-in'
+test_invalid_json_duplicates_nonfinite_content_type_and_size (test_review_web.HttpReviewTests.test_invalid_json_duplicates_nonfinite_content_type_and_size) ... skipped 'real loopback tests blocked by WinError 10013; require fresh authorization before opt-in'
+test_no_file_browsing_or_external_adapter_endpoints (test_review_web.HttpReviewTests.test_no_file_browsing_or_external_adapter_endpoints) ... skipped 'real loopback tests blocked by WinError 10013; require fresh authorization before opt-in'
+test_page_assets_and_actual_http_input_output (test_review_web.HttpReviewTests.test_page_assets_and_actual_http_input_output) ... skipped 'real loopback tests blocked by WinError 10013; require fresh authorization before opt-in'
+test_reset_and_stale_workspace (test_review_web.HttpReviewTests.test_reset_and_stale_workspace) ... skipped 'real loopback tests blocked by WinError 10013; require fresh authorization before opt-in'
+test_handler_actual_runtime_response_without_http_transport (test_review_web.InMemoryHandlerTests.test_handler_actual_runtime_response_without_http_transport) ... ok
+test_handler_json_size_and_type_errors (test_review_web.InMemoryHandlerTests.test_handler_json_size_and_type_errors) ... ok
+test_handler_origin_token_and_host_boundaries (test_review_web.InMemoryHandlerTests.test_handler_origin_token_and_host_boundaries) ... ok
+test_handler_page_and_security_headers_without_socket (test_review_web.InMemoryHandlerTests.test_handler_page_and_security_headers_without_socket) ... ok
+test_handler_readonly_gap_and_no_file_browsing (test_review_web.InMemoryHandlerTests.test_handler_readonly_gap_and_no_file_browsing) ... ok
+test_handler_reset_and_receipt_conflict (test_review_web.InMemoryHandlerTests.test_handler_reset_and_receipt_conflict) ... ok
+test_concurrent_identical_operations_execute_once (test_review_web.WorkspaceTests.test_concurrent_identical_operations_execute_once) ... ok
+test_duplicate_event_is_held_but_same_operation_replays_receipt (test_review_web.WorkspaceTests.test_duplicate_event_is_held_but_same_operation_replays_receipt) ... ok
+test_followup_context_is_same_room_only (test_review_web.WorkspaceTests.test_followup_context_is_same_room_only) ... ok
+test_metadata_is_sanitized_and_criteria_have_fourteen_specific_cases (test_review_web.WorkspaceTests.test_metadata_is_sanitized_and_criteria_have_fourteen_specific_cases) ... ok
+test_missing_untriggered_and_self_use_real_sop_without_model (test_review_web.WorkspaceTests.test_missing_untriggered_and_self_use_real_sop_without_model) ... ok
+test_model_failure_retains_runtime_error_and_no_delivery (test_review_web.WorkspaceTests.test_model_failure_retains_runtime_error_and_no_delivery) ... ok
+test_operation_limit_rejects_new_work_without_model (test_review_web.WorkspaceTests.test_operation_limit_rejects_new_work_without_model) ... ok
+test_real_fixture_runtime_returns_answer_prompt_trace_and_never_sends (test_review_web.WorkspaceTests.test_real_fixture_runtime_returns_answer_prompt_trace_and_never_sends) ... ok
+test_request_id_conflict_preserves_original_receipt (test_review_web.WorkspaceTests.test_request_id_conflict_preserves_original_receipt) ... ok
+test_reset_does_not_reuse_or_delete_previous_workspace (test_review_web.WorkspaceTests.test_reset_does_not_reuse_or_delete_previous_workspace) ... ok
+test_untrusted_fields_types_and_real_sources_never_reach_runtime (test_review_web.WorkspaceTests.test_untrusted_fields_types_and_real_sources_never_reach_runtime) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 2.725s
+
+OK (skipped=6)

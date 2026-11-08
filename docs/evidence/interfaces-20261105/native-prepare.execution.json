@@ -1,0 +1,34 @@
+{
+  "id": "native-prepare",
+  "command": [
+    "C:\\Projects\\StreamSuite\\runtime\\envs\\development-live-lifecycle\\Scripts\\python.exe",
+    "-B",
+    "-X",
+    "utf8",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_review_native.py",
+    "-k",
+    "test_prepare_uses_actual_receipts_and_same_prompt_without_generation",
+    "-v"
+  ],
+  "cwd": "C:\\Projects\\StreamSuite\\repos\\ssr-chat",
+  "environment": {
+    "UV_PROJECT_ENVIRONMENT": "C:\\Projects\\StreamSuite\\runtime\\envs\\development-live-lifecycle",
+    "UV_PYTHON_DOWNLOADS": "never",
+    "SSR_CHAT_REVIEW_HTTP_TESTS": "0"
+  },
+  "python_version": "3.13.11 (tags/v3.13.11:6278944, Dec  5 2025, 16:26:58) [MSC v.1944 64 bit (AMD64)]",
+  "started_at": "2026-11-05T20:54:54.898570+00:00",
+  "exit_code": 1,
+  "local_source_unchanged": true,
+  "native_graph_unchanged": false,
+  "source_before": "native-prepare.source-before.json",
+  "source_after": "native-prepare.source-after.json",
+  "stdout": "native-prepare.stdout.log",
+  "stderr": "native-prepare.stderr.log"
+}

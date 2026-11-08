@@ -2,11 +2,12 @@
 from __future__ import annotations
 
 from copy import deepcopy
+import hashlib
 from pathlib import Path
 import re
 from typing import Any
 
-from .modular_retrieval import DOMAINS, ModularRetrievalPipeline, PipelineConfig, PipelineError, _local_path, load_object
+from .modular_retrieval import DOMAINS, ModularRetrievalPipeline, PipelineConfig, PipelineError, _local_path, load_object, prepare_artifact_directory
 
 
 class RetrievalInputError(ValueError):
@@ -36,9 +37,12 @@ class ModularRetrievalGateway:
         self._expected_domain = expected_domain
 
     @classmethod
-    def from_files(cls, pipeline_config: str | Path, template: str | Path, *, expected_domain: str | None = None) -> "ModularRetrievalGateway":
+    def from_files(cls, pipeline_config: str | Path, template: str | Path, *, expected_domain: str | None = None,
+                   artifact_dir: str | Path | None = None) -> "ModularRetrievalGateway":
         config = PipelineConfig.read(pipeline_config)
-        return cls(ModularRetrievalPipeline(config), load_object(Path(template).read_bytes()), expected_domain=expected_domain)
+        pipeline = (ModularRetrievalPipeline(config) if artifact_dir is None else
+                    ModularRetrievalPipeline(config, artifact_dir=artifact_dir))
+        return cls(pipeline, load_object(Path(template).read_bytes()), expected_domain=expected_domain)
 
     @property
     def trusted_answer_context(self) -> dict[str, Any]:
@@ -100,7 +104,7 @@ class ModularRetrievalGateway:
         return report
 
 
-def load_retrieval_routes(path: str | Path) -> dict[str, ModularRetrievalGateway]:
+def load_retrieval_routes(path: str | Path, *, artifact_root: str | Path | None = None) -> dict[str, ModularRetrievalGateway]:
     """Load exact endpoint -> independent domain-bound gateway from trusted disk."""
     selected = Path(path).resolve()
     value = load_object(selected.read_bytes())
@@ -108,13 +112,17 @@ def load_retrieval_routes(path: str | Path) -> dict[str, ModularRetrievalGateway
             or not isinstance(value["routes"], dict) or not value["routes"]):
         raise PipelineError("retrieval_routes_configuration_invalid")
     routes = {}
+    capture_root = prepare_artifact_directory(artifact_root) if artifact_root is not None else None
     for route, spec in value["routes"].items():
         if (not isinstance(route, str) or re.fullmatch(r"/retrieve/[a-z][a-z0-9-]{0,39}", route) is None
                 or not isinstance(spec, dict) or set(spec) != {"domain", "pipeline_config", "template"}
                 or not isinstance(spec["domain"], str) or spec["domain"] not in DOMAINS):
             raise PipelineError("retrieval_route_invalid")
+        options = {"expected_domain": spec["domain"]}
+        if capture_root is not None:
+            options["artifact_dir"] = capture_root / ("route-" + hashlib.sha256(route.encode("utf-8")).hexdigest()[:16])
         routes[route] = ModularRetrievalGateway.from_files(
             _local_path(spec["pipeline_config"], selected.parent), _local_path(spec["template"], selected.parent),
-            expected_domain=spec["domain"],
+            **options,
         )
     return routes

@@ -1,0 +1,6 @@
+2026-11-05 interface audit final: current fingerprint 3ce260b484048ff6a00d72ee8ce4ead14b26da05cc3ae691a09ef81271b1a66a
+32 earlier relevant program checks passed / 6 HTTP skipped; current interface contracts 5 passed.
+Native prepare mixed-version failed: collector tests/test_interfaces.py changed; exit2 source_changed_during_execution.
+Identity extensions={} implemented; 25 tests blocked in setup/cleanup (WinError5 default sandbox AC/Temp), zero native identity calls; no retry/relocation.
+6 examples matched saved c9 real receipts without native rerun. Default browser remains BLOCKED; server not launched.
+Details: docs/evidence/interfaces-20261105/DELIVERY.json

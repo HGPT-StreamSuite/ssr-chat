@@ -1,0 +1,13 @@
+✔ invalid JSON stays local and does not invent a runtime result (3.2643ms)
+✔ duplicate keys reach the server unchanged and busy submits do not repeat (0.96ms)
+✔ answers are plain text; return keeps input; resubmit keeps the event ID (1.1248ms)
+✔ cancel keeps state and reopening a previously confirmed dialog resets its return value (0.9027ms)
+✔ keyboard tabs change selection without combining panels (0.8882ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 68.0234

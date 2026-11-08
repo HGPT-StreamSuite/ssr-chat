@@ -1,0 +1,113 @@
+2026-11-05 interface audit final: current fingerprint 3ce260b484048ff6a00d72ee8ce4ead14b26da05cc3ae691a09ef81271b1a66a
+32 earlier relevant program checks passed / 6 HTTP skipped; current interface contracts 5 passed.
+Native prepare mixed-version failed: collector tests/test_interfaces.py changed; exit2 source_changed_during_execution.
+Identity extensions={} implemented; 25 tests blocked in setup/cleanup (WinError5 default sandbox AC/Temp), zero native identity calls; no retry/relocation.
+6 examples matched saved c9 real receipts without native rerun. Default browser remains BLOCKED; server not launched.
+Details: docs/evidence/interfaces-20261105/DELIVERY.json
+
+--- Earlier evidence retained below ---
+最新原生網頁接線交付（2026-11-05T20:43:01.643356+00:00）
+整體預設瀏覽器門檻：BLOCKED，沒有重試 connect、server、瀏覽器、file URL 或任何既有拒絕。
+功能已接通：/api/native/run → local_pipeline.execute（同程序）→ EntryGateway → 真正 planner/dispatcher/channel-search/collector CLI。
+預設頁面走固定原生工具；舊 Fixture 另選，原生錯誤不回退 Fixture。
+Base HEAD：541c296d0f63fe4a83eed32a2beaaeea2e69fae7；dirty=true；ssr-chat source fingerprint：f673b9252313e4108189f28bc8c88d10cbd9fa2e608f5a00049e1d72bcf632b3。
+總控新增的 9 檔 hash 全數保持原樣。
+
+本輪實際測試：8 項 handler→原生 CLI 整合測試全部通過，16.801 秒，runner exit 0。
+全部案例同一五 repo snapshot：c9d9637d2ad9f2577c8f77320874b2d1d98702554fc0e0049831fdeff67a91be。
+- channel-evidence /channel launch：exit 0，evidence_ready，2 筆實際原生證據。
+- channel-prepare /channel launch：exit 3，held/answer_generation_not_enabled；同次完整 prompt 已準備但未送出。
+- channel-purpose-denied：exit 1，ai_input_not_allowed；有同次檢索，沒有 prompt、模型或發訊。
+- no_match：exit 0，零證據，沒有補猜或 Fixture fallback。
+- 非法與巢狀指令：exit 1，由真正 EntryGateway 拒絕，reader 呼叫 0。
+- ACL/command/Python/repo/policy 夾帶、未知工具：handler 400，原生執行 0。
+- 相同 operation 收據重播不再次執行；不同內容回 409。
+- 頁面投影隱去本機絕對路徑，私有原始收據／stdin/stdout/stderr 保留。
+模型呼叫 0，公開發送 0。
+輔助：舊頁面回歸 17 pass + 6 HTTP skipped；前端假 DOM/fetch 8 pass。這些都不是瀏覽器證據。
+
+版本限制：首次新整合測試有 2 案遇到相依 repo 執行中變動，原始失敗保留；沒有放寬來源檢查。
+上列 8 項在同一快照完成，但交付前又觀察到相依 repo 變動，最新觀察的全圖快照為
+1eebd06dad6207bcf5d09788307e2b7cdd4da171979c24ef0a781f68de90def7，不同於已通過快照。
+變動：dispatcher 的 tools/native_tools.py、tests/test_native_tools.py；collector 的 git status。
+因此不宣稱最新全圖已重新驗過；總控須收斂相依版本後做整合封版。ssr-chat 的 9 個總控檔仍完整保留。
+
+可核對證據（相對 StreamSuite 根目錄，私有本機）：
+evidence/development/native-review-web-tests/6349288e530b4853b899724a82955173/summary.json
+evidence/development/native-review-web-tests/6349288e530b4853b899724a82955173/prepare.input.json
+evidence/development/native-review-web-tests/6349288e530b4853b899724a82955173/prepare.response.json
+evidence/development/native-review-web-tests/6349288e530b4853b899724a82955173/post-test-source-drift.json
+evidence/development/native-review-web-final-1935a247247a44908b6b7f8303922e87/stderr.log
+各案完整原始收據在同一測試工作目錄；頁面顯示的是同次實際投影，不是歷史填值。
+
+下一個功能缺口：真實 LLM 推論與回答驗證仍未啟用，本輪依限制明確停在 prepared prompt。
+瀏覽器驗收仍待合法解除既有阻塞；沒有可宣稱已驗證可用的網址。
+
+--- 以下保留原網頁迭代紀錄，不作為本輪原生接線或預設瀏覽器通過證據 ---
+
+ssr-chat 獨立本機網頁驗收
+整體網頁驗收：BLOCKED／未驗證。所有 repo 的共同門檻是使用者的預設瀏覽器實際開啟並可操作。
+已完成程式碼與程式層檢查，不能以此替代共同門檻。預設瀏覽器身分與實際操作未驗證。
+日期：2026-11-05
+分支：codex/streamsuite-live-lifecycle
+Base HEAD：541c296d0f63fe4a83eed32a2beaaeea2e69fae7
+Dirty：本次新增網頁、測試及說明尚未提交。
+Source fingerprint：8c050baddaae1d129cdae3e8aa84b0bae81472e752e0d2dc1671918635f2d374
+測試前後 fingerprint 一致；不包含此可變驗收紀錄及合成暫存。
+
+所有 repo 共通門檻
+- 預設瀏覽器實際開啟運作：BLOCKED／未驗證，不能以任何下方程式測試替代。
+- 本輪未開啟預設瀏覽器頁面，未取得桌面／窄視窗或真實操作證據。
+
+本 repo 功能測例：docs/INDEPENDENT_ACCEPTANCE.md 的 WEB01–WEB14。
+
+已實際驗證結果（程式層）
+- 14 條獨立標準 WEB01–WEB14，涵蓋輸入、預期輸出、錯誤、邊界、隔離與證據要求。
+- Python：23 項中 17 通過、6 真實 HTTP 測試略過，exit 0。
+  其中 11 項直接執行隔離 ChatRuntime，6 項在無 socket 的記憶體環境執行真正 handler。
+- JavaScript：5 項假 DOM／fetch 程式測試通過，exit 0。這不是瀏覽器驗證。
+  涵蓋錯誤 JSON、不重複提交、保留重複 keys、純文字輸出、返回、重送、取消及 tab 鍵盤分流。
+- Node 語法檢查、靜態 HTML label／tab 目標及唯一 ID、git diff --check 均通過。
+- CLI --help exit 0；沒有啟動服務或連線。
+- 實際合成操作（沒有 HTTP）：首次 answered，Fixture 回答為
+  「測試資料設定星界遠征是科幻策略遊戲，玩家探索星系並經營艦隊。」
+  send_result=dry_run_not_sent / attempted=false / public_reply=false。
+  新 operation 重送同一事件回 held / duplicate_message_id，回答器呼叫總數為 1。
+
+操作範圍
+本網頁實際操作本 repo 的 ChatRuntime、合成知識／天氣、Fixture 回答器與 dry-run。
+Fixture 是測試替身，不是真實 LLM。每次啟動／重設僅使用本次新建的合成狀態。
+使用者不能從頁面指定檔案路徑、模型、端點、來源權限或其他 repo 命令。
+
+受阻與未測
+- 首次真實 HTTP 測試在連接 127.0.0.1 的 OS 分配測試埠時遭 PermissionError / WinError 10013。
+  初次 suite：11 個 WorkspaceTests 通過；HTTP 類別受阻，unittest 記錄 14 errors（包含 subtests），exit 1。
+  當時實際臨時埠號未收集。已保留該紀錄，沒有把它改標成通過。
+- 觀察到拒絕後未重試，未換埠、shell、工具、執行器或瀏覽器繞過。
+- 8826 從未啟動本服務，沒有已確認可用的網址。
+- 桌面／窄視窗、實際鍵盤焦點、真實 HTTP、瀏覽器中的取消／返回尚未驗證。
+- G01 仍 blocked：chat_history 到 native 三類 intent 的一般映射與 owner 待定。
+  此頁僅閱讀歷史缺口，不呼叫 native、不修改任何跨 repo 契約。
+- 真實 Twitch、Ollama、正式資料與常駐服務切換均未測；未操作 manual-links。
+
+可核對檔案（repo 相對路徑）
+docs/INDEPENDENT_ACCEPTANCE.md
+docs/evidence/review-web-gate-unit.stderr.log
+docs/evidence/review-web-gate-frontend.stdout.log
+docs/evidence/review-web-gate-source-before.log
+docs/evidence/review-web-gate-source-after.log
+docs/evidence/review-web-initial-http-blocked.txt
+docs/evidence/review-web-gate-synthetic-input.json
+docs/evidence/review-web-gate-synthetic-output.json
+docs/evidence/review-web-gate-synthetic-duplicate.json
+
+不適用及理由
+- 總頁面、跨 repo 導覽與部署：使用者明確排除，不算通過。
+- 登入、正式模型與公開發送控制：本頁固定合成 Fixture／dry-run，不提供這些有真實副作用的操作。
+  真實整合仍是未完成項，不能藉不適用豁免。
+- runtime 執行中取消：沒有安全取消協定；只提供新工作階段對話框取消與返回，不冒稱停止運算。
+
+保留的其他紀錄屬於共通門檻文字補全前的程式快照（ed0f113e…）或較早迭代；不冒充本版瀏覽器證據。
+
+下一步：先由總控處理 loopback 存取阻塞並提供相關新授權，再進行 HTTP／瀏覽器驗證。
+本紀錄不代表整個機器人、真實來源或公開輸出完成驗收。

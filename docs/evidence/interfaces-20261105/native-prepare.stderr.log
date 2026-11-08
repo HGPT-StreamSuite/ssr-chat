@@ -1,0 +1,14 @@
+setUpClass (test_review_native.NativeReviewHandlerTests) ... ERROR
+
+======================================================================
+ERROR: setUpClass (test_review_native.NativeReviewHandlerTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_native.py", line 26, in setUpClass
+    raise RuntimeError("native_prepare_smoke_failed; evidence=" + str(cls.artifacts))
+RuntimeError: native_prepare_smoke_failed; evidence=C:\Projects\StreamSuite\evidence\development\native-review-web-tests\69cfc39eeb9b4571a12861a87ff8ef8c
+
+----------------------------------------------------------------------
+Ran 0 tests in 3.565s
+
+FAILED (errors=1)

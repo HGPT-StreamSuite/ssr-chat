@@ -1,0 +1,47 @@
+{
+  "operation_id": "review-evidence-duplicate",
+  "workspace_id": "0fc9de3a6cd84a318a626e16952b8502",
+  "replayed": false,
+  "execution_mode": "executed_fixture_runtime",
+  "result": {
+    "status": "held",
+    "reason": "duplicate_message_id",
+    "message_id": "review-evidence-event",
+    "public_reply": false,
+    "sop_id": "sop-47091f8d4ac54880a35a4d2d0f79a158"
+  },
+  "evidence": {
+    "input": {
+      "message_id": "review-evidence-event",
+      "conversation_id": "review-room",
+      "author_id": "synthetic-viewer",
+      "source": "local-fixture",
+      "text": "!ask 星界遠征是什麼遊戲？"
+    },
+    "prompt": null,
+    "trace": [],
+    "sop": [
+      {
+        "action": "record_and_hold",
+        "message_id": "review-evidence-event",
+        "public_reply": false,
+        "raw_event": {
+          "author_id": "synthetic-viewer",
+          "conversation_id": "review-room",
+          "message_id": "review-evidence-event",
+          "source": "local-fixture",
+          "text": "!ask 星界遠征是什麼遊戲？"
+        },
+        "reason": "duplicate_message_id",
+        "recorded_at": "2026-11-05T18:39:24.233360+00:00",
+        "sop_id": "sop-47091f8d4ac54880a35a4d2d0f79a158"
+      }
+    ]
+  },
+  "adapters": {
+    "knowledge": "fixture",
+    "model": "fixture",
+    "weather": "fixture",
+    "output": "dry_run"
+  }
+}

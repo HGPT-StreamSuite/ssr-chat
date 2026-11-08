@@ -1,0 +1,32 @@
+{
+  "id": "mode-boundary",
+  "command": [
+    "C:\\Projects\\StreamSuite\\runtime\\envs\\development-live-lifecycle\\Scripts\\python.exe",
+    "-B",
+    "-X",
+    "utf8",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_local_pipeline.py",
+    "-v"
+  ],
+  "cwd": "C:\\Projects\\StreamSuite\\repos\\ssr-chat",
+  "environment": {
+    "UV_PROJECT_ENVIRONMENT": "C:\\Projects\\StreamSuite\\runtime\\envs\\development-live-lifecycle",
+    "UV_PYTHON_DOWNLOADS": "never",
+    "SSR_CHAT_REVIEW_HTTP_TESTS": "0"
+  },
+  "python_version": "3.13.11 (tags/v3.13.11:6278944, Dec  5 2025, 16:26:58) [MSC v.1944 64 bit (AMD64)]",
+  "started_at": "2026-11-05T20:54:42.130408+00:00",
+  "exit_code": 0,
+  "local_source_unchanged": true,
+  "native_graph_unchanged": false,
+  "source_before": "mode-boundary.source-before.json",
+  "source_after": "mode-boundary.source-after.json",
+  "stdout": "mode-boundary.stdout.log",
+  "stderr": "mode-boundary.stderr.log"
+}

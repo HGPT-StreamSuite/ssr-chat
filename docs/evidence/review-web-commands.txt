@@ -1,0 +1,78 @@
+Working directory: C:\Projects\StreamSuite\repos\ssr-chat
+Branch: codex/streamsuite-live-lifecycle
+Base HEAD: 541c296d0f63fe4a83eed32a2beaaeea2e69fae7
+Final source fingerprint: 8c050baddaae1d129cdae3e8aa84b0bae81472e752e0d2dc1671918635f2d374
+Overall web acceptance: BLOCKED. The shared gate requires actual use in the user's default browser, which was not attempted after loopback denial.
+All work remains uncommitted. No dependency installation or synchronization was performed.
+Toolchain: uv 0.9.22; Python 3.13.11 in the existing project environment; Node v24.13.0.
+
+Process-local environment for the uv commands:
+$env:UV_PROJECT_ENVIRONMENT='C:\Projects\StreamSuite\runtime\envs\development-live-lifecycle'
+$env:UV_PYTHON_DOWNLOADS='never'
+Final no-network checks explicitly set $env:SSR_CHAT_REVIEW_HTTP_TESTS='0'; this disables denied HTTP tests rather than retrying them.
+
+Initial attempt (before HTTP opt-in gate, fingerprint adc8bc53a4c5fc7eac1ecdfd754576c31f9f1f72137e43c125e79f211c83a787):
+uv --cache-dir C:\Projects\StreamSuite\runtime\uv-cache --offline run --no-sync python -B -X utf8 -m unittest discover -s tests -p test_review_web.py -v
+Actual: exit 1, loopback socket.connect denied by WinError 10013. Retained in review-web-initial-http-blocked.txt.
+No denied network operation was retried after observing the result. Port 8826 was not started.
+
+Final Python check (HTTP opt-in unset; does not create sockets):
+uv --cache-dir C:\Projects\StreamSuite\runtime\uv-cache --offline run --no-sync python -B -X utf8 -m unittest discover -s tests -p test_review_web.py -v
+Actual: Ran 23 tests in 2.430s; OK (skipped=6); exit 0. 17 pass; 6 HTTP methods skipped.
+stdout: docs/evidence/review-web-gate-unit.stdout.log
+stderr: docs/evidence/review-web-gate-unit.stderr.log
+
+Frontend program tests with a fake DOM and mocked fetch (not a browser):
+node --test tests/test_review_web_frontend.js
+Actual: tests 5; pass 5; fail 0; skipped 0; exit 0.
+stdout: docs/evidence/review-web-gate-frontend.stdout.log
+stderr: docs/evidence/review-web-gate-frontend.stderr.log
+
+node --check ssr_chat/review_assets/app.js
+Actual: exit 0.
+
+git diff --check
+Actual: exit 0; only an informational LF/CRLF warning for README.md.
+
+uv --cache-dir C:\Projects\StreamSuite\runtime\uv-cache --offline run --no-sync python -B -X utf8 -m ssr_chat.review_web --help
+Actual: exit 0; no bind or connect attempt.
+
+Static markup and source comparison:
+uv --cache-dir C:\Projects\StreamSuite\runtime\uv-cache --offline run --no-sync python -B -X utf8 -
+stdin helper is retained in this conversation's tool trace; uses HTMLParser and source_version only.
+Actual: 37 unique IDs, 2 explicit label targets, 3 tab targets; no external assets; exit 0.
+review-web-gate-source-before.log and review-web-gate-source-after.log share the final fingerprint.
+The helper also checks that the common default-browser gate is explicitly BLOCKED in the delivered HTML.
+
+Synthetic operation evidence:
+uv --cache-dir C:\Projects\StreamSuite\runtime\uv-cache --offline run --no-sync python -B -X utf8 -
+stdin helper retained in the tool trace; creates a fresh owned .test-temp/review-web-evidence child,
+calls ReviewWorkspace.run twice with the saved synthetic event and distinct operation IDs,
+saves the actual input and responses, checks one model call, then cleans only that owned temporary child.
+Actual: answered / dry_run_not_sent, then held / duplicate_message_id; exit 0.
+Current input/output artifacts use the review-web-gate-synthetic- prefix.
+Earlier records with source fingerprint ed0f113e are retained as earlier iterations, not relabeled as current-browser evidence.
+
+Future startup recipe, NOT executed in this turn:
+uv --cache-dir C:\Projects\StreamSuite\runtime\uv-cache --offline run --no-sync python -B -X utf8 -m ssr_chat.review_web --port 8826
+Requires prior resolution of the loopback access denial and related fresh authorization.
+Planned URL only: http://127.0.0.1:8826/
+Stop method: Ctrl+C in the owning terminal. There is no active server to stop from this turn.
+
+
+Native web integration update (no socket / no browser):
+Working directory: C:\Projects\StreamSuite\repos\ssr-chat
+UV_PROJECT_ENVIRONMENT=C:\Projects\StreamSuite\runtime\envs\development-live-lifecycle
+UV_PYTHON_DOWNLOADS=never; SSR_CHAT_REVIEW_HTTP_TESTS=0
+uv --cache-dir C:\Projects\StreamSuite\runtime\uv-cache --offline run --no-sync python -B -X utf8 -m unittest discover -s tests -p test_review_native.py -v
+Actual: 8 tests in 16.801s, OK, exit 0; all cases same source snapshot c9d9637d2ad9f2577c8f77320874b2d1d98702554fc0e0049831fdeff67a91be.
+Native stdout/stderr: evidence/development/native-review-web-final-1935a247247a44908b6b7f8303922e87/.
+Native cases/receipts: evidence/development/native-review-web-tests/6349288e530b4853b899724a82955173/.
+Initial failed source-drift attempt retained: evidence/development/native-review-web-check-2130ed76fe0749278a83b1f891acb28c/ and native-review-web-tests/b2a8bdd6eac64dc6b68daf81543f7808/.
+uv --cache-dir C:\Projects\StreamSuite\runtime\uv-cache --offline run --no-sync python -B -X utf8 -m unittest discover -s tests -p test_review_web.py -q
+Actual: 23 total, 17 pass, 6 HTTP skipped, exit 0.
+node --test tests/test_review_web_frontend.js
+Actual: 8 program tests pass (fake DOM/fetch), exit 0; full output in this conversation tool trace.
+node --check ssr_chat/review_assets/app.js; git diff --check
+Both exit 0. No dependencies installed; no coordinator 9 files or other repo files modified.
+Current graph differs from the tested snapshot after external owner changes; see post-test-source-drift.json. No denied operation was retried.

@@ -1,0 +1,49 @@
+{
+  "profile": "planner_game_name_retrieval_synthetic_v1",
+  "not_a_wire_schema": true,
+  "activation": "isolated synthetic retrieval only; no production/model/public output",
+  "source_id": "synthetic-integration-pack",
+  "scope": {
+    "domain": "game_knowledge",
+    "platform": "synthetic-local",
+    "channel_id": null,
+    "game_id": "synthetic-integration-arena",
+    "session_id": null,
+    "content_version": "v1"
+  },
+  "saved_source_chain": "game-source-import -> public original Record binding -> game-store -> export_records -> registered literal sidecar; previously executed, not rerun here",
+  "authority_manifest_workspace_relative_path": "evidence/development/20261105-game-integration/MANIFEST-final.json",
+  "authority_manifest_sha256": "b9ac0d4366a9e90ae609a2643639e10e09ff789b792fc86f4d12e042f57df94d",
+  "files": {
+    "snapshot": {
+      "workspace_relative_path": "evidence/development/20261105-game-integration/run-b5f98f3a06a8/reader-final-snapshot.jsonl",
+      "sha256": "7376a7d8bb60f8d13c9e88b8195659c4255669267850ee4a3c72cfda697cf9bf"
+    },
+    "source_records": {
+      "workspace_relative_path": "evidence/development/20261105-game-integration/run-b5f98f3a06a8/store-export-final-records.jsonl",
+      "sha256": "96803b5d0d1b5d9c5ab8590a3f1940f1492cd1c3facb7ccf42af081626257246"
+    },
+    "projection_registry": {
+      "workspace_relative_path": "evidence/development/20261105-game-integration/run-b5f98f3a06a8/projection-registry.json",
+      "sha256": "e5eb74dff87ab0c49178e84e18a5b9aaf39f7188a7e2e1e992e2e81af9ef3310"
+    },
+    "manifest": {
+      "workspace_relative_path": "evidence/development/20261105-game-integration/run-b5f98f3a06a8/reader-manifest.json",
+      "sha256": "1d13e1fd9df2cbdceddc3b03509f757011a84efde1690fd1998365909c250fa6"
+    },
+    "context": {
+      "workspace_relative_path": "evidence/development/20261105-game-integration/run-b5f98f3a06a8/reader-context.json",
+      "sha256": "3444eb73551a6dee0b3f11f307bd23d9ba6849512d3bc30f7307d4291e2e6cbd"
+    },
+    "handoffs": {
+      "workspace_relative_path": "evidence/development/20261105-game-integration/run-b5f98f3a06a8/handoff-state/handoff.jsonl",
+      "sha256": "a2361395b2af8ccd692872c4ee3d4eda0bfd5f745e6b7f978eea1db7ede0fc23"
+    }
+  },
+  "conditions": [
+    "before_event_time"
+  ],
+  "numeric_filters": "unsupported; never removed or inferred from question text",
+  "name_mode": "native lexical name/body matching; exact-name match is ranking, not exclusive filter",
+  "purpose": "saved authored source permits local_cache/search_index; ai_input and ai_train remain denied"
+}

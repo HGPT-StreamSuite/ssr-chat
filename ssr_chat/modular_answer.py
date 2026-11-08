@@ -117,7 +117,11 @@ class PurposePolicy:
 
 
 class EvidenceAnswerGateway:
-    def __init__(self, retrieval, policy, model, trace):
+    def __init__(self, retrieval, policy, model, trace, *, prepare_only=False):
+        if type(prepare_only) is not bool:
+            raise PipelineError("answer_prepare_only_invalid")
+        if model is None and not prepare_only:
+            raise PipelineError("answer_model_required")
         profile = retrieval.profile
         if (not isinstance(profile.get("domain"), str) or profile["domain"] not in ANSWER_DOMAINS or profile.get("layer") != "raw"
                 or profile.get("data_mode") != "declared_synthetic"):
@@ -152,11 +156,13 @@ class EvidenceAnswerGateway:
             except (KeyError, TypeError, ValueError) as error:
                 raise PipelineError("answer_stt_binding_invalid") from error
         self.retrieval, self.policy, self.model, self.trace = retrieval, policy, model, trace
+        self.prepare_only = prepare_only
 
     @property
     def profile(self):
         return {"configured": True, "domain": self.domain, "layer": "raw", "data_mode": "synthetic_only",
-                "model": "ollama" if isinstance(self.model, OllamaModelClient) else "custom",
+                "model": "not_run" if self.prepare_only else ("ollama" if isinstance(self.model, OllamaModelClient) else "custom"),
+                "answer_generation_enabled": not self.prepare_only,
                 "purpose_gate": "exact_record_revision_content", "citations_required": True, "public_output_enabled": False}
 
     def _chat_boundary(self, retrieval, evidence):
@@ -266,12 +272,14 @@ class EvidenceAnswerGateway:
         result["provided_evidence"] = rows
         result["prompt_sha256"] = hashlib.sha256(encoded(prompt_data)).hexdigest()
         audit.update(prompt=prompt_data, prompt_sha256=result["prompt_sha256"])
-        if isinstance(self.model, OllamaModelClient):
+        if not self.prepare_only and isinstance(self.model, OllamaModelClient):
             audit["model_request"] = self.model.request_body(prompt)
             audit["model_request_sha256"] = hashlib.sha256(encoded(audit["model_request"])).hexdigest()
         # Persist the exact permitted prompt before model invocation; a trace
         # failure therefore prevents generation. No TextOutputAdapter is held.
         self.trace.append({**audit, "phase": "prepared"})
+        if self.prepare_only:
+            return finish("answer_generation_not_enabled")
         result["model_invoked"] = audit["model_invoked"] = True
         try:
             answer = self.model.generate(prompt)
@@ -314,7 +322,7 @@ class EvidenceAnswerGateway:
         return finish()
 
 
-def load_answer_routes(path, retrieval_routes, model, trace):
+def load_answer_routes(path, retrieval_routes, model, trace, *, prepare_only=False):
     selected = Path(path).resolve()
     value = load_object(selected.read_bytes())
     if (set(value) != {"schema_version", "routes"} or value["schema_version"] != "1.0.1"
@@ -327,5 +335,6 @@ def load_answer_routes(path, retrieval_routes, model, trace):
                 or not isinstance(spec["retrieval_route"], str) or spec["retrieval_route"] not in retrieval_routes):
             raise PipelineError("answer_route_invalid")
         routes[name] = EvidenceAnswerGateway(retrieval_routes[spec["retrieval_route"]],
-            PurposePolicy.read(_local_path(spec["purpose_policy"], selected.parent)), model, trace)
+            PurposePolicy.read(_local_path(spec["purpose_policy"], selected.parent)), model, trace,
+            prepare_only=prepare_only)
     return routes

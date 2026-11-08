@@ -1,0 +1,139 @@
+{
+  "contract_version": "1.0.1",
+  "domain": "channel_knowledge",
+  "principal_account_id": "synthetic-reader",
+  "applicable_scope_fields": [
+    "domain",
+    "platform",
+    "channel_id",
+    "game_id",
+    "session_id",
+    "content_version"
+  ],
+  "grants": [
+    {
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-chat",
+        "channel_id": "channel-a",
+        "game_id": "synthetic-game",
+        "session_id": "session-001",
+        "content_version": "v1"
+      },
+      "layers": [
+        "raw",
+        "draft",
+        "published"
+      ],
+      "allow_history": false,
+      "allow_withdrawn": false
+    },
+    {
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-chat",
+        "channel_id": "channel-c",
+        "game_id": "synthetic-game",
+        "session_id": "session-001",
+        "content_version": "v1"
+      },
+      "layers": [
+        "raw"
+      ],
+      "allow_history": false,
+      "allow_withdrawn": false
+    },
+    {
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-chat",
+        "channel_id": "channel-a",
+        "game_id": "synthetic-game",
+        "session_id": "session-001",
+        "content_version": "v2"
+      },
+      "layers": [
+        "raw"
+      ],
+      "allow_history": false,
+      "allow_withdrawn": false
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "synthetic-main",
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-chat",
+        "channel_id": "channel-a",
+        "game_id": "synthetic-game",
+        "session_id": "session-001",
+        "content_version": "v1"
+      },
+      "layer": "raw",
+      "kind": "snapshot",
+      "source_kind": "synthetic",
+      "path": "events-raw.jsonl"
+    },
+    {
+      "source_id": "synthetic-secondary",
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-chat",
+        "channel_id": "channel-a",
+        "game_id": "synthetic-game",
+        "session_id": "session-001",
+        "content_version": "v1"
+      },
+      "layer": "raw",
+      "kind": "snapshot",
+      "source_kind": "synthetic",
+      "path": "events-secondary.jsonl"
+    },
+    {
+      "source_id": "synthetic-main",
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-chat",
+        "channel_id": "channel-a",
+        "game_id": "synthetic-game",
+        "session_id": "session-001",
+        "content_version": "v1"
+      },
+      "layer": "draft",
+      "kind": "snapshot",
+      "source_kind": "synthetic",
+      "path": "events-draft.jsonl"
+    },
+    {
+      "source_id": "synthetic-main",
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-chat",
+        "channel_id": "channel-a",
+        "game_id": "synthetic-game",
+        "session_id": "session-001",
+        "content_version": "v1"
+      },
+      "layer": "published",
+      "kind": "snapshot",
+      "source_kind": "synthetic",
+      "path": "events-published.jsonl"
+    },
+    {
+      "source_id": "synthetic-main",
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-chat",
+        "channel_id": "channel-b",
+        "game_id": "synthetic-game",
+        "session_id": "session-001",
+        "content_version": "v1"
+      },
+      "layer": "raw",
+      "kind": "snapshot",
+      "source_kind": "synthetic",
+      "path": "events-other-channel.jsonl"
+    }
+  ]
+}

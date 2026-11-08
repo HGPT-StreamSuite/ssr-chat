@@ -1,0 +1,138 @@
+{
+  "kind": "local_interface_test_receipts",
+  "results": [
+    {
+      "id": "mode-boundary",
+      "command": [
+        "C:\\Projects\\StreamSuite\\runtime\\envs\\development-live-lifecycle\\Scripts\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_local_pipeline.py",
+        "-v"
+      ],
+      "cwd": "C:\\Projects\\StreamSuite\\repos\\ssr-chat",
+      "environment": {
+        "UV_PROJECT_ENVIRONMENT": "C:\\Projects\\StreamSuite\\runtime\\envs\\development-live-lifecycle",
+        "UV_PYTHON_DOWNLOADS": "never",
+        "SSR_CHAT_REVIEW_HTTP_TESTS": "0"
+      },
+      "python_version": "3.13.11 (tags/v3.13.11:6278944, Dec  5 2025, 16:26:58) [MSC v.1944 64 bit (AMD64)]",
+      "started_at": "2026-11-05T20:54:42.130408+00:00",
+      "exit_code": 0,
+      "local_source_unchanged": true,
+      "native_graph_unchanged": false,
+      "source_before": "mode-boundary.source-before.json",
+      "source_after": "mode-boundary.source-after.json",
+      "stdout": "mode-boundary.stdout.log",
+      "stderr": "mode-boundary.stderr.log"
+    },
+    {
+      "id": "interface-contract",
+      "command": [
+        "C:\\Projects\\StreamSuite\\runtime\\envs\\development-live-lifecycle\\Scripts\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_interface_contracts.py",
+        "-v"
+      ],
+      "cwd": "C:\\Projects\\StreamSuite\\repos\\ssr-chat",
+      "environment": {
+        "UV_PROJECT_ENVIRONMENT": "C:\\Projects\\StreamSuite\\runtime\\envs\\development-live-lifecycle",
+        "UV_PYTHON_DOWNLOADS": "never",
+        "SSR_CHAT_REVIEW_HTTP_TESTS": "0"
+      },
+      "python_version": "3.13.11 (tags/v3.13.11:6278944, Dec  5 2025, 16:26:58) [MSC v.1944 64 bit (AMD64)]",
+      "started_at": "2026-11-05T20:54:45.689428+00:00",
+      "exit_code": 0,
+      "local_source_unchanged": true,
+      "native_graph_unchanged": false,
+      "source_before": "interface-contract.source-before.json",
+      "source_after": "interface-contract.source-after.json",
+      "stdout": "interface-contract.stdout.log",
+      "stderr": "interface-contract.stderr.log"
+    },
+    {
+      "id": "review-regression",
+      "command": [
+        "C:\\Projects\\StreamSuite\\runtime\\envs\\development-live-lifecycle\\Scripts\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_review_web.py",
+        "-v"
+      ],
+      "cwd": "C:\\Projects\\StreamSuite\\repos\\ssr-chat",
+      "environment": {
+        "UV_PROJECT_ENVIRONMENT": "C:\\Projects\\StreamSuite\\runtime\\envs\\development-live-lifecycle",
+        "UV_PYTHON_DOWNLOADS": "never",
+        "SSR_CHAT_REVIEW_HTTP_TESTS": "0"
+      },
+      "python_version": "3.13.11 (tags/v3.13.11:6278944, Dec  5 2025, 16:26:58) [MSC v.1944 64 bit (AMD64)]",
+      "started_at": "2026-11-05T20:54:49.214000+00:00",
+      "exit_code": 0,
+      "local_source_unchanged": true,
+      "native_graph_unchanged": false,
+      "source_before": "review-regression.source-before.json",
+      "source_after": "review-regression.source-after.json",
+      "stdout": "review-regression.stdout.log",
+      "stderr": "review-regression.stderr.log"
+    },
+    {
+      "id": "native-prepare",
+      "command": [
+        "C:\\Projects\\StreamSuite\\runtime\\envs\\development-live-lifecycle\\Scripts\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_review_native.py",
+        "-k",
+        "test_prepare_uses_actual_receipts_and_same_prompt_without_generation",
+        "-v"
+      ],
+      "cwd": "C:\\Projects\\StreamSuite\\repos\\ssr-chat",
+      "environment": {
+        "UV_PROJECT_ENVIRONMENT": "C:\\Projects\\StreamSuite\\runtime\\envs\\development-live-lifecycle",
+        "UV_PYTHON_DOWNLOADS": "never",
+        "SSR_CHAT_REVIEW_HTTP_TESTS": "0"
+      },
+      "python_version": "3.13.11 (tags/v3.13.11:6278944, Dec  5 2025, 16:26:58) [MSC v.1944 64 bit (AMD64)]",
+      "started_at": "2026-11-05T20:54:54.898570+00:00",
+      "exit_code": 1,
+      "local_source_unchanged": true,
+      "native_graph_unchanged": false,
+      "source_before": "native-prepare.source-before.json",
+      "source_after": "native-prepare.source-after.json",
+      "stdout": "native-prepare.stdout.log",
+      "stderr": "native-prepare.stderr.log"
+    }
+  ],
+  "browser_gate": "blocked_not_retried",
+  "full_latest_bot_acceptance": false,
+  "native_integration_scope": "one actual prepare call only; unchanged other scenarios retain prior c9 evidence"
+}

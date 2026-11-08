@@ -6,7 +6,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from ssr_chat.identity_records import IdentityRecordGateway
-from ssr_chat.chat_ingest import RECORD,encoded,file_sha
+from ssr_chat.chat_ingest import RECORD,digest,encoded,file_sha
 from ssr_chat.cli import main
 from ssr_chat.modular_api import RetrievalInputError
 
@@ -45,7 +45,9 @@ class IdentityRecordTests(unittest.TestCase):
                 with closing(sqlite3.connect(db)) as conn:rows=[(k,e,json.loads(r)) for k,e,r in conn.execute("SELECT kind,entity,payload FROM record_revisions ORDER BY rowid")]
             if command=="query":
                 q=json.loads(Path(args[args.index("--query-file")+1]).read_bytes());kind="person" if q["person_id"] is not None else "platform_account";entity=q["person_id"] if kind=="person" else q["actor_account_id"];records=[r for k,e,r in rows if k==kind and e==entity]
-                evidence=[{**{key:r[key] for key in RECORD-{"schema_version","record_kind","access_scope"}},"layer":"raw","source_kind":"synthetic","rank":None,"match_reasons":["unit"]} for r in records]
+                evidence=[{**{key:r[key] for key in RECORD-{"schema_version","record_kind","access_scope"}},
+                           **({"extensions":r["extensions"]} if "extensions" in r else {}),
+                           "layer":"raw","source_kind":"synthetic","rank":None,"match_reasons":["unit"]} for r in records]
                 value={"schema_version":"1.0.1","request_id":q["request_id"],"domain":"person_profile","status":"ok" if evidence else "no_match","reason_code":None,"evidence":evidence}
                 if self.read_override:self.read_override(value)
                 if self.after_read:self.after_read()
@@ -99,6 +101,40 @@ class IdentityRecordTests(unittest.TestCase):
         path=self.write("input.json",{"request_id":"synthetic-unit-cli","synthetic":True,"operation":"ingest","events":["person1"]});out=StringIO()
         with patch("ssr_chat.identity_records.IdentityRecordGateway",return_value=self.gateway),patch("ssr_chat.cli.build_runtime",side_effect=AssertionError("no chat runtime")),redirect_stdout(out):code=main(["identity-records","--config",self.path,"--state-dir",str(self.state),"--input",path])
         self.assertEqual(code,0);self.assertEqual(json.loads(out.getvalue())["counts"]["stored"],1)
+
+    def declare_extensions(self,value):
+        event=self.cfg["events"]["person1"];event["record"]["extensions"]=value
+        event["declaration"]["payload_sha256"]=digest({k:event[k] for k in ("entity_kind","person_id","record")})
+        self.cfg["queries"]["person1-get"]={"operation":"get","source_event_id":event["record"]["source_event_id"],"revision":event["record"]["revision"]}
+        self.gateway=self.build()
+
+    def test_native_optional_empty_extensions_survive_declared_ingest_query_and_get(self):
+        self.declare_extensions({});self.assertEqual(self.ingest("person1")["counts"]["stored"],1)
+        self.assertEqual(self.read()["record_count"],1)
+        query=list((self.state/"imports").rglob("native-result.json"))[-1]
+        self.assertEqual(json.loads(query.read_bytes())["evidence"][0]["extensions"],{})
+        self.assertEqual(self.read("get","person1-get")["record_count"],1)
+
+    def test_optional_extensions_do_not_bypass_original_declaration(self):
+        self.cfg["events"]["person1"]["record"]["extensions"]={};self.gateway=self.build()
+        self.assertEqual(self.ingest("person1")["items"][0]["reason_code"],"identity_records_declaration_not_confirmed")
+        self.assertFalse(self.calls)
+
+    def test_nonempty_or_nonobject_identity_extensions_remain_rejected(self):
+        for value in ({"person_id":"synthetic-person-injected"},None,[],True):
+            with self.subTest(value=value):
+                self.declare_extensions(value)
+                self.assertEqual(self.ingest("person1")["items"][0]["reason_code"],"identity_records_synthetic_record_not_bound")
+        self.assertFalse(self.calls)
+
+    def test_query_cannot_drop_declared_empty_extensions(self):
+        self.declare_extensions({});self.ingest("person1")
+        self.read_override=lambda r:r["evidence"][0].pop("extensions")
+        self.assertEqual(self.read()["reason_code"],"identity_records_evidence_not_declared_original")
+
+    def test_query_cannot_insert_undeclared_empty_extensions(self):
+        self.ingest("person1");self.read_override=lambda r:r["evidence"][0].update(extensions={})
+        self.assertEqual(self.read()["reason_code"],"identity_records_evidence_not_declared_original")
 
 
 if __name__=="__main__":unittest.main()

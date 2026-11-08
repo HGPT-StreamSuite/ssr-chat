@@ -1,0 +1,273 @@
+{
+  "catalog_version": "ssr-chat.interfaces.v1",
+  "shared_native_schema_version": "1.0.1",
+  "legacy_event_schema": "local ChatRuntime event; not a native Query or Record",
+  "scope": "ssr-chat orchestration only; no assertion all services, browser or LLM work",
+  "synthetic_chat_history_binding": {"profile":"planner_chat_history_to_reader_history_synthetic_v1","implementation":"ssr_chat/chat_history_binding.py","native_chain_cli":"python -m ssr_chat.chat_history_pipeline --config OPERATOR --input REQUEST --run-dir NEW_EVIDENCE_DIR","pipeline_opt_in":"chat_history_intent_adapter","input":"public request_id/text only; operator-owned synthetic template/snapshot/authorization and pinned source files","mapping":"1.0.1 chat_history to history; only /intent changes; other key presence/value/order unchanged","exclusions":["production","recent_utterance","LT","missing identity","unresolved dependencies","unknown conditions"],"documentation":"docs/CHAT_HISTORY_BINDING.md"},
+  "cli": [
+    {
+      "command": "channel-events",
+      "registration": "ssr_chat/cli.py:153",
+      "implementation": "ssr_chat/channel_events.py",
+      "test_source": "tests/test_channel_events.py",
+      "input": "request_id, synthetic=true, operation ingest/get/export; registered events[] <=20 for ingest or query alias",
+      "flow": "explicit relationship/visit declaration -> task26 ingest/get/export; no inferred facts",
+      "output": "native write/read/export receipts; 0 complete/empty/ok/no_match, 1 held/incomplete, 2 invalid",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "chat",
+      "registration": "ssr_chat/cli.py:90",
+      "implementation": "ssr_chat/cli.py",
+      "test_source": "tests/test_chat_runtime.py",
+      "input": "local event JSON; fields: message_id, source, conversation_id, author_id, text, created_at; optional is_self",
+      "flow": "ChatRuntime.handle; validation -> event log/context -> trigger -> analysis -> queries -> prompt/model -> TextOutputAdapter; default fixture/dry-run",
+      "output": "legacy runtime result; status/answer/send_result/reason; conversation/run/SOP logs",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "count-activity",
+      "registration": "ssr_chat/cli.py:141",
+      "implementation": "ssr_chat/activity_counts.py",
+      "test_source": "tests/test_activity_counts.py",
+      "input": "request_id, synthetic=true, metrics=[speech]; optional time_from/time_to/exclude_event_ids/limit 1..100",
+      "flow": "pinned task7 reader -> explicit task18 speech counts; local_cache/activity_counts grants",
+      "output": "counted message_count and source evidence, or held reason; 0 counted, 1 held, 2 invalid",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "draft-knowledge",
+      "registration": "ssr_chat/cli.py:149",
+      "implementation": "ssr_chat/knowledge_drafts.py",
+      "test_source": "tests/test_knowledge_drafts.py",
+      "input": "request_id, synthetic=true",
+      "flow": "pinned channel current raw Record -> registered quote marks -> task23 drafts",
+      "output": "drafted/duplicate/no_match with provenance; 0 these states, 1 held, 2 invalid; no publication",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "draft-transcript",
+      "registration": "ssr_chat/cli.py:145",
+      "implementation": "ssr_chat/transcript_drafts.py",
+      "test_source": "tests/test_transcript_drafts.py",
+      "input": "request_id, synthetic=true; optional revision_view current/history, time_from/time_to/exclude_event_ids/limit 1..100",
+      "flow": "pinned task8 -> task9 whitespace-only cleanup; no model",
+      "output": "drafted/no_match and native receipt; 0 drafted/no_match, 1 held, 2 invalid",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "identity-records",
+      "registration": "ssr_chat/cli.py:157",
+      "implementation": "ssr_chat/identity_records.py",
+      "test_source": "tests/test_identity_records.py",
+      "input": "request_id, synthetic=true, operation ingest/query/history/get; registered events[] <=20 for ingest or query alias",
+      "flow": "declared person/account raw records -> task6; no linking or name inference",
+      "output": "native receipts; 0 complete/empty/ok/no_match, 1 held/incomplete, 2 invalid",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "ingest-channel",
+      "registration": "ssr_chat/cli.py:137",
+      "implementation": "ssr_chat/channel_ingest.py",
+      "test_source": "tests/test_channel_ingest.py",
+      "input": "request_id, synthetic=true, exports[] <=20; registered aliases only",
+      "flow": "task19 importer Evidence checked against original Record -> task4 isolated store",
+      "output": "per-item provenance/native/store receipts; 0 complete/empty, 1 incomplete, 2 invalid",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "ingest-chat",
+      "registration": "ssr_chat/cli.py:125",
+      "implementation": "ssr_chat/chat_ingest.py",
+      "test_source": "tests/test_chat_ingest.py",
+      "input": "request_id, synthetic=true, events[] <=50; full synthetic chat envelope/Record",
+      "flow": "registered task20 normalizer -> task7 isolated store; read/write/local_cache gates",
+      "output": "per-item stage/reason/storage_outcome; native receipts; 0 complete/empty, 1 incomplete, 2 invalid",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "ingest-game",
+      "registration": "ssr_chat/cli.py:133",
+      "implementation": "ssr_chat/game_ingest.py",
+      "test_source": "tests/test_game_ingest.py",
+      "input": "request_id, synthetic=true, snapshots[] <=50; registered aliases only",
+      "flow": "task22 importer -> task5 isolated archive; pinned snapshot/policy",
+      "output": "per-item native Evidence-to-Record handoff and store receipt; 0 complete/empty, 1 incomplete, 2 invalid",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "ingest-stt",
+      "registration": "ssr_chat/cli.py:129",
+      "implementation": "ssr_chat/stt_ingest.py",
+      "test_source": "tests/test_stt_ingest.py",
+      "input": "request_id, synthetic=true, events[] <=50; synthetic STT text Record",
+      "flow": "task21 normalizer -> task8 isolated archive; no audio/model",
+      "output": "per-item receipts and revision/storage status; 0 complete/empty, 1 incomplete, 2 invalid",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "models",
+      "registration": "ssr_chat/cli.py:112",
+      "implementation": "ssr_chat/cli.py",
+      "test_source": "tests/test_ollama_model.py",
+      "input": "trusted loopback Ollama endpoint",
+      "flow": "list installed models; network operation not run in this task",
+      "output": "installed model list or error; no install",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "retrieve",
+      "registration": "ssr_chat/cli.py:121",
+      "implementation": "ssr_chat/modular_retrieval.py",
+      "test_source": "tests/test_modular_retrieval.py",
+      "input": "1.0.1 request + trusted_context from operator; pipeline config separately trusted",
+      "flow": "planner QueryPlan -> optional explicit recent intent adapter -> dispatcher native Result -> collector",
+      "output": "original plan, dispatch_plan/adaptations when enabled, per-task result, collection, stage exits/hashes; exclusive output; 0 complete, 1 incomplete, 2 input/config/interface error",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "serve",
+      "registration": "ssr_chat/cli.py:97",
+      "implementation": "ssr_chat/api.py",
+      "test_source": "tests/test_http_api.py",
+      "input": "trusted startup flags; POST /chat event; modular routes accept only request_id/text",
+      "flow": "HTTP dispatch -> configured gateway; /health describes configured adapters only",
+      "output": "HTTP JSON; 400 invalid input, 503 unconfigured, 502 pipeline error; business held/partial may be HTTP 200",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "twitch-live",
+      "registration": "ssr_chat/cli.py:87",
+      "implementation": "ssr_chat/twitch_live.py",
+      "test_source": "tests/test_live_cli.py",
+      "input": "explicit authenticated opt-in startup; broadcaster/reader/chatter and subscription gates",
+      "flow": "Twitch receive lifecycle -> scoped event/runtime or archive; not invoked in this task",
+      "output": "local health/state/dry-run and token-redacted lifecycle; actual provider behavior untested here",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    },
+    {
+      "command": "verify-ollama",
+      "registration": "ssr_chat/cli.py:115",
+      "implementation": "ssr_chat/cli.py",
+      "test_source": "tests/test_ollama_model.py",
+      "input": "trusted installed model and loopback endpoint",
+      "flow": "fixed synthetic model probe; not run in this task",
+      "output": "model probe result; not evidence of complete bot",
+      "current_validation": "source_inspected; existing tests indexed; not rerun in this interface audit"
+    }
+  ],
+  "library": [
+    {
+      "entry": "ssr_chat.api.dispatch",
+      "input": "runtime, method, path, payload bytes, explicitly configured gateway objects",
+      "output": "(HTTP status:int, JSON object); no socket required"
+    },
+    {
+      "entry": "ssr_chat.modular_entry.EntryGateway.query",
+      "input": "exact request_id (nonblank <=200) and text (nonblank <=16384)",
+      "output": "entry_id, request_id, selection, target_result, status/reason, model_invoked, public_output"
+    },
+    {
+      "entry": "ssr_chat.modular_api.ModularRetrievalGateway.retrieve",
+      "input": "same exact public request; trusted template/ACL/context from operator, never request text",
+      "output": "native orchestration report; original_question and query_extraction only when explicitly configured"
+    },
+    {
+      "entry": "ssr_chat.local_pipeline.execute",
+      "input": "absolute fixed operator config/input paths, exclusive new run_dir; mode evidence|prepare only",
+      "output": "(private receipt, exit code); invalid library mode raises ValueError offline_mode_invalid before I/O; 0 evidence/no_match, 1 held, 2 execution/config error, 3 permitted prepared prompt"
+    },
+    {
+      "entry": "ssr_chat.review_web.ReviewWorkspace.run_native",
+      "input": "contracts/review-native.v1.schema.json; fixed synthetic tools only",
+      "output": "ssr-chat.review-native.v1 response, real same-run input/records/prompt/stages, execution_status/error plus pipeline_exit_code; never generated answer"
+    }
+  ],
+  "http": {
+    "application": {
+      "GET /health": "configured profile, not acceptance",
+      "POST /chat": "local event -> ChatRuntime",
+      "POST /retrieve[/*]": "configured evidence gateway only",
+      "POST /answer/*": "configured answer gateway with independent purpose gate; not enabled by review",
+      "POST /query": "configured EntryGateway",
+      "POST /twitch/replay": "configured synthetic replay",
+      "POST /twitch/archive": "configured archive"
+    },
+    "review": {
+      "GET": "/, /app.js, /styles.css, /api/meta, /api/examples, /api/native/examples, /api/criteria, /api/evidence",
+      "POST": "/api/run (explicit fixture), /api/native/run (default real native), /api/reset",
+      "gates": "exact Host, same Origin, random page token, application/json, body <=16384 bytes, strict JSON; local only",
+      "errors": "400 invalid, 403 host/origin/token, 409 stale workspace/conflict, 413 body, 415 type, 429 limits, 503 registration unavailable; business failures may return200 with real pipeline exit"
+    }
+  },
+  "contracts": {
+    "review_request": "contracts/review-native.v1.schema.json",
+    "examples": "fixtures/contracts/review-native.v1.cases.json",
+    "native": "upstream Query/QueryPlan/Result/Record remain 1.0.1; local envelopes are distinct",
+    "response_invariants": {
+      "model_invoked": false,
+      "public_output": "not_attempted",
+      "generated_answer": null
+    }
+  },
+  "boundaries": {
+    "authority": "host fixed scope/ACL/actor/time/source/purpose; public inputs cannot select paths, commands, endpoints or ACL",
+    "provenance": "native original text, identity, source refs, revision, event time, scope/ACL retained; private command/path removed only in browser projection",
+    "module_replacement": "ModelAdapter/queries/TextOutputAdapter for legacy runtime; explicit CLI PipelineConfig for planner/dispatcher/reader/collector; named routes isolate domains; web fixed registry narrows rather than expands configurable API",
+    "revision": "reader current-revision semantics retained; never fill missing Record fields from Evidence; no old revision fallback through this web layer",
+    "replay": "web exact operation-ID payload replay, changed payload409; no durable web replay across reset/restart; ingestion/store semantics remain per native receipt"
+  },
+  "open_handoffs": [
+    {
+      "id": "G01",
+      "provider": "query-planner",
+      "consumer": "chat-search via ssr-chat/dispatcher",
+      "difference": "Synthetic 1.0.1 history binding is now explicit: chat_history to history, only intent changes; broader recent/LT/production mappings remain unresolved",
+      "needed": "Preserve question_only true/false/absence; reject missing identity/unresolved dependencies/unsupported conditions. Production source authorization and separate recent/LT semantics remain independent. See docs/CHAT_HISTORY_BINDING.md."
+    },
+    {
+      "id": "record-handoff",
+      "provider": "importer/store",
+      "consumer": "native reader",
+      "difference": "Evidence projection is not a complete Record; reader requires original metadata/ACL/source/revision",
+      "needed": "identity already provides record-get and ssr-chat already calls it with independent trusted grants; preserve exact revision. STT still needs authoritative full Record and explicit valid. Identity workbench [] source_refs and gateway predeclared self-reference profiles require coordinator choice."
+    },
+    {
+      "id": "browser",
+      "provider": "local execution policy",
+      "consumer": "default browser acceptance",
+      "difference": "actual connect/WinError10013 and prior browser/file restrictions; no real browser operation evidence",
+      "needed": "coordinator resolves permitted environment; blocked actions not retried here"
+    },
+    {
+      "id": "stable-graph",
+      "provider": "dependency owners/coordinator",
+      "consumer": "final integration acceptance",
+      "difference": "saved c9 native graph passed, later dispatcher/collector modifications differ",
+      "needed": "one stable final graph test after owners finish; never relax source binding"
+    }
+  ],
+  "compatibility_profiles": {
+    "identity": {
+      "provider_contract": "hgpt-identity-store/contracts/identity-interface.json",
+      "public_wire_version": "1.0.1",
+      "existing_complete_record_exit": "record-get(scope,source_id,source_event_id,trusted_access,revision); already called by IdentityRecordGateway get",
+      "consumer_source_refs": "exactly one predeclared synthetic self-reference; unchanged",
+      "provider_workbench_source_refs": "empty list; distinct profile; coordinator decision pending",
+      "optional_extensions": "absent or empty object only; preserve presence and original declaration hash through Record/Evidence/readback; reject nonempty or unknown fields",
+      "example": "fixtures/contracts/identity-empty-extensions.synthetic.json"
+    },
+    "stt": {
+      "provider_contract": "hgpt-stt-store/acceptance/interface_contract.json",
+      "provider_output": "Result.Evidence[]",
+      "consumer_input": "full Record wrapped as {event,valid} for transcript-search",
+      "missing": [
+        "schema_version",
+        "record_kind",
+        "access_scope",
+        "independent authoritative valid"
+      ],
+      "status": "coordinator handoff; no guessed ACL/valid or new store API"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+test_alternate_checkout_is_rejected_before_source_or_tool_subprocess (test_local_pipeline.LocalPipelineBoundaryTests.test_alternate_checkout_is_rejected_before_source_or_tool_subprocess) ... ok
+test_alternate_planner_cannot_be_snapshotted_as_canonical_code (test_local_pipeline.LocalPipelineBoundaryTests.test_alternate_planner_cannot_be_snapshotted_as_canonical_code) ... ok
+test_configuration_cannot_implicitly_enable_real_data (test_local_pipeline.LocalPipelineBoundaryTests.test_configuration_cannot_implicitly_enable_real_data) ... ok
+test_dispatcher_cannot_execute_a_different_reader (test_local_pipeline.LocalPipelineBoundaryTests.test_dispatcher_cannot_execute_a_different_reader) ... ok
+test_effective_files_pin_actual_config_and_synthetic_input_bytes (test_local_pipeline.LocalPipelineBoundaryTests.test_effective_files_pin_actual_config_and_synthetic_input_bytes) ... ok
+test_exclusive_result_does_not_overwrite_existing_evidence (test_local_pipeline.LocalPipelineBoundaryTests.test_exclusive_result_does_not_overwrite_existing_evidence) ... ok
+test_library_rejects_unsupported_modes_before_reading_or_creating_files (test_local_pipeline.LocalPipelineBoundaryTests.test_library_rejects_unsupported_modes_before_reading_or_creating_files) ... ok
+test_model_generation_is_not_an_available_cli_mode (test_local_pipeline.LocalPipelineBoundaryTests.test_model_generation_is_not_an_available_cli_mode) ... usage: python.exe -m unittest [-h] --config CONFIG --input INPUT
+                              --run-dir RUN_DIR [--mode {evidence,prepare}]
+python.exe -m unittest: error: argument --mode: invalid choice: 'generate' (choose from evidence, prepare)
+ok
+test_non_synthetic_source_is_refused_before_any_reader_execution (test_local_pipeline.LocalPipelineBoundaryTests.test_non_synthetic_source_is_refused_before_any_reader_execution) ... ok
+test_relative_component_identity_cannot_change_resolution_base (test_local_pipeline.LocalPipelineBoundaryTests.test_relative_component_identity_cannot_change_resolution_base) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.249s
+
+OK

@@ -12,6 +12,8 @@ from pathlib import Path
 import subprocess
 import time
 from typing import Any
+from uuid import uuid4
+from .chat_history_binding import PROFILE as CHAT_HISTORY_ADAPTER, BindingError, map_task
 
 MAX_BYTES = 2_000_000
 CHAT_RECENT_ADAPTER = "recent_utterance_to_last_said_v1"
@@ -58,6 +60,26 @@ def _local_path(value: Any, base: Path, *, directory: bool = False) -> Path:
     return path
 
 
+def prepare_artifact_directory(value: str | Path) -> Path:
+    """Operator-only private local directory; never copied from a question."""
+    if (not isinstance(value, (str, Path)) or not str(value).strip()
+            or "://" in str(value) or str(value).startswith(("\\\\", "//"))):
+        raise PipelineError("artifact_local_directory_required")
+    path = Path(value).absolute()
+    try:
+        if os.name == "nt":
+            import ctypes
+            if ctypes.windll.kernel32.GetDriveTypeW(str(path.anchor)) == 4:
+                raise PipelineError("artifact_local_directory_required")
+        for item in (path, *path.parents):
+            if item.is_symlink() or (hasattr(item, "is_junction") and item.is_junction()):
+                raise PipelineError("artifact_linked_path_refused")
+        path.mkdir(parents=True, exist_ok=True)
+        return path.resolve()
+    except OSError as exc:
+        raise PipelineError("artifact_directory_unavailable") from exc
+
+
 @dataclass(frozen=True)
 class PipelineConfig:
     python: Path
@@ -67,17 +89,23 @@ class PipelineConfig:
     dispatcher_config: Path
     timeout: float = 60.0
     chat_recent_intent_adapter: str | None = None
+    chat_history_intent_adapter: str | None = None
 
     @classmethod
     def read(cls, path: str | Path) -> "PipelineConfig":
         selected = Path(path).resolve()
         value = load_object(selected.read_bytes())
         required = {"schema_version", "python", "planner_repo", "dispatcher_repo", "collector_repo", "dispatcher_config"}
-        if set(value) - required - {"timeout_seconds", "chat_recent_intent_adapter"} or required - set(value) or value["schema_version"] != "1.0.1":
+        if set(value) - required - {"timeout_seconds", "chat_recent_intent_adapter", "chat_history_intent_adapter"} or required - set(value) or value["schema_version"] != "1.0.1":
             raise PipelineError("pipeline_configuration_invalid")
         chat_adapter = value.get("chat_recent_intent_adapter")
         if chat_adapter is not None and chat_adapter != CHAT_RECENT_ADAPTER:
             raise PipelineError("chat_recent_intent_adapter_invalid")
+        history_adapter = value.get("chat_history_intent_adapter")
+        if history_adapter is not None and history_adapter != CHAT_HISTORY_ADAPTER:
+            raise PipelineError("chat_history_intent_adapter_invalid")
+        if history_adapter is not None and chat_adapter is not None:
+            raise PipelineError("chat_intent_profiles_mutually_exclusive")
         base = selected.parent
         python = _local_path(value["python"], base)
         if python.stem.lower() not in {"python", "python3", "python3.11", "python3.12", "python3.13"}:
@@ -102,12 +130,68 @@ class PipelineConfig:
             child_timeout = adapter.get("timeout_seconds")
             if type(child_timeout) not in (int, float) or not math.isfinite(child_timeout) or not 0 < child_timeout < timeout:
                 raise PipelineError("adapter_timeout_must_be_shorter_than_stage")
-        return cls(python, planner, dispatcher, collector, dispatch_config, float(timeout), chat_adapter)
+        return cls(python, planner, dispatcher, collector, dispatch_config, float(timeout), chat_adapter, history_adapter)
 
 
 class ModularRetrievalPipeline:
-    def __init__(self, config: PipelineConfig) -> None:
+    def __init__(self, config: PipelineConfig, artifact_dir: str | Path | None = None) -> None:
         self.config = config
+        self.artifact_dir = prepare_artifact_directory(artifact_dir) if artifact_dir is not None else None
+        self._artifact_identity = self._capture_identity() if self.artifact_dir is not None else None
+
+    def _capture_identity(self) -> tuple[int, int]:
+        root = prepare_artifact_directory(self.artifact_dir)
+        info = root.stat()
+        return info.st_dev, info.st_ino
+
+    def _capture_start(self, observed: dict, encoded: bytes) -> tuple[Path, dict] | None:
+        if self.artifact_dir is None:
+            return None
+        try:
+            if self._capture_identity() != self._artifact_identity:
+                raise OSError("artifact_root_changed")
+            directory = self.artifact_dir / ("call-" + uuid4().hex)
+            directory.mkdir(exist_ok=False)
+            with (directory / "stdin.bin").open("xb") as output:
+                output.write(encoded)
+            start = {"schema_version": 1, **deepcopy(observed), "timeout_seconds": self.config.timeout,
+                     "stdin_bytes": len(encoded), "stdin_sha256": hashlib.sha256(encoded).hexdigest()}
+            with (directory / "start.json").open("x", encoding="utf-8") as output:
+                json.dump(start, output, ensure_ascii=False, indent=2, allow_nan=False)
+                output.write("\n")
+            observed["artifact_capture"] = {
+                "directory": directory.name, "start_ref": f"{directory.name}/start.json",
+                "stdin_ref": f"{directory.name}/stdin.bin", "stdin_sha256": start["stdin_sha256"],
+            }
+            return directory, start
+        except (OSError, PipelineError) as exc:
+            raise PipelineError("artifact_capture_failed", observed["stage"]) from exc
+
+    def _capture_finish(self, capture: tuple[Path, dict] | None, observed: dict, *,
+                        stdout: bytes, stderr: bytes, outcome: str, exit_code: int | None) -> None:
+        if capture is None:
+            return
+        directory, start = capture
+        try:
+            if self._capture_identity() != self._artifact_identity or directory.is_symlink() or (
+                    hasattr(directory, "is_junction") and directory.is_junction()):
+                raise OSError("artifact_root_changed")
+            streams = {}
+            for name, raw in (("stdout", stdout), ("stderr", stderr)):
+                with (directory / f"{name}.bin").open("xb") as output:
+                    output.write(raw)
+                streams[name + "_ref"] = f"{directory.name}/{name}.bin"
+                streams[name + "_bytes"] = len(raw)
+                streams[name + "_sha256"] = hashlib.sha256(raw).hexdigest()
+            result = {**start, "completed_at": datetime.now(timezone.utc).isoformat(),
+                      "elapsed_ms": observed["elapsed_ms"], "outcome": outcome,
+                      "exit_code": exit_code, "output_complete": outcome == "returned", **streams}
+            with (directory / "result.json").open("x", encoding="utf-8") as output:
+                json.dump(result, output, ensure_ascii=False, indent=2, allow_nan=False)
+                output.write("\n")
+            observed["artifact_capture"].update(streams, result_ref=f"{directory.name}/result.json")
+        except (OSError, PipelineError) as exc:
+            raise PipelineError("artifact_capture_failed", observed["stage"]) from exc
 
     def _invoke(self, stage: str, repo: Path, arguments: list[str], payload: dict,
                 allowed_exit_codes: set[int], trace: list[dict]) -> dict:
@@ -123,16 +207,22 @@ class ModularRetrievalPipeline:
         observed = {"stage": stage, "command": command, "cwd": str(repo),
                     "started_at": datetime.now(timezone.utc).isoformat()}
         trace.append(observed)
+        capture = self._capture_start(observed, encoded)
+        stdout, stderr, outcome, exit_code = b"", b"", "unavailable", None
         try:
             result = subprocess.run(command, cwd=repo, env=env, input=encoded, capture_output=True,
                                     timeout=self.config.timeout, check=False,
                                     creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            stdout, stderr, outcome, exit_code = result.stdout, result.stderr, "returned", result.returncode
         except subprocess.TimeoutExpired as exc:
+            stdout, stderr, outcome = exc.stdout or b"", exc.stderr or b"", "timeout"
             raise PipelineError("component_timeout", stage) from exc
         except OSError as exc:
             raise PipelineError("component_unavailable", stage) from exc
         finally:
             observed["elapsed_ms"] = round((time.monotonic() - started) * 1000, 3)
+            self._capture_finish(capture, observed, stdout=stdout, stderr=stderr,
+                                 outcome=outcome, exit_code=exit_code)
         observed.update(exit_code=result.returncode, stdout_bytes=len(result.stdout), stderr_bytes=len(result.stderr),
                         stdout_sha256=hashlib.sha256(result.stdout).hexdigest())
         if result.returncode not in allowed_exit_codes:
@@ -159,6 +249,13 @@ class ModularRetrievalPipeline:
         return {"plan": plan, "stages": trace}
 
     def run(self, request: dict[str, Any], *, expected_domain: str | None = None) -> dict[str, Any]:
+        if self.config.chat_history_intent_adapter is not None:
+            if self.config.chat_history_intent_adapter != CHAT_HISTORY_ADAPTER or self.config.chat_recent_intent_adapter is not None:
+                raise PipelineError("chat_intent_profiles_mutually_exclusive", "input")
+            if (not isinstance(request, dict) or request.get("synthetic") is not True
+                    or not isinstance(request.get("trusted_context"), dict)
+                    or request["trusted_context"].get("synthetic") is not True):
+                raise PipelineError("chat_history_synthetic_profile_required", "input")
         if expected_domain is not None and (not isinstance(expected_domain, str) or expected_domain not in DOMAINS):
             raise PipelineError("expected_domain_invalid", "input")
         if not isinstance(request.get("request"), dict) or not isinstance(request.get("trusted_context"), dict):
@@ -185,6 +282,19 @@ class ModularRetrievalPipeline:
                     raise PipelineError("route_plan_domain_mismatch", "planner")
         dispatch_plan = plan
         adaptations = []
+        if self.config.chat_history_intent_adapter == CHAT_HISTORY_ADAPTER:
+            if not plan["tasks"]:
+                raise PipelineError("chat_history_task_required", "binding")
+            dispatch_plan = deepcopy(plan)
+            for task in dispatch_plan["tasks"]:
+                try:
+                    task["query"] = map_task(task, profile=CHAT_HISTORY_ADAPTER)
+                except BindingError as exc:
+                    raise PipelineError(exc.code, "binding") from exc
+                adaptations.append({"adapter": CHAT_HISTORY_ADAPTER, "task_id": task["task_id"],
+                                    "domain": "chat_history", "schema_version": "1.0.1",
+                                    "from_intent": "chat_history", "to_intent": "history",
+                                    "changed_json_pointers": ["/intent"]})
         if self.config.chat_recent_intent_adapter == CHAT_RECENT_ADAPTER:
             dispatch_plan = deepcopy(plan)
             for task in dispatch_plan["tasks"]:

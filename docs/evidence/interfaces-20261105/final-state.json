@@ -1,0 +1,100 @@
+{
+  "branch": "codex/streamsuite-live-lifecycle",
+  "source_version": {
+    "head": "541c296d0f63fe4a83eed32a2beaaeea2e69fae7",
+    "dirty": true,
+    "fingerprint": "fa1e88b71ce470601cb38d48dc96d850e1625a70c04ffe1ba0c7d450799091ad"
+  },
+  "tracked_modified_count": 4,
+  "untracked_file_count": 80,
+  "coordinator_baseline_comparison": {
+    "ssr_chat/modular_answer.py": {
+      "baseline_sha256": "f842ab8d2c731e7ea402621574cad37be95eaa65b6e397dae910c0525426e00b",
+      "current_sha256": "f842ab8d2c731e7ea402621574cad37be95eaa65b6e397dae910c0525426e00b",
+      "matches_baseline": true
+    },
+    "ssr_chat/modular_api.py": {
+      "baseline_sha256": "7a401f0334f2271f521292b161aacd3218e9ba8c4c903cbe9a58a5556126d23f",
+      "current_sha256": "7a401f0334f2271f521292b161aacd3218e9ba8c4c903cbe9a58a5556126d23f",
+      "matches_baseline": true
+    },
+    "ssr_chat/modular_retrieval.py": {
+      "baseline_sha256": "bae9bf611e7949e79053a8577e1d8a58e9aa7ae82163eb4fdbd7e3066aa1f767",
+      "current_sha256": "bae9bf611e7949e79053a8577e1d8a58e9aa7ae82163eb4fdbd7e3066aa1f767",
+      "matches_baseline": true
+    },
+    "ssr_chat/local_pipeline.py": {
+      "baseline_sha256": "497dc2b493b37cf3d97e8afbaf5dd342dadb3d1226cd3026703104f512be8397",
+      "current_sha256": "5b39cc8bffa0ba441ea550b04432d3a7a321d335abba19f911c6e405d066d5fb",
+      "matches_baseline": false
+    },
+    "ssr_chat/native_capture.py": {
+      "baseline_sha256": "cd663e55bc46121969ba521bae42f9680b713c401e3d55d0e6afd7192b611d07",
+      "current_sha256": "cd663e55bc46121969ba521bae42f9680b713c401e3d55d0e6afd7192b611d07",
+      "matches_baseline": true
+    },
+    "tests/test_prepare_answer.py": {
+      "baseline_sha256": "62585976a67a31202703848d509f9c81905a0c38c8470930819d0dcd859dd02d",
+      "current_sha256": "62585976a67a31202703848d509f9c81905a0c38c8470930819d0dcd859dd02d",
+      "matches_baseline": true
+    },
+    "tests/test_pipeline_capture.py": {
+      "baseline_sha256": "d8d2625e0337461c8f4884629e0263e56979d4796f322211d0594b9b27b96367",
+      "current_sha256": "d8d2625e0337461c8f4884629e0263e56979d4796f322211d0594b9b27b96367",
+      "matches_baseline": true
+    },
+    "tests/test_local_pipeline.py": {
+      "baseline_sha256": "2397402da2348259ef4063814441f0703d086dd337c39e6c803369671adfe312",
+      "current_sha256": "cea7428b1aa964bacad3bfa1e17463e51c6a3316d1cab20d5ed972d3740cb553",
+      "matches_baseline": false
+    },
+    "docs/LOCAL_NATIVE_PIPELINE.md": {
+      "baseline_sha256": "72a0f8a76e9d3c7b01e9e78c7444919e385e414fc1cd16d6d6c94c3c4442c8bc",
+      "current_sha256": "4f14280295c51f0e9b43ba78e4d07f4ce997353eab494df999c7b8523bd72677",
+      "matches_baseline": false
+    }
+  },
+  "intentional_baseline_changes": [
+    "ssr_chat/local_pipeline.py: mode guard only",
+    "tests/test_local_pipeline.py: invalid mode before I/O regression test",
+    "docs/LOCAL_NATIVE_PIPELINE.md: mode guard documentation"
+  ],
+  "unit_checks": {
+    "passed": 32,
+    "skipped": 6,
+    "failed": 0
+  },
+  "native_prepare": {
+    "runner_exit": 1,
+    "tests_run": 0,
+    "class_setup_error": 1,
+    "pipeline_exit": 2,
+    "execution_error": "source_changed_during_execution",
+    "prompt_status": "prepared_not_sent",
+    "entry_status": "held",
+    "entry_reason": "answer_generation_not_enabled",
+    "record_count": 2,
+    "interface_version": "ssr-chat.review-native.v1",
+    "model_invoked": false,
+    "public_output": "not_attempted",
+    "source_before": "8449d6b49f3457aa219467c357baf6448f99bcb04653e09a6b1e87e049ddaac5",
+    "source_after": "82b65cdfcdc9c1efa82aca4c7666e408ad5570e46dbd85d2d41b6c05dec93054",
+    "drift": [
+      {
+        "repo": "hgpt-ssr-evidence-collector",
+        "files": [
+          "tests/test_interfaces.py"
+        ],
+        "before": {
+          "tests/test_interfaces.py": "97670d4a5427ba0c186a39411922c5096d8b3c10b59cc8207f4bb9df266bb313"
+        },
+        "after": {
+          "tests/test_interfaces.py": "5945aa166f0580ce7e67c31b2328cf352a9e4da9b833fa5252aa2c97efc453d4"
+        }
+      }
+    ],
+    "receipt_root": "C:\\Projects\\StreamSuite\\evidence\\development\\native-review-web-tests\\69cfc39eeb9b4571a12861a87ff8ef8c"
+  },
+  "browser_gate": "blocked; no retry, no server/browser launched",
+  "note": "Outer test-driver graph comparisons include its own newly created evidence filenames in git_status; inner native receipt isolates actual collector source drift. Product fingerprint stable across all checks."
+}

@@ -1,0 +1,212 @@
+{
+  "kind": "ssr-chat-local-delivery-and-test-receipt-index",
+  "finished_at": "2026-11-05T21:06:16.954984+00:00",
+  "checkout": "C:\\Projects\\StreamSuite\\repos\\ssr-chat",
+  "remote": "https://github.com/HGPT-StreamSuite/ssr-chat.git",
+  "branch": "codex/streamsuite-live-lifecycle",
+  "source_version": {
+    "head": "541c296d0f63fe4a83eed32a2beaaeea2e69fae7",
+    "dirty": true,
+    "fingerprint": "3ce260b484048ff6a00d72ee8ce4ead14b26da05cc3ae691a09ef81271b1a66a"
+  },
+  "deliverables": {
+    "interface_catalog": "contracts/interfaces.v1.json",
+    "review_request_schema": "contracts/review-native.v1.schema.json",
+    "review_cases": "fixtures/contracts/review-native.v1.cases.json",
+    "identity_example": "fixtures/contracts/identity-empty-extensions.synthetic.json",
+    "explanation": "docs/SYSTEM_INTERFACES.md",
+    "native_web": "ssr_chat/review_web.py -> review_native.py -> local_pipeline.execute"
+  },
+  "changes": [
+    "Reject invalid library mode before any file I/O",
+    "Add local native review interface_version/default_flow and include contracts in review fingerprint",
+    "Index existing 15 CLI commands, 5 main library entries and HTTP inputs/outputs without changing shared 1.0.1",
+    "Accept and preserve only native-defined optional identity extensions={} including presence; no ACL/purpose/source-reference changes"
+  ],
+  "validation": {
+    "stage1": {
+      "fingerprint": "fa1e88b71ce470601cb38d48dc96d850e1625a70c04ffe1ba0c7d450799091ad",
+      "passed": 32,
+      "skipped_http": 6,
+      "scope": "10 mode boundary + 5 interface + 17 web; do not sum repeat interface tests"
+    },
+    "current": {
+      "interface_contract_passed": 5,
+      "exit_code": 0,
+      "fingerprint": "3ce260b484048ff6a00d72ee8ce4ead14b26da05cc3ae691a09ef81271b1a66a",
+      "static_parse": "8 Python sources + 4 JSON contracts; passed"
+    },
+    "saved_receipts": {
+      "matched": 6,
+      "native_reruns": 0,
+      "receipt": "saved-cases-verification.json",
+      "graph": "c9d9637d2ad9f2577c8f77320874b2d1d98702554fc0e0049831fdeff67a91be"
+    },
+    "native_prepare": {
+      "runner_exit": 1,
+      "tests_run": 0,
+      "class_setup_error": 1,
+      "pipeline_exit": 2,
+      "execution_error": "source_changed_during_execution",
+      "prompt_status": "prepared_not_sent",
+      "entry_status": "held",
+      "entry_reason": "answer_generation_not_enabled",
+      "record_count": 2,
+      "interface_version": "ssr-chat.review-native.v1",
+      "model_invoked": false,
+      "public_output": "not_attempted",
+      "source_before": "8449d6b49f3457aa219467c357baf6448f99bcb04653e09a6b1e87e049ddaac5",
+      "source_after": "82b65cdfcdc9c1efa82aca4c7666e408ad5570e46dbd85d2d41b6c05dec93054",
+      "drift": [
+        {
+          "repo": "hgpt-ssr-evidence-collector",
+          "files": [
+            "tests/test_interfaces.py"
+          ],
+          "before": {
+            "tests/test_interfaces.py": "97670d4a5427ba0c186a39411922c5096d8b3c10b59cc8207f4bb9df266bb313"
+          },
+          "after": {
+            "tests/test_interfaces.py": "5945aa166f0580ce7e67c31b2328cf352a9e4da9b833fa5252aa2c97efc453d4"
+          }
+        }
+      ],
+      "receipt_root": "C:\\Projects\\StreamSuite\\evidence\\development\\native-review-web-tests\\69cfc39eeb9b4571a12861a87ff8ef8c"
+    },
+    "identity": {
+      "status": "blocked",
+      "unit_attempted": 25,
+      "unit_passed": 0,
+      "setup_cleanup_errors": 50,
+      "native_cli_calls": 0,
+      "target_examples": [
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp052zparw'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp052zparw\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp1at7_enw'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp1at7_enw\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp26s7_kyg'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp26s7_kyg\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp2jmqhmxn'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp2jmqhmxn\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp3vchsd_i'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp3vchsd_i\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp4ft2677y'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp4ft2677y\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp7m4am6r1'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp7m4am6r1\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp81nxj7ly'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp81nxj7ly\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp9w60fzpq'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp9w60fzpq\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp_tolcn8t'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmp_tolcn8t\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpb02bv0iv'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpb02bv0iv\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpdkcuqocn'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpdkcuqocn\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpfxh87f0c'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpfxh87f0c\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpj_wa7t4r'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpj_wa7t4r\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpl2nxk0ly'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpl2nxk0ly\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpmgqu5cn7'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpmgqu5cn7\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpn3vsjspc'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpn3vsjspc\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpnbl8afnn'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpnbl8afnn\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpnphqdef7'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpnphqdef7\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpqrbhkfsh'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpqrbhkfsh\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmprlpj76j7'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmprlpj76j7\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpryf06suz'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpryf06suz\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpv8o56lm4'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpv8o56lm4\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpxrb9p7l4'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpxrb9p7l4\\\\native'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpz3phy14c'",
+        "[WinError 5] 存取被拒。: '<USER_HOME>\\\\AppData\\\\Local\\\\Packages\\\\sandbox.{80288cf8-3532-4421-9ad0-9ebda50746c5}\\\\AC\\\\Temp\\\\tmpz3phy14c\\\\native'"
+      ],
+      "action": "mkdir native in default sandbox AC/Temp and TemporaryDirectory cleanup",
+      "reason": "PermissionError WinError 5 access denied",
+      "raw_evidence": "C:\\Projects\\StreamSuite\\evidence\\development\\identity-extensions-tests\\ffe25129941d449593c417f0aab14891",
+      "cleanup_status": "not confirmed; no manual retry or cleanup",
+      "read_messages_checked": "no materially new authorization for this denied action",
+      "next_action": "coordinator resolves permitted scope; do not relocate/retry blocked test or run guarded driver"
+    }
+  },
+  "unchanged_implementation_evidence": {
+    "changed_since_stage1_source_files": [
+      "contracts/interfaces.v1.json",
+      "fixtures/contracts/identity-empty-extensions.synthetic.json",
+      "ssr_chat/identity_records.py",
+      "tests/test_identity_records.py"
+    ],
+    "note": "Mode and review runtime sources remain byte-identical to passing stage1; identity implementation/tests, identity example and interface profile changed afterwards. Full source graph is therefore a distinct version."
+  },
+  "blockers": [
+    {
+      "id": "browser",
+      "state": "blocked_historical_denials",
+      "reason": "WinError10013/connect plus server/file/Registry/CIM restrictions retained; no retry, no real default browser evidence",
+      "usable_url": null,
+      "launch_reference": "README.md command only; server not running or verified"
+    },
+    {
+      "id": "native_stable_graph",
+      "state": "pending_coordinator",
+      "reason": "collector tests/test_interfaces.py changed during new native prepare; source gate correctly failed"
+    },
+    {
+      "id": "identity_extensions",
+      "state": "implemented_functional_verification_blocked",
+      "reason": "Default Temp test setup/cleanup WinError5; no alternate-path retry"
+    },
+    {
+      "id": "identity_source_refs",
+      "state": "pending_profile_decision",
+      "provider": "identity native/workbench",
+      "consumer": "IdentityRecordGateway",
+      "difference": "Workbench requires []; gateway requires one original declared synthetic self-reference; no conversion performed"
+    },
+    {
+      "id": "stt_record_handoff",
+      "state": "pending_contract_owner",
+      "provider": "hgpt-stt-store Evidence",
+      "consumer": "transcript reader snapshot {event: full Record, valid: bool}",
+      "missing": [
+        "schema_version",
+        "record_kind",
+        "access_scope",
+        "authoritative valid"
+      ],
+      "note": "identity already has record-get and this gateway already uses it; no new API needed there"
+    },
+    {
+      "id": "G01",
+      "state": "pending_mapping_owner",
+      "difference": "generic chat_history vs last_said/question_history/history; no guessed mapping"
+    }
+  ],
+  "no_operations": [
+    "no other repo modifications",
+    "no code reset",
+    "no installation",
+    "no real LLM",
+    "no network/server/browser retry",
+    "no commit/push/deploy/public message"
+  ],
+  "original_identity_runner_sha256": "43b94321b2bd8e768a0bca123370ea24b68e3fbfd7e5b93c8ad1d11cb02ddfce",
+  "identity_runner_current_status": "guarded against rerun; exact executed version preserved as .executed.txt",
+  "full_bot_or_browser_accepted": false,
+  "dirty_state": {
+    "dirty": true,
+    "tracked_modified": 6,
+    "untracked_files": 91,
+    "exact_status": "delivery-git-status.txt"
+  }
+}

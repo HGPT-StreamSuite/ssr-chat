@@ -1,5 +1,22 @@
 # ssr-chat
 
+## 獨立本機驗收網頁
+
+此 repo 現有獨立網頁與可驗證標準見 [INDEPENDENT_ACCEPTANCE.md](docs/INDEPENDENT_ACCEPTANCE.md)。
+它使用標準函式庫後端與靜態 HTML/JS，預設接到[固定原生入口](docs/NATIVE_REVIEW_WEB.md)，
+實際顯示合成證據、用途拒絕與同次 prepared prompt，明確停在 LLM 邊界。可另選舊 Fixture 事件。
+不連正式資料、Twitch 或 Ollama；G01 的一般聊天 intent 映射只供閱讀，仍為 blocked。
+
+```powershell
+$env:UV_PROJECT_ENVIRONMENT = 'C:\Projects\StreamSuite\runtime\envs\development-live-lifecycle'
+uv --cache-dir C:\Projects\StreamSuite\runtime\uv-cache --offline run --no-sync python -B -X utf8 -m ssr_chat.review_web --port 8826
+```
+
+先確認 8826 未占用。啟動成功後開啟 `http://127.0.0.1:8826/`，在同一終端按 Ctrl+C 停止。
+未啟動時該網址不可用；不自動切換埠。只建立／清理本次新建的合成暫存。
+新增功能的程式與 UI 驗收紀錄另存於 `docs/evidence/review-web-acceptance.txt`；舊測試不代替網頁驗證。
+全部 CLI/API/library 入口、格式、重送／修訂語意與待協調接口見 [SYSTEM_INTERFACES.md](docs/SYSTEM_INTERFACES.md)。
+
 ## 明確配置的模組化檢索入口
 
 `retrieve` 以三個獨立子程序串接既有 QueryPlan、dispatcher 及 evidence collector；dispatcher 再呼叫配置的 native Query→Result CLI。只支援顯式 1.0.1、本機 CLI adapters，不匯入其他 repo、不改共用契約、不啟動服務、不生成回答或公開發送；目前 `chat`／`serve` 仍沿用原來的問答路徑。

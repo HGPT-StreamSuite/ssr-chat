@@ -14,6 +14,13 @@ from .stores import JsonlLog
 STATUSES={"ok","no_match","skipped","error","missing_input","denied","not_configured"}
 
 
+def _identity_shape(value,fields):
+    # Native person_profile permits only an optional, empty extensions object.
+    # Presence remains significant for declared payload and readback equality.
+    return (isinstance(value,dict) and fields<=set(value) and not set(value)-fields-{"extensions"}
+            and ("extensions" not in value or isinstance(value["extensions"],dict) and not value["extensions"]))
+
+
 class IdentityRecordGateway:
     def __init__(self,config_path,state_dir,*,runner=None):
         path=Path(config_path).resolve();cfg=load_object(path.read_bytes())
@@ -131,7 +138,7 @@ class IdentityRecordGateway:
         item=self.events.get(alias)
         if not isinstance(item,dict) or set(item)!={"entity_kind","person_id","record","declaration"} or item["entity_kind"] not in {"person","platform_account"}:raise PipelineError("identity_records_raw_annotation_required")
         r=item["record"]
-        if (not isinstance(r,dict) or set(r)!=RECORD or r["schema_version"]!="1.0.1" or r["record_kind"]!="raw_event" or r["scope"]!=self.binding["scope"] or r["source_id"]!=self.binding["source_id"] or r["access_scope"]!=self.visibility
+        if (not _identity_shape(r,RECORD) or r["schema_version"]!="1.0.1" or r["record_kind"]!="raw_event" or r["scope"]!=self.binding["scope"] or r["source_id"]!=self.binding["source_id"] or r["access_scope"]!=self.visibility
                 or any(not token(r[k]) or not r[k].startswith("synthetic-") for k in ("source_event_id","record_id")) or type(r["revision"]) is not int or r["revision"]<1
                 or not isinstance(r["text"],str) or len(r["text"])>16384 or not isinstance(r["quality_flags"],list) or "synthetic" not in r["quality_flags"]):raise PipelineError("identity_records_synthetic_record_not_bound")
         if (item["entity_kind"]=="person" and (item["person_id"] not in self.binding["person_ids"] or r["actor_account_id"] is not None)
@@ -182,7 +189,10 @@ class IdentityRecordGateway:
         if reason is not None and (not isinstance(reason,str) or re.fullmatch(r"[a-z][a-z0-9_]{0,99}",reason) is None):raise PipelineError("identity_records_native_result_invalid")
         originals=self._originals()
         for item in value["evidence"]:
-            if (not isinstance(item,dict) or set(item)!=EVIDENCE or item["layer"]!="raw" or item["source_kind"]!="synthetic" or not any(all(item[k]==r[k] for k in RECORD-{"schema_version","record_kind","access_scope"}) for r in originals)):raise PipelineError("identity_records_evidence_not_declared_original")
+            if (not _identity_shape(item,EVIDENCE) or item["layer"]!="raw" or item["source_kind"]!="synthetic" or not any(
+                    all(item[k]==r[k] for k in RECORD-{"schema_version","record_kind","access_scope"})
+                    and ("extensions" in item)==("extensions" in r) and item.get("extensions")==r.get("extensions")
+                    for r in originals)):raise PipelineError("identity_records_evidence_not_declared_original")
         return value
 
     def run(self,payload):
