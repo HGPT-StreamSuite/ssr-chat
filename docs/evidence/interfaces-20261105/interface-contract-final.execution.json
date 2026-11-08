@@ -1,0 +1,30 @@
+{
+  "command": [
+    "C:\\Projects\\StreamSuite\\runtime\\envs\\development-live-lifecycle\\Scripts\\python.exe",
+    "-B",
+    "-X",
+    "utf8",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_interface_contracts.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "source_before": {
+    "head": "541c296d0f63fe4a83eed32a2beaaeea2e69fae7",
+    "dirty": true,
+    "fingerprint": "3ce260b484048ff6a00d72ee8ce4ead14b26da05cc3ae691a09ef81271b1a66a"
+  },
+  "source_after": {
+    "head": "541c296d0f63fe4a83eed32a2beaaeea2e69fae7",
+    "dirty": true,
+    "fingerprint": "3ce260b484048ff6a00d72ee8ce4ead14b26da05cc3ae691a09ef81271b1a66a"
+  },
+  "source_unchanged": true,
+  "static_parse": "8 modified/new Python sources and 4 JSON contracts parsed; no identity functionality execution",
+  "identity_gate": "blocked WinError5; not retried"
+}

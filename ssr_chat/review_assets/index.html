@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>ssr-chat · 本機驗收台</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#workbench" aria-label="ssr-chat 驗收台首頁"><span class="brand-mark" aria-hidden="true">S</span><span>StreamSuite <strong>/ ssr-chat</strong></span></a>
+    <span class="local-badge"><span aria-hidden="true">●</span> LOCAL ONLY</span>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">INDEPENDENT ACCEPTANCE</p><h1 id="title">原生鏈路驗收台</h1><p class="lede">送入問題，檢視原生 CLI 的證據、錯誤與同次 prepared prompt。</p></div>
+      <div class="connection"><span id="connection" role="status">正在連接本機服務…</span><small id="version">讀取工作版本</small></div>
+    </section>
+    <div class="scope-note"><strong>原生入口 · 合成資料</strong><span>預設呼叫固定原生工具，明確停在 LLM 邊界，不生成回答、不發訊。舊 Fixture 事件可另選；請只輸入合成資料。</span></div>
+    <section class="card gap" aria-label="所有 repo 共通驗收門檻">
+      <span class="tag warning">共通門檻 · BLOCKED／未驗證</span>
+      <h2>預設瀏覽器必須實際開啟並可操作</h2>
+      <p class="hint">本輪 loopback 存取遭 WinError 10013 拒絕，沒有預設瀏覽器開啟或操作證據。程式存在、HTTP 成功、後端或假 DOM 測試都不代表此門檻通過。下方服務連線狀態也不會自動改變驗收結論。</p>
+    </section>
+    <nav class="tabs" role="tablist" aria-label="驗收工作區">
+      <button role="tab" id="tab-workbench" aria-controls="workbench" aria-selected="true">輸入與輸出</button>
+      <button role="tab" id="tab-standard" aria-controls="standard" aria-selected="false" tabindex="-1">驗收標準 <span>22</span></button>
+      <button role="tab" id="tab-evidence" aria-controls="evidence" aria-selected="false" tabindex="-1">證據與缺口</button>
+    </nav>
+    <section id="workbench" class="tab-panel" role="tabpanel" aria-labelledby="tab-workbench">
+      <div class="workspace-bar"><span>工作階段 <code id="workspace-id">—</code></span><button id="new-workspace" class="text-button" disabled>新合成工作階段</button></div>
+      <div class="work-grid">
+        <section class="card input-card" aria-labelledby="input-title">
+          <div class="card-heading"><div><span class="step">01 / INPUT</span><h2 id="input-title">本機原生查詢</h2></div><span class="tag">JSON</span></div>
+          <label for="flow">操作路徑</label><select id="flow" disabled><option value="native" selected>原生 CLI · 證據 / prepared prompt</option><option value="fixture">舊 Fixture 事件 · 測試替身</option></select>
+          <label for="example">載入範例</label>
+          <div class="example-row"><select id="example" disabled><option>讀取範例…</option></select><button id="load-example" class="secondary" disabled>載入</button></div>
+          <div class="editor-heading"><label id="input-label" for="event-input">查詢 JSON</label><button id="new-message" class="text-button" disabled>換一個訊息 ID</button></div>
+          <textarea id="event-input" rows="14" spellcheck="false" autocomplete="off" aria-describedby="input-help" disabled></textarea>
+          <p id="input-help" class="hint">只接受已註冊的工具與問題文字。來源、ACL、Python 和 repo 路徑由後端固定。</p>
+          <label class="check"><input type="checkbox" id="synthetic" checked>我正在使用合成／範例資料</label>
+          <div class="actions"><button id="run" class="primary" disabled>執行原生入口 <span aria-hidden="true">↗</span></button><button id="resubmit" class="secondary" disabled>重送上次輸入</button></div>
+          <p class="shortcut">Ctrl / ⌘ + Enter 執行 · 執行時按鈕會鎖定，避免重複提交</p>
+        </section>
+        <section class="card output-card" aria-labelledby="output-title">
+          <div class="card-heading"><div><span class="step">02 / OUTPUT</span><h2 id="output-title">實際執行結果</h2></div><span id="result-badge" class="tag">尚未執行</span></div>
+          <div id="live-status" role="status" aria-live="polite" class="status-line">載入範例後，即可執行本 repo 的聊天流程。</div>
+          <div id="empty-output" class="empty"><span class="empty-symbol" aria-hidden="true">↳</span><h3>從 /channel launch 開始</h3><p>顯示同次原生結果；prepared prompt 不代表已生成回答。</p><div class="flow">Entry <span>→</span> 原生 CLI <span>→</span> 證據 <span>→</span> LLM 邊界</div></div>
+          <div id="result-content" hidden>
+            <div class="answer-block"><span class="section-label">處理結果 / 停止原因</span><p id="answer"></p><span class="delivery">公開發送：未嘗試</span></div>
+            <section id="native-records" hidden><h3>同次原生證據</h3><pre id="native-records-json" tabindex="0"></pre></section>
+            <dl class="result-facts"><div><dt>事件狀態</dt><dd id="result-status">—</dd></div><div><dt>Operation</dt><dd id="operation">—</dd></div></dl>
+            <details open><summary>完整結果 JSON</summary><pre id="result-json" tabindex="0"></pre></details>
+            <details><summary>同次 prompt / 原生收據（prepared ≠ sent）</summary><pre id="trace-json" tabindex="0"></pre></details>
+            <button id="back-input" class="text-button">返回輸入 ↑</button>
+          </div>
+        </section>
+      </div>
+    </section>
+    <section id="standard" class="tab-panel" role="tabpanel" aria-labelledby="tab-standard" hidden>
+      <div class="panel-heading"><div><span class="step">REPO FUNCTION CASES</span><h2>ssr-chat 功能測例</h2></div><p>各 repo 的內容不同，共通瀏覽器門檻相同。列出測例不代表通過。</p></div>
+      <div id="criteria-list" class="criteria-list"></div>
+      <details class="card document"><summary>完整驗收範圍、隔離方式與完成定義</summary><pre id="standard-text" tabindex="0"></pre></details>
+    </section>
+    <section id="evidence" class="tab-panel" role="tabpanel" aria-labelledby="tab-evidence" hidden>
+      <div class="panel-heading"><div><span class="step">EVIDENCE & GAPS</span><h2>看得見的證據，明確的界線</h2></div><p>本頁只提供 ssr-chat 的局部驗收。</p></div>
+      <article class="card gap"><span class="tag warning">未測／阻塞</span><h3>共通瀏覽器門檻尚未達成</h3><p>8826 未啟動；預設瀏覽器的開啟、桌面／窄視窗、真實輸入輸出與錯誤、焦點、取消／返回均未實測。沒有換埠、file URL 或其他方法重試。</p></article>
+      <div class="evidence-grid"><article class="card gap"><span class="tag warning">BLOCKED · 唯讀紀錄</span><h3>G01：一般聊天 intent 映射</h3><p>上游送出 <code>chat_history</code>；native 端曾回報 <code>missing_input / unsupported_intent</code>。</p><p>一般映射契約與 owner 尚未確定。這裡未接通 native 執行，也不把此缺口標成已修復。</p><p class="hint">既有 opt-in：recent_utterance → last_said。此網頁不修改該契約、來源旗標或授權。</p></article>
+      <article class="card"><span class="tag">歷史證據 · 改動前</span><h3>既有 repo 回歸</h3><p id="historical"></p><p class="hint">新的網頁功能使用另一份驗收紀錄；不能以舊測試數量代替本次結果。</p></article></div>
+      <article class="card evidence-record"><h3>已實際驗證結果：程式層</h3><p class="hint">來源 fingerprint 排除可變紀錄。此紀錄不是預設瀏覽器證據，不會因按下執行而自動宣稱通過。</p><pre id="review-evidence" tabindex="0">尚未收集本次程式證據。</pre></article>
+      <article class="card evidence-record"><h3>不適用及理由</h3><p>本次明確排除總頁面與部署。本頁只提供合成 Fixture／dry-run，因此沒有登入、正式模型或公開發送控制；真實整合仍待後續驗收。沒有 runtime 安全取消協定，所以只提供新工作階段對話框的取消與返回輸入。</p><p class="hint">不適用、模擬、未接通與未測均不計為通過。</p></article>
+    </section>
+    <footer><span>SSR CHAT / 本機獨立檢視</span><span>合成狀態僅屬於本次服務；停止後清理。</span></footer>
+  </main>
+  <dialog id="reset-dialog" aria-labelledby="reset-title"><form method="dialog"><span class="step">NEW WORKSPACE</span><h2 id="reset-title">建立新的合成工作階段？</h2><p>畫面中的結果會清空，之後的事件使用新狀態。只切換本次驗收暫存，不操作正式資料。</p><div class="actions"><button value="cancel" class="secondary">取消</button><button value="confirm" class="primary">建立新工作階段</button></div></form></dialog>
+</body>
+</html>

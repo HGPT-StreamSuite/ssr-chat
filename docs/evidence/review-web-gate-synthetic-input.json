@@ -1,0 +1,12 @@
+{
+  "synthetic": true,
+  "workspace_id": "e8a3425416324a6fbf1dbcc4b620c84a",
+  "request_id": "review-gate-evidence-first",
+  "event": {
+    "message_id": "review-gate-evidence-event",
+    "conversation_id": "review-room",
+    "author_id": "synthetic-viewer",
+    "source": "local-fixture",
+    "text": "!ask 星界遠征是什麼遊戲？"
+  }
+}

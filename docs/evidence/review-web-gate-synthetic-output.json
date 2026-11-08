@@ -1,0 +1,158 @@
+{
+  "operation_id": "review-gate-evidence-first",
+  "workspace_id": "e8a3425416324a6fbf1dbcc4b620c84a",
+  "replayed": false,
+  "execution_mode": "executed_fixture_runtime",
+  "result": {
+    "status": "answered",
+    "message_id": "review-gate-evidence-event",
+    "run_id": "run-66df0ee061fb4716b3b2a80b2b5ec466",
+    "context_snapshot_id": "snapshot-5932ec63aade4a3a8eef8267183535fb",
+    "analysis": {
+      "intents": [
+        "game_info"
+      ],
+      "query_text": "星界遠征是什麼遊戲？",
+      "snapshot_id": "snapshot-5932ec63aade4a3a8eef8267183535fb",
+      "queries": [
+        {
+          "purpose": "game_info",
+          "query_text": "星界遠征是什麼遊戲"
+        }
+      ]
+    },
+    "queries": [
+      {
+        "status": "ok",
+        "materials": [
+          {
+            "title": "星界遠征（虛構 fixture）",
+            "text": "測試資料設定星界遠征是科幻策略遊戲，玩家探索星系並經營艦隊。",
+            "source_id": "fixture-game-wiki"
+          }
+        ],
+        "sources": [
+          {
+            "source_id": "fixture-game-wiki",
+            "name": "本機虛構遊戲資料 fixture",
+            "locator": "fixture://game-wiki"
+          }
+        ]
+      }
+    ],
+    "answer": "測試資料設定星界遠征是科幻策略遊戲，玩家探索星系並經營艦隊。",
+    "send_result": {
+      "status": "dry_run_not_sent",
+      "attempted": false,
+      "public_reply": false,
+      "message_id": "review-gate-evidence-event",
+      "run_id": "run-66df0ee061fb4716b3b2a80b2b5ec466",
+      "delivery_state": "confirmed_not_sent"
+    }
+  },
+  "evidence": {
+    "input": {
+      "message_id": "review-gate-evidence-event",
+      "conversation_id": "review-room",
+      "author_id": "synthetic-viewer",
+      "source": "local-fixture",
+      "text": "!ask 星界遠征是什麼遊戲？"
+    },
+    "prompt": {
+      "user_text": "星界遠征是什麼遊戲？",
+      "context_snapshot_id": "snapshot-5932ec63aade4a3a8eef8267183535fb",
+      "context_messages": [],
+      "analysis": {
+        "intents": [
+          "game_info"
+        ],
+        "query_text": "星界遠征是什麼遊戲？",
+        "snapshot_id": "snapshot-5932ec63aade4a3a8eef8267183535fb",
+        "queries": [
+          {
+            "purpose": "game_info",
+            "query_text": "星界遠征是什麼遊戲"
+          }
+        ]
+      },
+      "query_results": [
+        {
+          "status": "ok",
+          "materials": [
+            {
+              "title": "星界遠征（虛構 fixture）",
+              "text": "測試資料設定星界遠征是科幻策略遊戲，玩家探索星系並經營艦隊。",
+              "source_id": "fixture-game-wiki"
+            }
+          ],
+          "sources": [
+            {
+              "source_id": "fixture-game-wiki",
+              "name": "本機虛構遊戲資料 fixture",
+              "locator": "fixture://game-wiki"
+            }
+          ]
+        }
+      ],
+      "evidence_citations": false
+    },
+    "trace": [
+      {
+        "analysis": {
+          "intents": [
+            "game_info"
+          ],
+          "queries": [
+            {
+              "purpose": "game_info",
+              "query_text": "星界遠征是什麼遊戲"
+            }
+          ],
+          "query_text": "星界遠征是什麼遊戲？",
+          "snapshot_id": "snapshot-5932ec63aade4a3a8eef8267183535fb"
+        },
+        "answer": "測試資料設定星界遠征是科幻策略遊戲，玩家探索星系並經營艦隊。",
+        "completed_at": "2026-11-05T18:45:28.947012+00:00",
+        "context_snapshot_id": "snapshot-5932ec63aade4a3a8eef8267183535fb",
+        "diagnostics": [],
+        "message_id": "review-gate-evidence-event",
+        "queries": [
+          {
+            "materials": [
+              {
+                "source_id": "fixture-game-wiki",
+                "text": "測試資料設定星界遠征是科幻策略遊戲，玩家探索星系並經營艦隊。",
+                "title": "星界遠征（虛構 fixture）"
+              }
+            ],
+            "sources": [
+              {
+                "locator": "fixture://game-wiki",
+                "name": "本機虛構遊戲資料 fixture",
+                "source_id": "fixture-game-wiki"
+              }
+            ],
+            "status": "ok"
+          }
+        ],
+        "run_id": "run-66df0ee061fb4716b3b2a80b2b5ec466",
+        "run_status": "completed",
+        "send_result": {
+          "attempted": false,
+          "delivery_state": "confirmed_not_sent",
+          "message_id": "review-gate-evidence-event",
+          "public_reply": false,
+          "run_id": "run-66df0ee061fb4716b3b2a80b2b5ec466",
+          "status": "dry_run_not_sent"
+        }
+      }
+    ],
+    "sop": []
+  },
+  "adapters": {
+    "knowledge": "fixture",
+    "model": "fixture",
+    "weather": "fixture",
+    "output": "dry_run"
+  }
+}

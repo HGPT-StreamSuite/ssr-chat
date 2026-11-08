@@ -1,0 +1,23 @@
+{
+  "interface_version": "ssr-chat.review-native.v1",
+  "workspace_binding": "Replace workspace_id with the current /api/meta value. Never reuse a previous session ID.",
+  "valid": [
+    {"id": "evidence", "request": {"tool": "channel-evidence", "text": "/channel launch"}, "expected": {"pipeline_exit_code": 0, "status": "evidence_ready", "record_count": 2, "prompt": false}},
+    {"id": "prepare", "request": {"tool": "channel-prepare", "text": "/channel launch"}, "expected": {"pipeline_exit_code": 3, "status": "held", "reason_code": "answer_generation_not_enabled", "prompt": true}},
+    {"id": "denied", "request": {"tool": "channel-purpose-denied", "text": "/channel launch"}, "expected": {"pipeline_exit_code": 1, "status": "held", "reason_code": "ai_input_not_allowed", "prompt": false}},
+    {"id": "no-match", "request": {"tool": "channel-evidence", "text": "/channel absent-synthetic-term-92837"}, "expected": {"pipeline_exit_code": 0, "status": "no_match", "record_count": 0, "prompt": false}},
+    {"id": "illegal", "request": {"tool": "channel-evidence", "text": "/unknown launch"}, "expected": {"pipeline_exit_code": 1, "status": "held", "reason_code": "entry_command_unsupported", "reader_count": 0}},
+    {"id": "nested", "request": {"tool": "channel-evidence", "text": "/channel launch /history anything"}, "expected": {"pipeline_exit_code": 1, "status": "held", "reason_code": "entry_multiple_commands", "reader_count": 0}}
+  ],
+  "invalid": [
+    {"id": "acl-injection", "request": {"tool": "channel-prepare", "text": "/channel launch", "access_scope": {"read_scopes": ["*"]}}, "http_status": 400, "reason_code": "native_request_fields_invalid"},
+    {"id": "path-injection", "request": {"tool": "channel-prepare", "text": "/channel launch", "config": "untrusted.json"}, "http_status": 400, "reason_code": "native_request_fields_invalid"},
+    {"id": "unknown-tool", "request": {"tool": "generate", "text": "/channel launch"}, "http_status": 400, "reason_code": "native_tool_not_registered"},
+    {"id": "blank", "request": {"tool": "channel-evidence", "text": " \t\n"}, "http_status": 400, "reason_code": "question_text_invalid"},
+    {"id": "non-string", "request": {"tool": "channel-evidence", "text": ["/channel launch"]}, "http_status": 400, "reason_code": "question_text_invalid"}
+  ],
+  "envelope_example": {"synthetic": true, "workspace_id": "CURRENT_WORKSPACE_ID", "request_id": "review-example-001", "request": {"tool": "channel-prepare", "text": "/channel launch"}},
+  "invariants": {"model_invoked": false, "public_output": "not_attempted", "generated_answer": null},
+  "replay": {"same_id_same_request": "same saved receipt; replayed=true; no native rerun", "same_id_changed_request": "409 request_id_conflict", "revision": "new request_id; no content rewrite; trusted native reader selects current revision"},
+  "evidence_scope": "Expected outcomes reference the saved stable c9d9637d2ad9f2577c8f77320874b2d1d98702554fc0e0049831fdeff67a91be run; later dependency graphs require their own stable integration evidence."
+}

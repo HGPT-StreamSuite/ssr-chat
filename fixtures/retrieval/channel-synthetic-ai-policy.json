@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.1",
+  "policy_id": "synthetic-channel-answer-test-v1",
+  "grants": [
+    {
+      "scope": {
+        "channel_id": "channel-a",
+        "content_version": "v1",
+        "domain": "channel_knowledge",
+        "game_id": "synthetic-game",
+        "platform": "synthetic-chat",
+        "session_id": "session-001"
+      },
+      "source_id": "synthetic-secondary",
+      "record_id": "secondary-alpha",
+      "revision": 1,
+      "layer": "raw",
+      "source_kind": "synthetic",
+      "content_sha256": "2ea3ed34bbb5bfdef8581268decaa4370bdcc7431ffa6c6c5587d05047dd5fcd",
+      "ai_input": {
+        "status": "allowed",
+        "basis": "Explicit AI-input permission for authored synthetic fixture in this isolated local test; not a real-data policy"
+      }
+    },
+    {
+      "scope": {
+        "channel_id": "channel-a",
+        "content_version": "v1",
+        "domain": "channel_knowledge",
+        "game_id": "synthetic-game",
+        "platform": "synthetic-chat",
+        "session_id": "session-001"
+      },
+      "source_id": "synthetic-main",
+      "record_id": "alpha",
+      "revision": 2,
+      "layer": "raw",
+      "source_kind": "synthetic",
+      "content_sha256": "a32bb340bc77a65b4d74ba395348e832f8df214369af6f57100f42442730f29c",
+      "ai_input": {
+        "status": "allowed",
+        "basis": "Explicit AI-input permission for authored synthetic fixture in this isolated local test; not a real-data policy"
+      }
+    }
+  ]
+}

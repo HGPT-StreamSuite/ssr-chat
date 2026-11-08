@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.1",
+  "profile": "chat_store_raw_record_readback_synthetic_v1",
+  "synthetic": true,
+  "provider_checkout": "repos/components/hgpt-chat-store",
+  "caller_profile": "interfaces/record-get-caller-profile.synthetic.json",
+  "caller_profile_sha256": "f657ecaf8b4d2d6ec86efa0bc377c137e07ad68ebe5239292d5885e716c83e12",
+  "producer_manifest": "interfaces/record-get-producer.json",
+  "producer_source_sha256": "509f6d2a5c5212dd9ef1615e01ba7d169f296d0f3b0585c2bbbc3db1dffe996a",
+  "final_manifest": "acceptance/independent-verification.json",
+  "final_manifest_sha256": "3f917030649ac0fe91e0f8fbf81d3367ad8de90604e3bf983a3277a894516791",
+  "final_source_sha256": "453bff8f8b60a87453d6aa9d5eac131742932dea2a279e3a2531d102beee19a4",
+  "database_sha256": "6597e1c12e495ad12bb13b28bc46cca5ad250edc151bc594da662692628cdc0b",
+  "binding_sha256": "3519572ab37a2f91186a6e49ee9533324bdd46225d648c351502adb53e619b30",
+  "policy_sha256": "076ef0e17141c6754d9211bd7eae51e59408dfb34829f49bb4ed071842cfa661",
+  "reference_receipt_sha256": "756b5c04e89a2b3f8e42087dcdb690396459422db328c52ef9c52fad9429d9ec",
+  "record_sha256": "95aa89501a96faa4232f9f5b29a86fd4269c283aa1d1e960912e4827ed6203a8",
+  "policy_override": null
+}

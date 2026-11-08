@@ -1,0 +1,14 @@
+{
+  "coordinator_snapshot_sha256": "6adff80595283f0fb33ca5f50a6b1a18de6dc4ff47fe750441362c595ec939eb",
+  "files_sha256": {
+    "events-draft.jsonl": "280a1aa0605fbddeffe9bc14f07eeb6847e53573cd33c5ef6a015ee870c9d00f",
+    "events-other-channel.jsonl": "3d9bd4e0a0fdb7a84f3ef0a0a963a8d793eb677c843cc10597b89d75e63f0723",
+    "events-published.jsonl": "e50b2893e729d9c5d0ebe2a458bad75b4fe0ffdb5cbc9d0f706c95dc117d19ec",
+    "events-raw.jsonl": "de5e9091a1aa322936ad991973da54ab9fc95b2a3f2ac0320c6845d1f17a3c64",
+    "events-secondary.jsonl": "e6036c455d284b0b850ad16a734f4c8823b8ec637a77650ad49efb4750978a6d",
+    "host-template.json": "9590943e3c521e141d274fa94398be3d8e5ecd63970995ff4289180a80fa2e68",
+    "purpose-policy-prohibited.json": "508b4c6e4dca693d46a9e40ba015e653b84d259e516912ea78fdff07d4452b47",
+    "purpose-policy.json": "a0d9d7ff5e4cfde32b210b83129a028d04b768a38cef65475de0b9f29f5136b0",
+    "reader-config.json": "18aa94e00e113e6da1d57462fc0ab1ee8cec4175549121bcfcf4cf834aeefa51"
+  }
+}

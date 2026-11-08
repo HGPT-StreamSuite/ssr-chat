@@ -1,0 +1,348 @@
+Source fingerprint at this attempt: adc8bc53a4c5fc7eac1ecdfd754576c31f9f1f72137e43c125e79f211c83a787
+Base HEAD: 541c296d0f63fe4a83eed32a2beaaeea2e69fae7, with new review UI changes uncommitted.
+Initial attempted command:
+uv --cache-dir C:\Projects\StreamSuite\runtime\uv-cache --offline run --no-sync python -B -X utf8 -m unittest discover -s tests -p test_review_web.py -v
+UV_PROJECT_ENVIRONMENT=C:\Projects\StreamSuite\runtime\envs\development-live-lifecycle
+Outcome: exit 1; 17 test methods, 11 WorkspaceTests pass, real-loopback class affected by WinError 10013; unittest reports 14 errors including subtests.
+No retry, alternate port, shell or browser connection was attempted after observing the denial. No server was started on 8826.
+The following is the tool-returned output, which was truncated by the tool; it is not represented as a complete raw process log.
+
+Warning: truncated output (original token count: 10231)
+Total output lines: 551
+
+���զb 'FileSystem' ���Ѫ̤W���� InitializDefaultDrives �@�~���ѡC
+test_cross_origin_token_and_host_rejections_do_not_execute (test_review_web.HttpReviewTests.test_cross_origin_token_and_host_rejections_do_not_execute) ... 
+  test_cross_origin_token_and_host_rejections_do_not_execute (test_review_web.HttpReviewTests.test_cross_origin_token_and_host_rejections_do_not_execute) (headers={'Origin': 'https://untrusted.invalid'}) ... ERROR
+  test_cross_origin_token_and_host_rejections_do_not_execute (test_review_web.HttpReviewTests.test_cross_origin_token_and_host_rejections_do_not_execute) (headers={'X-SSR-Review-Token': 'wrong'}) ... ERROR
+  test_cross_origin_token_and_host_rejections_do_not_execute (test_review_web.HttpReviewTests.test_cross_origin_token_and_host_rejections_do_not_execute) (headers={'Host': 'untrusted.invalid'}) ... ERROR
+  test_cross_origin_token_and_host_rejections_do_not_execute (test_review_web.HttpReviewTests.test_cross_origin_token_and_host_rejections_do_not_execute) (headers={'X-SSR-Review-Token': 'é'}) ... ERROR
+test_cross_origin_token_and_host_rejections_do_not_execute (test_review_web.HttpReviewTests.test_cross_origin_token_and_host_rejections_do_not_execute) ... ERROR
+test_evidence_labels_history_and_unresolved_g01 (test_review_web.HttpReviewTests.test_evidence_labels_history_and_unresolved_g01) ... ERROR
+test_invalid_json_duplicates_nonfinite_content_type_and_size (test_review_web.HttpReviewTests.test_invalid_json_duplicates_nonfinite_content_type_and_size) ... 
+  test_invalid_json_duplicates_nonfinite_content_type_and_size (test_review_web.HttpReviewTests.test_invalid_json_duplicates_nonfinite_content_type_and_size) (raw=b'{') ... ERROR
+  test_invalid_json_duplicates_nonfinite_content_type_and_size (test_review_web.HttpReviewTests.test_invalid_json_duplicates_nonfinite_content_type_and_size) (raw=b'[]') ... ERROR
+  test_invalid_json_duplicates_nonfinite_content_type_and_size (test_review_web.HttpReviewTests.test_invalid_json_duplicates_nonfinite_content_type_and_size) (raw=b'{"x":1,"x":2}') ... ERROR
+  test_invalid_json_duplicates_nonfinite_content_type_and_size (test_review_web.HttpReviewTests.test_invalid_json_duplicates_nonfinite_content_type_and_size) (raw=b'{"x":NaN}') ... ERROR
+test_invalid_json_duplicates_nonfinite_content_type_and_size (test_review_web.HttpReviewTests.test_invalid_json_duplicates_nonfinite_content_type_and_size) ... ERROR
+test_no_file_browsing_or_external_adapter_endpoints (test_review_web.HttpReviewTests.test_no_file_browsing_or_external_adapter_endpoints) ... ERROR
+test_page_assets_and_actual_http_input_output (test_review_web.HttpReviewTests.test_page_assets_and_actual_http_input_output) ... ERROR
+test_reset_and_stale_workspace (test_review_web.HttpReviewTests.test_reset_and_stale_workspace) ... ERROR
+test_concurrent_identical_operations_execute_once (test_review_web.WorkspaceTests.test_concurrent_identical_operations_execute_once) ... ok
+test_duplicate_event_is_held_but_same_operation_replays_receipt (test_review_web.WorkspaceTests.test_duplicate_event_is_held_but_same_operation_replays_receipt) ... ok
+test_followup_context_is_same_room_only (test_review_web.WorkspaceTests.test_followup_context_is_same_room_only) ... ok
+test_metadata_is_sanitized_and_criteria_have_fourteen_specific_cases (test_review_web.WorkspaceTests.test_metadata_is_sanitized_and_criteria_have_fourteen_specific_cases) ... ok
+test_missing_untriggered_and_self_use_real_sop_without_model (test_review_web.WorkspaceTests.test_missing_untriggered_and_self_use_real_sop_without_model) ... ok
+test_model_failure_retains_runtime_error_and_no_delivery (test_review_web.WorkspaceTests.test_model_failure_retains_runtime_error_and_no_delivery) ... ok
+test_operation_limit_rejects_new_work_without_model (test_review_web.WorkspaceTests.test_operation_limit_rejects_new_work_without_model) ... ok
+test_real_fixture_runtime_returns_answer_prompt_trace_and_never_sends (test_review_web.WorkspaceTests.test_real_fixture_runtime_returns_answer_prompt_trace_and_never_sends) ... ok
+test_request_id_conflict_preserves_original_receipt (test_review_web.WorkspaceTests.test_request_id_conflict_preserves_original_receipt) ... ok
+test_reset_does_not_reuse_or_delete_previous_workspace (test_review_web.WorkspaceTests.test_reset_does_not_reuse_or_delete_previous_workspace) ... ok
+test_untrusted_fields_types_and_real_sources_never_reach_runtime (test_review_web.WorkspaceTests.test_untrusted_fields_types_and_real_sources_never_reach_runtime) ... ok
+
+======================================================================
+ERROR: test_cross_origin_token_and_host_rejections_do_not_execute (test_review_web.HttpReviewTests.test_cross_origin_token_and_host_rejections_do_not_execute) (headers={'Origin': 'https://untrusted.invalid'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 185, in test_cross_origin_token_and_host_rejections_do_not_execute
+    code, body, _ = self.request("POST", "/api/run", self.run_body(), **headers)
+                    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 156, in request
+    connection.request(method, path, body=raw, headers=headers)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1358, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1404, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1353, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1113, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1057, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1023, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 864, in create_connection
+    raise exceptions[0]
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 849, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+PermissionError: [WinError 10013] 嘗試存取通訊端被拒絕，因為存取權限不足。
+
+======================================================================
+ERROR: test_cross_origin_token_and_host_rejections_do_not_execute (test_review_web.HttpReviewTests.test_cross_origin_token_and_host_rejections_do_not_execute) (headers={'X-SSR-Review-Token': 'wrong'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 185, in test_cross_origin_token_and_host_rejections_do_not_execute
+    code, body, _ = self.request("POST", "/api/run", self.run_body(), **headers)
+                    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 156, in request
+    connection.request(method, path, body=raw, headers=headers)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1358, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1404, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1353, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1113, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1057, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1023, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 864, in create_connection
+    raise exceptions[0]
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 849, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+PermissionError: [WinError 10013] 嘗試存取通訊端被拒絕，因為存取權限不足。
+
+======================================================================
+ERROR: test_cross_origin_token_and_host_rejections_do_not_execute (test_review_web.HttpReviewTests.test_cross_origin_token_and_host_rejections_do_not_execute) (headers={'Host': 'untrusted.invalid'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 185, in test_cross_origin_token_and_host_rejections_do_not_execute
+    code, body, _ = self.request("POST", "/api/run", self.run_body(), **headers)
+                    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 156, in request
+    connection.request(method, path, body=raw, headers=headers)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1358, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1404, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1353, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1113, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1057, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1023, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 864, in create_connection
+    raise exceptions[0]
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 849, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+PermissionError: [WinError 10013] 嘗試存取通訊端被拒絕，因為存取權限不足。
+
+======================================================================
+ERROR: test_cross_origin_token_and_host_rejections_do_not_execute (test_review_web.HttpReviewTests.test_cross_origin_token_and_host_rejections_do_not_execute) (headers={'X-SSR-Review-Token': 'é'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 185, in test_cross_origin_token_and_host_r…3731 tokens truncated…or: [WinError 10013] 嘗試存取通訊端被拒絕，因為存取權限不足。
+
+======================================================================
+ERROR: test_invalid_json_duplicates_nonfinite_content_type_and_size (test_review_web.HttpReviewTests.test_invalid_json_duplicates_nonfinite_content_type_and_size) (raw=b'{"x":NaN}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 194, in test_invalid_json_duplicates_nonfinite_content_type_and_size
+    self.assertEqual(self.request("POST", "/api/run", raw)[0], 400)
+                     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 156, in request
+    connection.request(method, path, body=raw, headers=headers)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1358, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1404, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1353, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1113, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1057, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1023, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 864, in create_connection
+    raise exceptions[0]
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 849, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+PermissionError: [WinError 10013] 嘗試存取通訊端被拒絕，因為存取權限不足。
+
+======================================================================
+ERROR: test_invalid_json_duplicates_nonfinite_content_type_and_size (test_review_web.HttpReviewTests.test_invalid_json_duplicates_nonfinite_content_type_and_size)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 195, in test_invalid_json_duplicates_nonfinite_content_type_and_size
+    self.assertEqual(self.request("POST", "/api/run", b"x" * (MAX_BODY + 1))[0], 413)
+                     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 156, in request
+    connection.request(method, path, body=raw, headers=headers)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1358, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1404, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1353, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1113, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1057, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1023, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 864, in create_connection
+    raise exceptions[0]
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 849, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+PermissionError: [WinError 10013] 嘗試存取通訊端被拒絕，因為存取權限不足。
+
+======================================================================
+ERROR: test_no_file_browsing_or_external_adapter_endpoints (test_review_web.HttpReviewTests.test_no_file_browsing_or_external_adapter_endpoints)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 209, in test_no_file_browsing_or_external_adapter_endpoints
+    self.assertEqual(self.request("GET", path)[0], 404)
+                     ~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 156, in request
+    connection.request(method, path, body=raw, headers=headers)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1358, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1404, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1353, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1113, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1057, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1023, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 864, in create_connection
+    raise exceptions[0]
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 849, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+PermissionError: [WinError 10013] 嘗試存取通訊端被拒絕，因為存取權限不足。
+
+======================================================================
+ERROR: test_page_assets_and_actual_http_input_output (test_review_web.HttpReviewTests.test_page_assets_and_actual_http_input_output)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 169, in test_page_assets_and_actual_http_input_output
+    code, value, headers = self.request("GET", path)
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 156, in request
+    connection.request(method, path, body=raw, headers=headers)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1358, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1404, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1353, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1113, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1057, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1023, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 864, in create_connection
+    raise exceptions[0]
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 849, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+PermissionError: [WinError 10013] 嘗試存取通訊端被拒絕，因為存取權限不足。
+
+======================================================================
+ERROR: test_reset_and_stale_workspace (test_review_web.HttpReviewTests.test_reset_and_stale_workspace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 202, in test_reset_and_stale_workspace
+    code, reset, _ = self.request("POST", "/api/reset", json.dumps({"workspace_id": self.app.workspace_id}).encode())
+                     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\StreamSuite\repos\ssr-chat\tests\test_review_web.py", line 156, in request
+    connection.request(method, path, body=raw, headers=headers)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1358, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1404, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1353, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1113, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1057, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 1023, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 864, in create_connection
+    raise exceptions[0]
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 849, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+PermissionError: [WinError 10013] 嘗試存取通訊端被拒絕，因為存取權限不足。
+
+----------------------------------------------------------------------
+Ran 17 tests in 3.121s
+
+FAILED (errors=14)
+

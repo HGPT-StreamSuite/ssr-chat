@@ -1,0 +1,67 @@
+{
+  "synthetic": true,
+  "request": {
+    "schema_version": "1.0.1",
+    "request_id": "synthetic-placeholder",
+    "text": "synthetic-placeholder",
+    "scope": {
+      "domain": "stt_transcript",
+      "platform": "synthetic-authored-stt",
+      "channel_id": "synthetic-answer-channel",
+      "game_id": null,
+      "session_id": "synthetic-answer-session",
+      "content_version": "synthetic-stt-v1"
+    },
+    "layer": "raw",
+    "limit": 1,
+    "conditions": {},
+    "time_from": "2026-10-30T12:00:00Z",
+    "time_to": "2026-10-30T12:00:10Z"
+  },
+  "trusted_context": {
+    "synthetic": true,
+    "actor_account_id": "synthetic-answer-speaker-a",
+    "person_id": null,
+    "identity_hint": null,
+    "scope": {
+      "domain": null,
+      "platform": "synthetic-authored-stt",
+      "channel_id": "synthetic-answer-channel",
+      "game_id": null,
+      "session_id": "synthetic-answer-session",
+      "content_version": "synthetic-stt-v1"
+    },
+    "current_event": {},
+    "games": [],
+    "resolved_people": [],
+    "supported_conditions": {},
+    "access_scope": {
+      "read_scopes": [
+        {
+          "domain": "stt_transcript",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-authored-stt"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "synthetic-answer-channel"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": "synthetic-answer-session"
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": "synthetic-stt-v1"
+          }
+        }
+      ],
+      "write_scopes": []
+    }
+  }
+}

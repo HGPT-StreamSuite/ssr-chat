@@ -1,0 +1,64 @@
+{
+  "synthetic": true,
+  "request": {
+    "schema_version": "1.0.1",
+    "request_id": "synthetic-server-placeholder",
+    "text": "synthetic-server-placeholder",
+    "scope": {
+      "domain": "stt_transcript",
+      "platform": "synthetic-local",
+      "channel_id": "synthetic-channel-a",
+      "game_id": "synthetic-game-a",
+      "session_id": "synthetic-session-001",
+      "content_version": "v1-synthetic"
+    },
+    "limit": 100,
+    "layer": "published"
+  },
+  "trusted_context": {
+    "synthetic": true,
+    "actor_account_id": "synthetic-speaker-a",
+    "person_id": null,
+    "identity_hint": null,
+    "scope": {
+      "domain": null,
+      "platform": "synthetic-local",
+      "channel_id": "synthetic-channel-a",
+      "game_id": "synthetic-game-a",
+      "session_id": "synthetic-session-001",
+      "content_version": "v1-synthetic"
+    },
+    "current_event": {},
+    "games": [],
+    "resolved_people": [],
+    "supported_conditions": {},
+    "access_scope": {
+      "read_scopes": [
+        {
+          "domain": "stt_transcript",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-local"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "synthetic-channel-a"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": "synthetic-game-a"
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": "synthetic-session-001"
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": "v1-synthetic"
+          }
+        }
+      ],
+      "write_scopes": []
+    }
+  }
+}

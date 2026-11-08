@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ssr-chat:review-native:v1:request",
+  "title": "ssr-chat.review-native.v1 request (local synthetic review only)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["synthetic", "workspace_id", "request_id", "request"],
+  "properties": {
+    "synthetic": {"const": true},
+    "workspace_id": {"type": "string", "description": "Exact current workspace_id from GET /api/meta; stale IDs return 409."},
+    "request_id": {"type": "string", "pattern": "^review-[a-zA-Z0-9-]{1,80}$"},
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tool", "text"],
+      "properties": {
+        "tool": {"enum": ["channel-evidence", "channel-prepare", "channel-purpose-denied"]},
+        "text": {"type": "string", "minLength": 1, "maxLength": 2000, "pattern": "\\S"}
+      }
+    }
+  },
+  "$comment": "Structural contract only. Server also enforces current workspace, operation count, idempotency, strict JSON, Host/Origin/token and fixed trusted registrations. This version labels the local web envelope; native shared schema_version remains 1.0.1. No schema validator dependency is installed."
+}

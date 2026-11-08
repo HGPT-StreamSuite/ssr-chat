@@ -1,0 +1,49 @@
+{
+  "method": "read_existing_native_receipts_no_rerun",
+  "case_file_sha256": "80ef09e3a2ecc9314e0a9514ca43320b14ca7979a9da5e5d9b820f401f2a34ce",
+  "scope": "historical c9 graph; excludes new interface_version metadata and later code/dependencies",
+  "results": [
+    {
+      "case": "evidence",
+      "status": "matched_saved_real_receipt",
+      "receipt": "C:\\Projects\\StreamSuite\\evidence\\development\\native-review-web-tests\\6349288e530b4853b899724a82955173\\evidence.response.json",
+      "receipt_sha256": "8f156f1b1b26636dbf72ea84b9e6a588a5457f6d95664188629582b7c530c76e",
+      "snapshot": "c9d9637d2ad9f2577c8f77320874b2d1d98702554fc0e0049831fdeff67a91be"
+    },
+    {
+      "case": "prepare",
+      "status": "matched_saved_real_receipt",
+      "receipt": "C:\\Projects\\StreamSuite\\evidence\\development\\native-review-web-tests\\6349288e530b4853b899724a82955173\\prepare.response.json",
+      "receipt_sha256": "58363aca60f80b08a71e6633316277877e8c38303ce2a8a2847bf52c943e57a7",
+      "snapshot": "c9d9637d2ad9f2577c8f77320874b2d1d98702554fc0e0049831fdeff67a91be"
+    },
+    {
+      "case": "denied",
+      "status": "matched_saved_real_receipt",
+      "receipt": "C:\\Projects\\StreamSuite\\evidence\\development\\native-review-web-tests\\6349288e530b4853b899724a82955173\\purpose-denied.response.json",
+      "receipt_sha256": "1c7089b5abf748c47a3f6f5d569202d9a7219f186d802817fd5a44fcc76f2cdb",
+      "snapshot": "c9d9637d2ad9f2577c8f77320874b2d1d98702554fc0e0049831fdeff67a91be"
+    },
+    {
+      "case": "no-match",
+      "status": "matched_saved_real_receipt",
+      "receipt": "C:\\Projects\\StreamSuite\\evidence\\development\\native-review-web-tests\\6349288e530b4853b899724a82955173\\no-match.response.json",
+      "receipt_sha256": "90f348767de8e2e26caa8facf40ba86093528940a3327938b1ebfd01a0477571",
+      "snapshot": "c9d9637d2ad9f2577c8f77320874b2d1d98702554fc0e0049831fdeff67a91be"
+    },
+    {
+      "case": "illegal",
+      "status": "matched_saved_real_receipt",
+      "receipt": "C:\\Projects\\StreamSuite\\evidence\\development\\native-review-web-tests\\6349288e530b4853b899724a82955173\\illegal.response.json",
+      "receipt_sha256": "c5c06c294ad2ff6f7ebb59307bf98b3eb1395b24cbc353fa2d1d211962d608d3",
+      "snapshot": "c9d9637d2ad9f2577c8f77320874b2d1d98702554fc0e0049831fdeff67a91be"
+    },
+    {
+      "case": "nested",
+      "status": "matched_saved_real_receipt",
+      "receipt": "C:\\Projects\\StreamSuite\\evidence\\development\\native-review-web-tests\\6349288e530b4853b899724a82955173\\nested.response.json",
+      "receipt_sha256": "cd3a3f4142e5c32f7d618f4915eb0752dc1a9383ca5da4fa0032606b0c98c7a2",
+      "snapshot": "c9d9637d2ad9f2577c8f77320874b2d1d98702554fc0e0049831fdeff67a91be"
+    }
+  ]
+}

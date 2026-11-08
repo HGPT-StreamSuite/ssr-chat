@@ -1,0 +1,10 @@
+test_cli_inventory_covers_every_registered_command (test_interface_contracts.InterfaceContractTests.test_cli_inventory_covers_every_registered_command) ... ok
+test_examples_have_registered_tools_and_match_public_schema (test_interface_contracts.InterfaceContractTests.test_examples_have_registered_tools_and_match_public_schema) ... ok
+test_invalid_contract_cases_fail_before_native_registration (test_interface_contracts.InterfaceContractTests.test_invalid_contract_cases_fail_before_native_registration) ... ok
+test_review_source_identity_changes_when_interface_contract_changes (test_interface_contracts.InterfaceContractTests.test_review_source_identity_changes_when_interface_contract_changes) ... ok
+test_unconfigured_api_routes_do_not_fall_back_to_chat_or_model (test_interface_contracts.InterfaceContractTests.test_unconfigured_api_routes_do_not_fall_back_to_chat_or_model) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.380s
+
+OK

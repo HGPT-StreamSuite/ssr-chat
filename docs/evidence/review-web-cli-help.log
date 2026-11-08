@@ -1,0 +1,8 @@
+usage: review_web.py [-h] [--port PORT]
+
+Loopback-only, synthetic ChatRuntime review UI. No external adapters or
+installs.
+
+options:
+  -h, --help   show this help message and exit
+  --port PORT

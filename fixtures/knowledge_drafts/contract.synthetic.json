@@ -1,0 +1,583 @@
+{
+  "binding": {
+    "source_id": "synthetic-channel-source",
+    "actor_account_id": "synthetic-channel-author-1",
+    "scope": {
+      "domain": "channel_knowledge",
+      "platform": "synthetic-channel-platform",
+      "channel_id": "synthetic-channel-A",
+      "game_id": null,
+      "session_id": null,
+      "content_version": null
+    }
+  },
+  "reader_context": {
+    "principal_account_id": "synthetic-channel-caller",
+    "access_scope": {
+      "read_scopes": [
+        {
+          "domain": "channel_knowledge",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-channel-platform"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "synthetic-channel-A"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": null
+          }
+        }
+      ],
+      "write_scopes": []
+    },
+    "read_layers": [
+      "raw"
+    ],
+    "write_layers": [],
+    "operations": [
+      "get"
+    ],
+    "source_policies": [
+      {
+        "source_id": "synthetic-channel-source",
+        "source_kind": "synthetic",
+        "allow_ingest": false,
+        "allow_query": true,
+        "allow_published": false,
+        "policy_ref": "synthetic://existing-channel-storage-only",
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "channel_knowledge",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-channel-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-channel-A"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": []
+        }
+      }
+    ]
+  },
+  "draft_access": {
+    "actor_account_id": "synthetic-knowledge-editor",
+    "access_scope": {
+      "read_scopes": [
+        {
+          "domain": "channel_knowledge",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-channel-platform"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "synthetic-channel-A"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": null
+          }
+        }
+      ],
+      "write_scopes": []
+    }
+  },
+  "purpose_policy": {
+    "source_id": "synthetic-channel-source",
+    "scope": {
+      "domain": "channel_knowledge",
+      "platform": "synthetic-channel-platform",
+      "channel_id": "synthetic-channel-A",
+      "game_id": null,
+      "session_id": null,
+      "content_version": null
+    },
+    "archive_read_decision": {
+      "allowed": true,
+      "basis": "authored-synthetic-channel-archive-read"
+    },
+    "organizer_read_decision": {
+      "allowed": true,
+      "basis": "authored-synthetic-organizer-source-read"
+    },
+    "local_cache": {
+      "status": "allowed",
+      "basis": "authored-synthetic-knowledge-cache"
+    },
+    "knowledge_drafts": {
+      "status": "allowed",
+      "basis": "authored-synthetic-quote-drafts-only"
+    }
+  },
+  "caller_marks": {
+    "marks": [
+      {
+        "caller_label": "setting",
+        "source_refs": [
+          {
+            "source_id": "synthetic-channel-source",
+            "source_event_id": "synthetic-knowledge-topic-1",
+            "record_id": "synthetic-knowledge-record-1",
+            "revision": 2,
+            "start": 0,
+            "end": 16
+          }
+        ]
+      },
+      {
+        "caller_label": "audience_claim",
+        "source_refs": [
+          {
+            "source_id": "synthetic-channel-source",
+            "source_event_id": "synthetic-knowledge-topic-2",
+            "record_id": "synthetic-knowledge-record-2",
+            "revision": 1,
+            "start": 0,
+            "end": 16
+          }
+        ]
+      }
+    ]
+  },
+  "records": [
+    {
+      "schema_version": "1.0.1",
+      "source_id": "synthetic-channel-source",
+      "source_event_id": "synthetic-knowledge-topic-1",
+      "record_id": "synthetic-knowledge-record-1",
+      "revision": 2,
+      "event_time": "2026-11-04T00:03:00Z",
+      "received_at": "2026-11-04T00:06:00Z",
+      "actor_account_id": "synthetic-channel-author-1",
+      "text": "合成頻道公告：每週四進行問答。🧪",
+      "record_kind": "raw_event",
+      "quality_flags": [
+        "synthetic"
+      ],
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-channel-platform",
+        "channel_id": "synthetic-channel-A",
+        "game_id": null,
+        "session_id": null,
+        "content_version": null
+      },
+      "access_scope": {
+        "read_scopes": [
+          {
+            "domain": "channel_knowledge",
+            "platform": {
+              "mode": "exact",
+              "value": "synthetic-channel-platform"
+            },
+            "channel_id": {
+              "mode": "exact",
+              "value": "synthetic-channel-A"
+            },
+            "game_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "session_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "content_version": {
+              "mode": "exact",
+              "value": null
+            }
+          }
+        ],
+        "write_scopes": [
+          {
+            "domain": "channel_knowledge",
+            "platform": {
+              "mode": "exact",
+              "value": "synthetic-channel-platform"
+            },
+            "channel_id": {
+              "mode": "exact",
+              "value": "synthetic-channel-A"
+            },
+            "game_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "session_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "content_version": {
+              "mode": "exact",
+              "value": null
+            }
+          }
+        ]
+      },
+      "source_refs": [
+        {
+          "source_id": "synthetic-channel-source",
+          "record_id": "synthetic-knowledge-record-1",
+          "revision": 2,
+          "locator": "synthetic://knowledge-drafts/1/2",
+          "transformation_version": null
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.1",
+      "source_id": "synthetic-channel-source",
+      "source_event_id": "synthetic-knowledge-topic-2",
+      "record_id": "synthetic-knowledge-record-2",
+      "revision": 1,
+      "event_time": "2026-11-04T00:00:00Z",
+      "received_at": "2026-11-04T00:06:00Z",
+      "actor_account_id": "synthetic-channel-author-1",
+      "text": "合成觀眾說法：下次可能挑戰地圖。",
+      "record_kind": "raw_event",
+      "quality_flags": [
+        "synthetic"
+      ],
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-channel-platform",
+        "channel_id": "synthetic-channel-A",
+        "game_id": null,
+        "session_id": null,
+        "content_version": null
+      },
+      "access_scope": {
+        "read_scopes": [
+          {
+            "domain": "channel_knowledge",
+            "platform": {
+              "mode": "exact",
+              "value": "synthetic-channel-platform"
+            },
+            "channel_id": {
+              "mode": "exact",
+              "value": "synthetic-channel-A"
+            },
+            "game_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "session_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "content_version": {
+              "mode": "exact",
+              "value": null
+            }
+          }
+        ],
+        "write_scopes": [
+          {
+            "domain": "channel_knowledge",
+            "platform": {
+              "mode": "exact",
+              "value": "synthetic-channel-platform"
+            },
+            "channel_id": {
+              "mode": "exact",
+              "value": "synthetic-channel-A"
+            },
+            "game_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "session_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "content_version": {
+              "mode": "exact",
+              "value": null
+            }
+          }
+        ]
+      },
+      "source_refs": [
+        {
+          "source_id": "synthetic-channel-source",
+          "record_id": "synthetic-knowledge-record-2",
+          "revision": 1,
+          "locator": "synthetic://knowledge-drafts/2/1",
+          "transformation_version": null
+        }
+      ]
+    }
+  ],
+  "source_contract": {
+    "importer_config": {
+      "schema_version": "1.0.1",
+      "access_scope": {
+        "read_scopes": [
+          {
+            "domain": "channel_knowledge",
+            "platform": {
+              "mode": "exact",
+              "value": "synthetic-channel-platform"
+            },
+            "channel_id": {
+              "mode": "exact",
+              "value": "synthetic-channel-A"
+            },
+            "game_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "session_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "content_version": {
+              "mode": "exact",
+              "value": null
+            }
+          }
+        ],
+        "write_scopes": []
+      },
+      "sources": [
+        {
+          "source_id": "synthetic-channel-source",
+          "scope": {
+            "domain": "channel_knowledge",
+            "platform": "synthetic-channel-platform",
+            "channel_id": "synthetic-channel-A",
+            "game_id": null,
+            "session_id": null,
+            "content_version": null
+          },
+          "source_kind": "synthetic",
+          "modes": [
+            "manual"
+          ],
+          "export_paths": [
+            "export.json"
+          ],
+          "source_access_scope": {
+            "read_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "read_policy_allowed": true
+        }
+      ]
+    },
+    "store_context": {
+      "principal_account_id": "synthetic-channel-caller",
+      "access_scope": {
+        "read_scopes": [],
+        "write_scopes": [
+          {
+            "domain": "channel_knowledge",
+            "platform": {
+              "mode": "exact",
+              "value": "synthetic-channel-platform"
+            },
+            "channel_id": {
+              "mode": "exact",
+              "value": "synthetic-channel-A"
+            },
+            "game_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "session_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "content_version": {
+              "mode": "exact",
+              "value": null
+            }
+          }
+        ]
+      },
+      "read_layers": [],
+      "write_layers": [
+        "raw"
+      ],
+      "operations": [
+        "ingest"
+      ],
+      "source_policies": [
+        {
+          "source_id": "synthetic-channel-source",
+          "source_kind": "synthetic",
+          "allow_ingest": true,
+          "allow_query": false,
+          "allow_published": false,
+          "policy_ref": "synthetic://existing-channel-storage-only",
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "purpose_policy": {
+      "source_id": "synthetic-channel-source",
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-channel-platform",
+        "channel_id": "synthetic-channel-A",
+        "game_id": null,
+        "session_id": null,
+        "content_version": null
+      },
+      "uses": {
+        "local_cache": {
+          "status": "allowed",
+          "basis": "authored-synthetic-channel-storage-only"
+        },
+        "search_index": {
+          "status": "denied",
+          "basis": "authored-synthetic-channel-storage-only"
+        },
+        "ai_input": {
+          "status": "denied",
+          "basis": "authored-synthetic-channel-storage-only"
+        },
+        "ai_train": {
+          "status": "denied",
+          "basis": "authored-synthetic-channel-storage-only"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,310 @@
+{
+  "input": {
+    "request_id": "synthetic-storage-1",
+    "synthetic": true,
+    "events": [
+      {
+        "synthetic": true,
+        "source": "synthetic-source-001",
+        "raw_reference": "synthetic://hgpt-ssr/event-1/revision-1/raw",
+        "record": {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-source-001",
+          "source_event_id": "synthetic-event-1",
+          "record_id": "synthetic-record-1",
+          "revision": 1,
+          "event_time": "2026-10-30T10:00:01+08:00",
+          "received_at": "2026-10-30T02:00:02Z",
+          "actor_account_id": "synthetic-account-1",
+          "text": "  合成聊天儲存測試。\n保留空白與 é。  ",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "source_refs": [
+            {
+              "source_id": "synthetic-source-001",
+              "record_id": "synthetic-record-1",
+              "revision": 1,
+              "locator": "synthetic://hgpt-ssr/event-1/revision-1/raw",
+              "transformation_version": null
+            }
+          ],
+          "scope": {
+            "domain": "chat_history",
+            "platform": "synthetic-platform",
+            "channel_id": "synthetic-channel-001",
+            "game_id": null,
+            "session_id": "synthetic-session-001",
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "chat_history",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-001"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-session-001"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "chat_history",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-001"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": "synthetic-session-001"
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "normalizer_context": {
+    "schema_version": "1.0.1",
+    "adapter_kind": "fixture",
+    "source_kind": "synthetic",
+    "caller_access_scope": {
+      "read_scopes": [],
+      "write_scopes": [
+        {
+          "domain": "chat_history",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-platform"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "synthetic-channel-001"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": "synthetic-session-001"
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": null
+          }
+        }
+      ]
+    },
+    "sources": {
+      "synthetic-source-001": {
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "chat_history",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-channel-001"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-session-001"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "chat_history",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-channel-001"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": "synthetic-session-001"
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "write_allowed": true,
+        "read_allowed": false,
+        "policy": {
+          "uses": {
+            "local_cache": {
+              "status": "allowed",
+              "basis": "synthetic-only"
+            },
+            "search_index": {
+              "status": "allowed",
+              "basis": "synthetic-only"
+            },
+            "ai_input": {
+              "status": "denied",
+              "basis": "synthetic-no-ai-grant"
+            },
+            "ai_train": {
+              "status": "denied",
+              "basis": "synthetic-no-ai-grant"
+            }
+          }
+        }
+      }
+    }
+  },
+  "store_policy": {
+    "access_scope": {
+      "read_scopes": [],
+      "write_scopes": [
+        {
+          "domain": "chat_history",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-platform"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "synthetic-channel-001"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": "synthetic-session-001"
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": null
+          }
+        }
+      ]
+    },
+    "operations": [
+      "ingest"
+    ],
+    "sources": {
+      "synthetic-source-001": "synthetic"
+    },
+    "source_access_scopes": {
+      "synthetic-source-001": {
+        "read_scopes": [
+          {
+            "domain": "chat_history",
+            "platform": {
+              "mode": "exact",
+              "value": "synthetic-platform"
+            },
+            "channel_id": {
+              "mode": "exact",
+              "value": "synthetic-channel-001"
+            },
+            "game_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "session_id": {
+              "mode": "exact",
+              "value": "synthetic-session-001"
+            },
+            "content_version": {
+              "mode": "exact",
+              "value": null
+            }
+          }
+        ],
+        "write_scopes": [
+          {
+            "domain": "chat_history",
+            "platform": {
+              "mode": "exact",
+              "value": "synthetic-platform"
+            },
+            "channel_id": {
+              "mode": "exact",
+              "value": "synthetic-channel-001"
+            },
+            "game_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "session_id": {
+              "mode": "exact",
+              "value": "synthetic-session-001"
+            },
+            "content_version": {
+              "mode": "exact",
+              "value": null
+            }
+          }
+        ]
+      }
+    }
+  },
+  "binding": {
+    "source_id": "synthetic-source-001",
+    "actor_account_id": "synthetic-account-1",
+    "scope": {
+      "domain": "chat_history",
+      "platform": "synthetic-platform",
+      "channel_id": "synthetic-channel-001",
+      "game_id": null,
+      "session_id": "synthetic-session-001",
+      "content_version": null
+    }
+  }
+}

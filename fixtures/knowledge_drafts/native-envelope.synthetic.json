@@ -1,0 +1,358 @@
+{
+  "basis": "Captured native task-23 output on authored synthetic data; unit runners are stand-ins, not native integration proof",
+  "envelope": {
+    "audit": {
+      "counts": {
+        "candidate_items": 2,
+        "duplicate_events": 0,
+        "received_events": 2,
+        "returned_items": 2,
+        "selected_events": 2,
+        "truncated": false,
+        "unique_events": 2
+      },
+      "draft_sources": [
+        {
+          "caller_label": "setting",
+          "draft_record_id": "draft-f0fbc7ac3c81f35456d821ab80c8ebc07c5c98059619452e4c4073b89a9d6929",
+          "sources": [
+            {
+              "fragment": {
+                "end": 16,
+                "start": 0,
+                "text": "合成頻道公告：每週四進行問答。🧪"
+              },
+              "layer": "raw",
+              "record": {
+                "access_scope": {
+                  "read_scopes": [
+                    {
+                      "channel_id": {
+                        "mode": "exact",
+                        "value": "synthetic-channel-A"
+                      },
+                      "content_version": {
+                        "mode": "exact",
+                        "value": null
+                      },
+                      "domain": "channel_knowledge",
+                      "game_id": {
+                        "mode": "exact",
+                        "value": null
+                      },
+                      "platform": {
+                        "mode": "exact",
+                        "value": "synthetic-channel-platform"
+                      },
+                      "session_id": {
+                        "mode": "exact",
+                        "value": null
+                      }
+                    }
+                  ],
+                  "write_scopes": [
+                    {
+                      "channel_id": {
+                        "mode": "exact",
+                        "value": "synthetic-channel-A"
+                      },
+                      "content_version": {
+                        "mode": "exact",
+                        "value": null
+                      },
+                      "domain": "channel_knowledge",
+                      "game_id": {
+                        "mode": "exact",
+                        "value": null
+                      },
+                      "platform": {
+                        "mode": "exact",
+                        "value": "synthetic-channel-platform"
+                      },
+                      "session_id": {
+                        "mode": "exact",
+                        "value": null
+                      }
+                    }
+                  ]
+                },
+                "actor_account_id": "synthetic-channel-author-1",
+                "event_time": "2026-11-04T00:03:00Z",
+                "quality_flags": [
+                  "synthetic"
+                ],
+                "received_at": "2026-11-04T00:06:00Z",
+                "record_id": "synthetic-knowledge-record-1",
+                "record_kind": "raw_event",
+                "revision": 2,
+                "schema_version": "1.0.1",
+                "scope": {
+                  "channel_id": "synthetic-channel-A",
+                  "content_version": null,
+                  "domain": "channel_knowledge",
+                  "game_id": null,
+                  "platform": "synthetic-channel-platform",
+                  "session_id": null
+                },
+                "source_event_id": "synthetic-knowledge-topic-1",
+                "source_id": "synthetic-channel-source",
+                "source_refs": [
+                  {
+                    "locator": "synthetic://knowledge-drafts/1/2",
+                    "record_id": "synthetic-knowledge-record-1",
+                    "revision": 2,
+                    "source_id": "synthetic-channel-source",
+                    "transformation_version": null
+                  }
+                ],
+                "text": "合成頻道公告：每週四進行問答。🧪"
+              },
+              "source_kind": "synthetic"
+            }
+          ],
+          "transformation_version": "hgpt-ssr/1.0.1:hook:quote_fragments/1.0:0e621c6a4159a4a429ce3c894aecff28f389375f8243a65ca2af87e5931a7df0"
+        },
+        {
+          "caller_label": "audience_claim",
+          "draft_record_id": "draft-a2423cb7b325057aa5f9dd273fd293b86f13b8c8307b4007f7c67971acbde76c",
+          "sources": [
+            {
+              "fragment": {
+                "end": 16,
+                "start": 0,
+                "text": "合成觀眾說法：下次可能挑戰地圖。"
+              },
+              "layer": "raw",
+              "record": {
+                "access_scope": {
+                  "read_scopes": [
+                    {
+                      "channel_id": {
+                        "mode": "exact",
+                        "value": "synthetic-channel-A"
+                      },
+                      "content_version": {
+                        "mode": "exact",
+                        "value": null
+                      },
+                      "domain": "channel_knowledge",
+                      "game_id": {
+                        "mode": "exact",
+                        "value": null
+                      },
+                      "platform": {
+                        "mode": "exact",
+                        "value": "synthetic-channel-platform"
+                      },
+                      "session_id": {
+                        "mode": "exact",
+                        "value": null
+                      }
+                    }
+                  ],
+                  "write_scopes": [
+                    {
+                      "channel_id": {
+                        "mode": "exact",
+                        "value": "synthetic-channel-A"
+                      },
+                      "content_version": {
+                        "mode": "exact",
+                        "value": null
+                      },
+                      "domain": "channel_knowledge",
+                      "game_id": {
+                        "mode": "exact",
+                        "value": null
+                      },
+                      "platform": {
+                        "mode": "exact",
+                        "value": "synthetic-channel-platform"
+                      },
+                      "session_id": {
+                        "mode": "exact",
+                        "value": null
+                      }
+                    }
+                  ]
+                },
+                "actor_account_id": "synthetic-channel-author-1",
+                "event_time": "2026-11-04T00:00:00Z",
+                "quality_flags": [
+                  "synthetic"
+                ],
+                "received_at": "2026-11-04T00:06:00Z",
+                "record_id": "synthetic-knowledge-record-2",
+                "record_kind": "raw_event",
+                "revision": 1,
+                "schema_version": "1.0.1",
+                "scope": {
+                  "channel_id": "synthetic-channel-A",
+                  "content_version": null,
+                  "domain": "channel_knowledge",
+                  "game_id": null,
+                  "platform": "synthetic-channel-platform",
+                  "session_id": null
+                },
+                "source_event_id": "synthetic-knowledge-topic-2",
+                "source_id": "synthetic-channel-source",
+                "source_refs": [
+                  {
+                    "locator": "synthetic://knowledge-drafts/2/1",
+                    "record_id": "synthetic-knowledge-record-2",
+                    "revision": 1,
+                    "source_id": "synthetic-channel-source",
+                    "transformation_version": null
+                  }
+                ],
+                "text": "合成觀眾說法：下次可能挑戰地圖。"
+              },
+              "source_kind": "synthetic"
+            }
+          ],
+          "transformation_version": "hgpt-ssr/1.0.1:hook:quote_fragments/1.0:0e621c6a4159a4a429ce3c894aecff28f389375f8243a65ca2af87e5931a7df0"
+        }
+      ],
+      "input_hash": "efd482d3baa60e63fc5bad12d370c1c1a7989c09707bf4d89c9f8f603a843c21",
+      "input_hash_after": "efd482d3baa60e63fc5bad12d370c1c1a7989c09707bf4d89c9f8f603a843c21",
+      "input_unchanged": true,
+      "transform_mode": "hook",
+      "transformation_version": "hgpt-ssr/1.0.1:hook:quote_fragments/1.0:0e621c6a4159a4a429ce3c894aecff28f389375f8243a65ca2af87e5931a7df0"
+    },
+    "policy_decisions": [
+      {
+        "allowed": true,
+        "operation": "read",
+        "source_kind": "synthetic"
+      },
+      {
+        "allowed": true,
+        "operation": "read",
+        "source_kind": "synthetic"
+      }
+    ],
+    "result": {
+      "blocked_by": [],
+      "domain": "channel_knowledge",
+      "evidence": [
+        {
+          "actor_account_id": "synthetic-knowledge-editor",
+          "event_time": "2026-11-04T01:33:36.791769Z",
+          "layer": "draft",
+          "match_reasons": [
+            "explicit_packet",
+            "exact_scope",
+            "caller_selected_fragments",
+            "hook_transform"
+          ],
+          "quality_flags": [
+            "synthetic",
+            "derived_draft",
+            "draft_caller_label:setting"
+          ],
+          "rank": null,
+          "received_at": "2026-11-04T01:33:36.791769Z",
+          "record_id": "draft-f0fbc7ac3c81f35456d821ab80c8ebc07c5c98059619452e4c4073b89a9d6929",
+          "revision": 1,
+          "scope": {
+            "channel_id": "synthetic-channel-A",
+            "content_version": null,
+            "domain": "channel_knowledge",
+            "game_id": null,
+            "platform": "synthetic-channel-platform",
+            "session_id": null
+          },
+          "source_event_id": "draft-f0fbc7ac3c81f35456d821ab80c8ebc07c5c98059619452e4c4073b89a9d6929",
+          "source_id": "hgpt-ssr:organizer",
+          "source_kind": "synthetic",
+          "source_refs": [
+            {
+              "locator": "hgpt-raw:?source_event_id=synthetic-knowledge-topic-1&start=0&end=16&offset_unit=unicode_codepoint&input_sha256=efd482d3baa60e63fc5bad12d370c1c1a7989c09707bf4d89c9f8f603a843c21",
+              "record_id": "synthetic-knowledge-record-1",
+              "revision": 2,
+              "source_id": "synthetic-channel-source",
+              "transformation_version": "hgpt-ssr/1.0.1:hook:quote_fragments/1.0:0e621c6a4159a4a429ce3c894aecff28f389375f8243a65ca2af87e5931a7df0"
+            },
+            {
+              "locator": "synthetic://knowledge-drafts/1/2",
+              "record_id": "synthetic-knowledge-record-1",
+              "revision": 2,
+              "source_id": "synthetic-channel-source",
+              "transformation_version": null
+            }
+          ],
+          "text": "合成頻道公告：每週四進行問答。🧪"
+        },
+        {
+          "actor_account_id": "synthetic-knowledge-editor",
+          "event_time": "2026-11-04T01:33:36.791769Z",
+          "layer": "draft",
+          "match_reasons": [
+            "explicit_packet",
+            "exact_scope",
+            "caller_selected_fragments",
+            "hook_transform"
+          ],
+          "quality_flags": [
+            "synthetic",
+            "derived_draft",
+            "draft_caller_label:audience_claim"
+          ],
+          "rank": null,
+          "received_at": "2026-11-04T01:33:36.791769Z",
+          "record_id": "draft-a2423cb7b325057aa5f9dd273fd293b86f13b8c8307b4007f7c67971acbde76c",
+          "revision": 1,
+          "scope": {
+            "channel_id": "synthetic-channel-A",
+            "content_version": null,
+            "domain": "channel_knowledge",
+            "game_id": null,
+            "platform": "synthetic-channel-platform",
+            "session_id": null
+          },
+          "source_event_id": "draft-a2423cb7b325057aa5f9dd273fd293b86f13b8c8307b4007f7c67971acbde76c",
+          "source_id": "hgpt-ssr:organizer",
+          "source_kind": "synthetic",
+          "source_refs": [
+            {
+              "locator": "hgpt-raw:?source_event_id=synthetic-knowledge-topic-2&start=0&end=16&offset_unit=unicode_codepoint&input_sha256=efd482d3baa60e63fc5bad12d370c1c1a7989c09707bf4d89c9f8f603a843c21",
+              "record_id": "synthetic-knowledge-record-2",
+              "revision": 1,
+              "source_id": "synthetic-channel-source",
+              "transformation_version": "hgpt-ssr/1.0.1:hook:quote_fragments/1.0:0e621c6a4159a4a429ce3c894aecff28f389375f8243a65ca2af87e5931a7df0"
+            },
+            {
+              "locator": "synthetic://knowledge-drafts/2/1",
+              "record_id": "synthetic-knowledge-record-2",
+              "revision": 1,
+              "source_id": "synthetic-channel-source",
+              "transformation_version": null
+            }
+          ],
+          "text": "合成觀眾說法：下次可能挑戰地圖。"
+        }
+      ],
+      "execution": {
+        "attempted_sources": [
+          {
+            "reason_code": "draft_created",
+            "source_id": "synthetic-channel-source",
+            "source_kind": "synthetic",
+            "status": "ok"
+          }
+        ],
+        "elapsed_ms": 0.751,
+        "errors": [],
+        "mode": "independent"
+      },
+      "missing_fields": [],
+      "reason_code": "draft_created",
+      "request_id": "synthetic-unit-knowledge",
+      "schema_version": "1.0.1",
+      "source_kind": [
+        "synthetic"
+      ],
+      "status": "ok"
+    }
+  }
+}

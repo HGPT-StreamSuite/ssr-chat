@@ -1,0 +1,65 @@
+{
+  "synthetic": true,
+  "request": {
+    "schema_version": "1.0.1",
+    "request_id": "synthetic-server-placeholder",
+    "text": "synthetic-server-placeholder",
+    "scope": {
+      "domain": "channel_knowledge",
+      "platform": "synthetic-chat",
+      "channel_id": "channel-a",
+      "game_id": "synthetic-game",
+      "session_id": "session-001",
+      "content_version": "v1"
+    },
+    "layer": "published",
+    "limit": 20,
+    "conditions": {}
+  },
+  "trusted_context": {
+    "synthetic": true,
+    "actor_account_id": null,
+    "person_id": null,
+    "identity_hint": null,
+    "scope": {
+      "domain": null,
+      "platform": "synthetic-chat",
+      "channel_id": "channel-a",
+      "game_id": "synthetic-game",
+      "session_id": "session-001",
+      "content_version": "v1"
+    },
+    "current_event": {},
+    "games": [],
+    "resolved_people": [],
+    "supported_conditions": {},
+    "access_scope": {
+      "read_scopes": [
+        {
+          "domain": "channel_knowledge",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-chat"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "channel-a"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": "synthetic-game"
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": "session-001"
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": "v1"
+          }
+        }
+      ],
+      "write_scopes": []
+    }
+  }
+}

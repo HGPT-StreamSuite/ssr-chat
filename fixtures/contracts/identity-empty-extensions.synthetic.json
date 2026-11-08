@@ -1,0 +1,122 @@
+{
+  "profile": "ssr-chat.identity-registered-selfref.v1",
+  "provider_wire_version": "1.0.1",
+  "registered_event": {
+    "entity_kind": "platform_account",
+    "person_id": null,
+    "record": {
+      "schema_version": "1.0.1",
+      "source_id": "synthetic-identity-records-source",
+      "source_event_id": "synthetic-identity-event-3",
+      "record_id": "synthetic-identity-record-3",
+      "revision": 1,
+      "event_time": "2026-11-04T00:00:00Z",
+      "received_at": "2026-11-04T00:06:00Z",
+      "actor_account_id": "synthetic-account-main",
+      "text": "{\"display_name\":\"合成同名註記\"}",
+      "record_kind": "raw_event",
+      "quality_flags": [
+        "synthetic"
+      ],
+      "scope": {
+        "domain": "person_profile",
+        "platform": "synthetic-identity-platform",
+        "channel_id": "synthetic-identity-channel",
+        "game_id": null,
+        "session_id": "synthetic-identity-session",
+        "content_version": null
+      },
+      "access_scope": {
+        "read_scopes": [
+          {
+            "domain": "person_profile",
+            "platform": {
+              "mode": "exact",
+              "value": "synthetic-identity-platform"
+            },
+            "channel_id": {
+              "mode": "exact",
+              "value": "synthetic-identity-channel"
+            },
+            "game_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "session_id": {
+              "mode": "exact",
+              "value": "synthetic-identity-session"
+            },
+            "content_version": {
+              "mode": "exact",
+              "value": null
+            }
+          }
+        ],
+        "write_scopes": [
+          {
+            "domain": "person_profile",
+            "platform": {
+              "mode": "exact",
+              "value": "synthetic-identity-platform"
+            },
+            "channel_id": {
+              "mode": "exact",
+              "value": "synthetic-identity-channel"
+            },
+            "game_id": {
+              "mode": "exact",
+              "value": null
+            },
+            "session_id": {
+              "mode": "exact",
+              "value": "synthetic-identity-session"
+            },
+            "content_version": {
+              "mode": "exact",
+              "value": null
+            }
+          }
+        ]
+      },
+      "source_refs": [
+        {
+          "source_id": "synthetic-identity-records-source",
+          "record_id": "synthetic-identity-record-3",
+          "revision": 1,
+          "locator": "synthetic://identity-records/3/1",
+          "transformation_version": null
+        }
+      ],
+      "extensions": {}
+    },
+    "declaration": {
+      "status": "declared",
+      "source_id": "synthetic-identity-records-source",
+      "scope": {
+        "domain": "person_profile",
+        "platform": "synthetic-identity-platform",
+        "channel_id": "synthetic-identity-channel",
+        "game_id": null,
+        "session_id": "synthetic-identity-session",
+        "content_version": null
+      },
+      "payload_sha256": "ac2e6d6401268ef2cf2a7e4546e58612f80c234fa946a5033173180378b8f3c3",
+      "basis": "authored synthetic raw annotation only; no person-account link or human approval claimed"
+    }
+  },
+  "public_input": {
+    "request_id": "synthetic-extensions-ingest",
+    "synthetic": true,
+    "operation": "ingest",
+    "events": [
+      "account-main"
+    ]
+  },
+  "required_host_action": "Register this exact synthetic event and declaration under account-main in a new isolated trusted config. Public requests cannot supply raw records or rewrite declarations.",
+  "invariants": [
+    "extensions {} preserved verbatim",
+    "absence and presence are different stable payloads",
+    "scope, ACL, purpose and self-reference unchanged",
+    "record-get selects the exact requested revision, never latest fallback"
+  ]
+}

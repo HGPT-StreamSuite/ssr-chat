@@ -1,0 +1,906 @@
+{
+  "binding": {
+    "source_id": "synthetic-channel-source",
+    "actor_account_id": "synthetic-channel-author-1",
+    "scope": {
+      "domain": "channel_knowledge",
+      "platform": "synthetic-channel-platform",
+      "channel_id": "synthetic-channel-A",
+      "game_id": null,
+      "session_id": null,
+      "content_version": null
+    }
+  },
+  "importer_config": {
+    "schema_version": "1.0.1",
+    "access_scope": {
+      "read_scopes": [
+        {
+          "domain": "channel_knowledge",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-channel-platform"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "synthetic-channel-A"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": null
+          }
+        }
+      ],
+      "write_scopes": []
+    },
+    "sources": [
+      {
+        "source_id": "synthetic-channel-source",
+        "scope": {
+          "domain": "channel_knowledge",
+          "platform": "synthetic-channel-platform",
+          "channel_id": "synthetic-channel-A",
+          "game_id": null,
+          "session_id": null,
+          "content_version": null
+        },
+        "source_kind": "synthetic",
+        "modes": [
+          "manual"
+        ],
+        "export_paths": [
+          "export.json"
+        ],
+        "source_access_scope": {
+          "read_scopes": [
+            {
+              "domain": "channel_knowledge",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-channel-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-channel-A"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "channel_knowledge",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-channel-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-channel-A"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        },
+        "read_policy_allowed": true
+      }
+    ]
+  },
+  "store_context": {
+    "principal_account_id": "synthetic-channel-caller",
+    "access_scope": {
+      "read_scopes": [],
+      "write_scopes": [
+        {
+          "domain": "channel_knowledge",
+          "platform": {
+            "mode": "exact",
+            "value": "synthetic-channel-platform"
+          },
+          "channel_id": {
+            "mode": "exact",
+            "value": "synthetic-channel-A"
+          },
+          "game_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "session_id": {
+            "mode": "exact",
+            "value": null
+          },
+          "content_version": {
+            "mode": "exact",
+            "value": null
+          }
+        }
+      ]
+    },
+    "read_layers": [],
+    "write_layers": [
+      "raw"
+    ],
+    "operations": [
+      "ingest"
+    ],
+    "source_policies": [
+      {
+        "source_id": "synthetic-channel-source",
+        "source_kind": "synthetic",
+        "allow_ingest": true,
+        "allow_query": false,
+        "allow_published": false,
+        "policy_ref": "synthetic://existing-channel-storage-only",
+        "access_scope": {
+          "read_scopes": [
+            {
+              "domain": "channel_knowledge",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-channel-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-channel-A"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ],
+          "write_scopes": [
+            {
+              "domain": "channel_knowledge",
+              "platform": {
+                "mode": "exact",
+                "value": "synthetic-channel-platform"
+              },
+              "channel_id": {
+                "mode": "exact",
+                "value": "synthetic-channel-A"
+              },
+              "game_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "session_id": {
+                "mode": "exact",
+                "value": null
+              },
+              "content_version": {
+                "mode": "exact",
+                "value": null
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "purpose_policy": {
+    "source_id": "synthetic-channel-source",
+    "scope": {
+      "domain": "channel_knowledge",
+      "platform": "synthetic-channel-platform",
+      "channel_id": "synthetic-channel-A",
+      "game_id": null,
+      "session_id": null,
+      "content_version": null
+    },
+    "uses": {
+      "local_cache": {
+        "status": "allowed",
+        "basis": "authored-synthetic-channel-storage-only"
+      },
+      "search_index": {
+        "status": "denied",
+        "basis": "authored-synthetic-channel-storage-only"
+      },
+      "ai_input": {
+        "status": "denied",
+        "basis": "authored-synthetic-channel-storage-only"
+      },
+      "ai_train": {
+        "status": "denied",
+        "basis": "authored-synthetic-channel-storage-only"
+      }
+    }
+  },
+  "exports": {
+    "first": {
+      "schema_version": "1.0.1",
+      "source_id": "synthetic-channel-source",
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-channel-platform",
+        "channel_id": "synthetic-channel-A",
+        "game_id": null,
+        "session_id": null,
+        "content_version": null
+      },
+      "events": [
+        {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-source",
+          "source_event_id": "synthetic-channel-event-1",
+          "record_id": "synthetic-channel-record-1",
+          "revision": 1,
+          "event_time": "2026-11-04T00:00:00.123456789+00:00",
+          "received_at": "2026-11-04T00:01:00Z",
+          "actor_account_id": "synthetic-channel-author-1",
+          "text": "﻿合成頻道公告\r\n  僅供隔離測試，保留原文。  ",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "channel_knowledge",
+            "platform": "synthetic-channel-platform",
+            "channel_id": "synthetic-channel-A",
+            "game_id": null,
+            "session_id": null,
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-source",
+              "record_id": "synthetic-channel-record-1",
+              "revision": 1,
+              "locator": "synthetic://channel-export/1/1",
+              "transformation_version": null
+            }
+          ]
+        }
+      ]
+    },
+    "revision2": {
+      "schema_version": "1.0.1",
+      "source_id": "synthetic-channel-source",
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-channel-platform",
+        "channel_id": "synthetic-channel-A",
+        "game_id": null,
+        "session_id": null,
+        "content_version": null
+      },
+      "events": [
+        {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-source",
+          "source_event_id": "synthetic-channel-event-1",
+          "record_id": "synthetic-channel-record-1",
+          "revision": 2,
+          "event_time": "2026-11-04T00:00:00.123456789+00:00",
+          "received_at": "2026-11-04T00:01:00Z",
+          "actor_account_id": "synthetic-channel-author-1",
+          "text": "合成頻道公告第二修訂。",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "channel_knowledge",
+            "platform": "synthetic-channel-platform",
+            "channel_id": "synthetic-channel-A",
+            "game_id": null,
+            "session_id": null,
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-source",
+              "record_id": "synthetic-channel-record-1",
+              "revision": 2,
+              "locator": "synthetic://channel-export/1/2",
+              "transformation_version": null
+            }
+          ]
+        }
+      ]
+    },
+    "redelivery": {
+      "schema_version": "1.0.1",
+      "source_id": "synthetic-channel-source",
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-channel-platform",
+        "channel_id": "synthetic-channel-A",
+        "game_id": null,
+        "session_id": null,
+        "content_version": null
+      },
+      "events": [
+        {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-source",
+          "source_event_id": "synthetic-channel-event-1",
+          "record_id": "synthetic-channel-record-1",
+          "revision": 1,
+          "event_time": "2026-11-04T00:00:00.123456789+00:00",
+          "received_at": "2026-11-04T00:02:00Z",
+          "actor_account_id": "synthetic-channel-author-1",
+          "text": "﻿合成頻道公告\r\n  僅供隔離測試，保留原文。  ",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "channel_knowledge",
+            "platform": "synthetic-channel-platform",
+            "channel_id": "synthetic-channel-A",
+            "game_id": null,
+            "session_id": null,
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-source",
+              "record_id": "synthetic-channel-record-1",
+              "revision": 1,
+              "locator": "synthetic://channel-export/1/1",
+              "transformation_version": null
+            }
+          ]
+        }
+      ]
+    },
+    "duplicate-batch": {
+      "schema_version": "1.0.1",
+      "source_id": "synthetic-channel-source",
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-channel-platform",
+        "channel_id": "synthetic-channel-A",
+        "game_id": null,
+        "session_id": null,
+        "content_version": null
+      },
+      "events": [
+        {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-source",
+          "source_event_id": "synthetic-channel-event-1",
+          "record_id": "synthetic-channel-record-1",
+          "revision": 1,
+          "event_time": "2026-11-04T00:00:00.123456789+00:00",
+          "received_at": "2026-11-04T00:01:00Z",
+          "actor_account_id": "synthetic-channel-author-1",
+          "text": "﻿合成頻道公告\r\n  僅供隔離測試，保留原文。  ",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "channel_knowledge",
+            "platform": "synthetic-channel-platform",
+            "channel_id": "synthetic-channel-A",
+            "game_id": null,
+            "session_id": null,
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-source",
+              "record_id": "synthetic-channel-record-1",
+              "revision": 1,
+              "locator": "synthetic://channel-export/1/1",
+              "transformation_version": null
+            }
+          ]
+        },
+        {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-source",
+          "source_event_id": "synthetic-channel-event-1",
+          "record_id": "synthetic-channel-record-1",
+          "revision": 1,
+          "event_time": "2026-11-04T00:00:00.123456789+00:00",
+          "received_at": "2026-11-04T00:02:00Z",
+          "actor_account_id": "synthetic-channel-author-1",
+          "text": "﻿合成頻道公告\r\n  僅供隔離測試，保留原文。  ",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "channel_knowledge",
+            "platform": "synthetic-channel-platform",
+            "channel_id": "synthetic-channel-A",
+            "game_id": null,
+            "session_id": null,
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-source",
+              "record_id": "synthetic-channel-record-1",
+              "revision": 1,
+              "locator": "synthetic://channel-export/1/1",
+              "transformation_version": null
+            }
+          ]
+        },
+        {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-source",
+          "source_event_id": "synthetic-channel-event-1",
+          "record_id": "synthetic-channel-record-1",
+          "revision": 2,
+          "event_time": "2026-11-04T00:00:00.123456789+00:00",
+          "received_at": "2026-11-04T00:01:00Z",
+          "actor_account_id": "synthetic-channel-author-1",
+          "text": "合成頻道公告第二修訂。",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "channel_knowledge",
+            "platform": "synthetic-channel-platform",
+            "channel_id": "synthetic-channel-A",
+            "game_id": null,
+            "session_id": null,
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-source",
+              "record_id": "synthetic-channel-record-1",
+              "revision": 2,
+              "locator": "synthetic://channel-export/1/2",
+              "transformation_version": null
+            }
+          ]
+        },
+        {
+          "schema_version": "1.0.1",
+          "source_id": "synthetic-channel-source",
+          "source_event_id": "synthetic-channel-event-2",
+          "record_id": "synthetic-channel-record-2",
+          "revision": 1,
+          "event_time": "2026-11-04T00:00:00.123456789+00:00",
+          "received_at": "2026-11-04T00:01:00Z",
+          "actor_account_id": "synthetic-channel-author-1",
+          "text": "﻿合成頻道公告\r\n  僅供隔離測試，保留原文。  ",
+          "record_kind": "raw_event",
+          "quality_flags": [
+            "synthetic"
+          ],
+          "scope": {
+            "domain": "channel_knowledge",
+            "platform": "synthetic-channel-platform",
+            "channel_id": "synthetic-channel-A",
+            "game_id": null,
+            "session_id": null,
+            "content_version": null
+          },
+          "access_scope": {
+            "read_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ],
+            "write_scopes": [
+              {
+                "domain": "channel_knowledge",
+                "platform": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-platform"
+                },
+                "channel_id": {
+                  "mode": "exact",
+                  "value": "synthetic-channel-A"
+                },
+                "game_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "session_id": {
+                  "mode": "exact",
+                  "value": null
+                },
+                "content_version": {
+                  "mode": "exact",
+                  "value": null
+                }
+              }
+            ]
+          },
+          "source_refs": [
+            {
+              "source_id": "synthetic-channel-source",
+              "record_id": "synthetic-channel-record-2",
+              "revision": 1,
+              "locator": "synthetic://channel-export/2/1",
+              "transformation_version": null
+            }
+          ]
+        }
+      ]
+    },
+    "empty": {
+      "schema_version": "1.0.1",
+      "source_id": "synthetic-channel-source",
+      "scope": {
+        "domain": "channel_knowledge",
+        "platform": "synthetic-channel-platform",
+        "channel_id": "synthetic-channel-A",
+        "game_id": null,
+        "session_id": null,
+        "content_version": null
+      },
+      "events": []
+    }
+  }
+}

@@ -1,0 +1,296 @@
+{
+  "source_binding": {
+    "subscription_id": "synthetic-chat-subscription",
+    "broadcaster_user_id": "1001",
+    "reader_user_id": "9001",
+    "chatter_user_id": "2001"
+  },
+  "storage_binding": {
+    "source_id": "synthetic-twitch-1001-2001",
+    "actor_account_id": "synthetic-account-1",
+    "scope": {
+      "domain": "chat_history",
+      "platform": "synthetic-twitch",
+      "channel_id": "1001",
+      "game_id": null,
+      "session_id": "synthetic-stream-1",
+      "content_version": null
+    }
+  },
+  "fixture_receipts": {
+    "00000000-0000-4000-8000-000000000001": {
+      "event_time": "2026-11-03T22:00:01Z",
+      "received_at": "2026-11-03T22:00:11Z",
+      "semantics_sha256": "8bf1e8f8ac0039a852503e427435c30248aed3ad41165b88d5c8d64992e7dcc0"
+    },
+    "00000000-0000-4000-8000-000000000002": {
+      "event_time": "2026-11-03T22:00:02Z",
+      "received_at": "2026-11-03T22:00:12Z",
+      "semantics_sha256": "2f245df8cc4405a8ec2cd83e703569c69bea1835e3d0a9ac56cb7fc7b2505e1a"
+    },
+    "00000000-0000-4000-8000-000000000003": {
+      "event_time": "2026-11-03T22:00:03Z",
+      "received_at": "2026-11-03T22:00:13Z",
+      "semantics_sha256": "0815d9c475216a2d57c06f08a28a4a13b2391f6d1cfd37a4e03ba4d6fde1a8b3"
+    },
+    "00000000-0000-4000-8000-000000000004": {
+      "event_time": "2026-11-03T22:00:04Z",
+      "received_at": "2026-11-03T22:00:14Z",
+      "semantics_sha256": "cd3a362ff3f27bb67492c07bd0632eb29166f8f9d83f3a353dee1f783de3a985"
+    }
+  },
+  "notifications": [
+    {
+      "operation": "notification",
+      "session_id": "synthetic-session-1",
+      "synthetic": true,
+      "envelope": {
+        "metadata": {
+          "message_id": "synthetic-delivery-1",
+          "message_type": "notification",
+          "message_timestamp": "2026-11-03T22:00:00.123456789Z",
+          "subscription_type": "channel.chat.message",
+          "subscription_version": "1"
+        },
+        "payload": {
+          "subscription": {
+            "id": "synthetic-chat-subscription",
+            "status": "enabled",
+            "type": "channel.chat.message",
+            "version": "1",
+            "condition": {
+              "broadcaster_user_id": "1001",
+              "user_id": "9001"
+            },
+            "transport": {
+              "method": "websocket",
+              "session_id": "synthetic-session-1"
+            },
+            "created_at": "2026-11-03T21:59:00Z",
+            "cost": 0
+          },
+          "event": {
+            "broadcaster_user_id": "1001",
+            "broadcaster_user_name": "SyntheticChannel",
+            "broadcaster_user_login": "synthetic_channel",
+            "chatter_user_id": "2001",
+            "chatter_user_name": "SyntheticViewer",
+            "chatter_user_login": "synthetic_viewer",
+            "message_id": "00000000-0000-4000-8000-000000000001",
+            "message": {
+              "text": "合成 Twitch 封存訊息一。",
+              "fragments": [
+                {
+                  "type": "text",
+                  "text": "合成 Twitch 封存訊息一。",
+                  "cheermote": null,
+                  "emote": null,
+                  "mention": null
+                }
+              ]
+            },
+            "message_type": "text",
+            "badges": [],
+            "color": "",
+            "cheer": null,
+            "reply": null,
+            "channel_points_custom_reward_id": null,
+            "source_broadcaster_user_id": null,
+            "source_message_id": null,
+            "source_badges": null,
+            "is_source_only": false
+          }
+        }
+      }
+    },
+    {
+      "operation": "notification",
+      "session_id": "synthetic-session-1",
+      "synthetic": true,
+      "envelope": {
+        "metadata": {
+          "message_id": "synthetic-delivery-1",
+          "message_type": "notification",
+          "message_timestamp": "2026-11-03T22:00:00.123456789Z",
+          "subscription_type": "channel.chat.message",
+          "subscription_version": "1"
+        },
+        "payload": {
+          "subscription": {
+            "id": "synthetic-chat-subscription",
+            "status": "enabled",
+            "type": "channel.chat.message",
+            "version": "1",
+            "condition": {
+              "broadcaster_user_id": "1001",
+              "user_id": "9001"
+            },
+            "transport": {
+              "method": "websocket",
+              "session_id": "synthetic-session-1"
+            },
+            "created_at": "2026-11-03T21:59:00Z",
+            "cost": 0
+          },
+          "event": {
+            "broadcaster_user_id": "1001",
+            "broadcaster_user_name": "SyntheticChannel",
+            "broadcaster_user_login": "synthetic_channel",
+            "chatter_user_id": "2001",
+            "chatter_user_name": "SyntheticViewer",
+            "chatter_user_login": "synthetic_viewer",
+            "message_id": "00000000-0000-4000-8000-000000000002",
+            "message": {
+              "text": "合成 Twitch 封存訊息二。",
+              "fragments": [
+                {
+                  "type": "text",
+                  "text": "合成 Twitch 封存訊息二。",
+                  "cheermote": null,
+                  "emote": null,
+                  "mention": null
+                }
+              ]
+            },
+            "message_type": "text",
+            "badges": [],
+            "color": "",
+            "cheer": null,
+            "reply": null,
+            "channel_points_custom_reward_id": null,
+            "source_broadcaster_user_id": null,
+            "source_message_id": null,
+            "source_badges": null,
+            "is_source_only": false
+          }
+        }
+      }
+    },
+    {
+      "operation": "notification",
+      "session_id": "synthetic-session-1",
+      "synthetic": true,
+      "envelope": {
+        "metadata": {
+          "message_id": "synthetic-delivery-1",
+          "message_type": "notification",
+          "message_timestamp": "2026-11-03T22:00:00.123456789Z",
+          "subscription_type": "channel.chat.message",
+          "subscription_version": "1"
+        },
+        "payload": {
+          "subscription": {
+            "id": "synthetic-chat-subscription",
+            "status": "enabled",
+            "type": "channel.chat.message",
+            "version": "1",
+            "condition": {
+              "broadcaster_user_id": "1001",
+              "user_id": "9001"
+            },
+            "transport": {
+              "method": "websocket",
+              "session_id": "synthetic-session-1"
+            },
+            "created_at": "2026-11-03T21:59:00Z",
+            "cost": 0
+          },
+          "event": {
+            "broadcaster_user_id": "1001",
+            "broadcaster_user_name": "SyntheticChannel",
+            "broadcaster_user_login": "synthetic_channel",
+            "chatter_user_id": "2001",
+            "chatter_user_name": "SyntheticViewer",
+            "chatter_user_login": "synthetic_viewer",
+            "message_id": "00000000-0000-4000-8000-000000000003",
+            "message": {
+              "text": "合成 Twitch 封存訊息三。",
+              "fragments": [
+                {
+                  "type": "text",
+                  "text": "合成 Twitch 封存訊息三。",
+                  "cheermote": null,
+                  "emote": null,
+                  "mention": null
+                }
+              ]
+            },
+            "message_type": "text",
+            "badges": [],
+            "color": "",
+            "cheer": null,
+            "reply": null,
+            "channel_points_custom_reward_id": null,
+            "source_broadcaster_user_id": null,
+            "source_message_id": null,
+            "source_badges": null,
+            "is_source_only": false
+          }
+        }
+      }
+    },
+    {
+      "operation": "notification",
+      "session_id": "synthetic-session-1",
+      "synthetic": true,
+      "envelope": {
+        "metadata": {
+          "message_id": "synthetic-delivery-1",
+          "message_type": "notification",
+          "message_timestamp": "2026-11-03T22:00:00.123456789Z",
+          "subscription_type": "channel.chat.message",
+          "subscription_version": "1"
+        },
+        "payload": {
+          "subscription": {
+            "id": "synthetic-chat-subscription",
+            "status": "enabled",
+            "type": "channel.chat.message",
+            "version": "1",
+            "condition": {
+              "broadcaster_user_id": "1001",
+              "user_id": "9001"
+            },
+            "transport": {
+              "method": "websocket",
+              "session_id": "synthetic-session-1"
+            },
+            "created_at": "2026-11-03T21:59:00Z",
+            "cost": 0
+          },
+          "event": {
+            "broadcaster_user_id": "1001",
+            "broadcaster_user_name": "SyntheticChannel",
+            "broadcaster_user_login": "synthetic_channel",
+            "chatter_user_id": "2001",
+            "chatter_user_name": "SyntheticViewer",
+            "chatter_user_login": "synthetic_viewer",
+            "message_id": "00000000-0000-4000-8000-000000000004",
+            "message": {
+              "text": "請問本頻道公告 launch 幾點？",
+              "fragments": [
+                {
+                  "type": "text",
+                  "text": "請問本頻道公告 launch 幾點？",
+                  "cheermote": null,
+                  "emote": null,
+                  "mention": null
+                }
+              ]
+            },
+            "message_type": "text",
+            "badges": [],
+            "color": "",
+            "cheer": null,
+            "reply": null,
+            "channel_points_custom_reward_id": null,
+            "source_broadcaster_user_id": null,
+            "source_message_id": null,
+            "source_badges": null,
+            "is_source_only": false
+          }
+        }
+      }
+    }
+  ]
+}
