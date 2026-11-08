@@ -59,8 +59,22 @@ class ModularAnswerTests(unittest.TestCase):
         self.assertEqual(prompt.user_text, "launch time?")
         self.assertTrue(prompt.evidence_citations)
         self.assertEqual(prompt.query_results[0]["materials"][0]["text"], self.event["text"])
-        self.assertEqual(prompt.query_results[0]["materials"][0]["source_refs"], self.event["source_refs"])
+        self.assertNotIn("source_refs", prompt.query_results[0]["materials"][0])
+        self.assertEqual(result["provided_evidence"][0]["source_refs"], self.event["source_refs"])
         self.assertEqual([item["phase"] for item in self.trace], ["prepared", "finished"])
+
+    def test_prompt_materials_are_compact_and_map_to_full_provided_evidence(self):
+        result = self.answer()
+        prompt = self.model.generate.call_args.args[0].as_dict()
+        materials = prompt["query_results"][0]["materials"]
+        self.assertEqual(prompt["query_results"][0]["sources"], [])
+        provided = {row["evidence_id"]: row for row in result["provided_evidence"]}
+        for material in materials:
+            self.assertEqual(set(material), {"evidence_id", "event_time", "text", "quality_flags"})
+            full = provided[material["evidence_id"]]
+            for key in material:
+                self.assertEqual(material[key], full[key])
+            self.assertEqual(full["content_sha256"], content_digest(self.event))
 
     def test_readable_synthetic_record_does_not_implicitly_grant_ai_use(self):
         for status in ("unknown", "prohibited", "missing"):

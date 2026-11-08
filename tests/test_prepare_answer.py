@@ -9,6 +9,7 @@ from unittest.mock import Mock
 
 from ssr_chat.modular_api import ModularRetrievalGateway
 from ssr_chat.modular_answer import (
+    model_material,
     EvidenceAnswerGateway, PurposePolicy, content_digest, encoded, load_answer_routes,
 )
 from ssr_chat.modular_entry import EntryGateway
@@ -65,7 +66,8 @@ class PrepareAnswerTests(unittest.TestCase):
         prepared = self.trace[0]
         prompt = prepared["prompt"]
         self.assertEqual(prompt["user_text"], self.payload["text"])
-        self.assertEqual(prompt["query_results"][0]["materials"], result["provided_evidence"])
+        self.assertEqual(prompt["query_results"][0]["materials"],
+                         [model_material(row, row["scope"]["domain"]) for row in result["provided_evidence"]])
         self.assertEqual(result["provided_evidence"][0]["text"], self.event["text"])
         self.assertEqual(result["provided_evidence"][0]["source_refs"], self.event["source_refs"])
         self.assertEqual(result["prompt_sha256"], hashlib.sha256(encoded(prompt)).hexdigest())

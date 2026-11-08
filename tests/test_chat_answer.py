@@ -53,7 +53,8 @@ class ChatAnswerTests(unittest.TestCase):
         prompt = self.model.generate.call_args.args[0]
         material = prompt.query_results[0]["materials"][0]
         self.assertEqual(material["actor_account_id"], "alice")
-        self.assertEqual(material["source_refs"], self.event["source_refs"])
+        self.assertNotIn("source_refs", material)
+        self.assertEqual(result["provided_evidence"][0]["source_refs"], self.event["source_refs"])
         self.assertEqual(material["text"], self.event["text"])
         self.assertEqual(prompt.analysis["intents"], ["chat_history"])
         self.assertEqual(result["public_output"], "not_attempted")

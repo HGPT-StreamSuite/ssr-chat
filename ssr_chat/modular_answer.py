@@ -35,6 +35,16 @@ def content_digest(evidence):
     return hashlib.sha256(encoded({key: evidence[key] for key in content_fields(evidence)})).hexdigest()
 
 
+MODEL_FIELDS = ("evidence_id", "event_time", "text", "quality_flags")
+
+
+def model_material(row, domain):
+    """Compact evidence for the model prompt; must keep text verbatim."""
+    fields = MODEL_FIELDS + (("actor_account_id",) if domain in ACTOR_DOMAINS else ()) \
+        + (("extensions",) if domain == "stt_transcript" else ())
+    return {key: deepcopy(row[key]) for key in fields}
+
+
 def _identity(value):
     fields = ("scope", "source_id", "record_id", "revision", "layer", "source_kind")
     if value["scope"]["domain"] in ACTOR_DOMAINS:
@@ -259,13 +269,14 @@ class EvidenceAnswerGateway:
                 return finish(reason)
         rows = [{"evidence_id": f"E{index}", **{key: deepcopy(event[key]) for key in content_fields(event)},
                  "content_sha256": content_digest(event)} for index, event in enumerate(evidence, 1)]
+        # The model receives only what it needs to answer and cite. Full provenance
+        # (scope, source_refs, content_sha256, ...) stays in provided_evidence and the
+        # trace, keyed by the same evidence_id.
         prompt = AnswerPrompt(user_text=payload["text"], context_snapshot_id=run_id, context_messages=(),
             analysis={"intents": [self.domain], "query_text": payload["text"], "snapshot_id": run_id,
                       "queries": [{"purpose": self.domain, "query_text": payload["text"]}]},
-            query_results=({"status": "ok", "materials": rows, "sources": [
-                {**{key: deepcopy(row[key]) for key in ("evidence_id", "source_id", "record_id", "revision", "scope", "source_refs", "content_sha256")},
-                 **({"actor_account_id": row["actor_account_id"]} if self.domain in ACTOR_DOMAINS else {})}
-                for row in rows]},), evidence_citations=True)
+            query_results=({"status": "ok", "materials": [model_material(row, self.domain) for row in rows],
+                            "sources": []},), evidence_citations=True)
         prompt_data = prompt.as_dict()
         if len(encoded(prompt_data)) > 12_000:
             return finish("answer_prompt_limit")
