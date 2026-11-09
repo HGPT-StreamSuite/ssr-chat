@@ -25,15 +25,17 @@ class LocalPipelineBoundaryTests(unittest.TestCase):
             write_json(path, {"original": False})
         self.assertEqual(json.loads(path.read_text(encoding="utf-8")), {"original": True})
 
-    def test_configuration_cannot_implicitly_enable_real_data(self):
-        config, input_path = self.root / "config.json", self.root / "input.json"
-        config.write_text('{"schema_version":"1.0.1","synthetic":false}', encoding="utf-8")
+    def test_incomplete_or_nonboolean_configuration_is_refused(self):
+        input_path = self.root / "input.json"
         input_path.write_text('{"request_id":"x","text":"/channel launch"}', encoding="utf-8")
-        with patch("ssr_chat.local_pipeline.load_retrieval_routes") as routes:
-            with self.assertRaisesRegex(ValueError, "explicit_synthetic"):
-                execute(config, input_path, self.root / "run")
-        routes.assert_not_called()
-        self.assertFalse((self.root / "run").exists())
+        for body in ('{"schema_version":"1.0.1","synthetic":false}', '{"schema_version":"1.0.1","synthetic":"yes"}'):
+            config = self.root / "config.json"
+            config.write_text(body, encoding="utf-8")
+            with self.subTest(body=body), patch("ssr_chat.local_pipeline.load_retrieval_routes") as routes:
+                with self.assertRaisesRegex(ValueError, "explicit_local_run_configuration_required"):
+                    execute(config, input_path, self.root / "run")
+                routes.assert_not_called()
+                self.assertFalse((self.root / "run").exists())
 
     def test_model_generation_is_not_an_available_cli_mode(self):
         with self.assertRaises(SystemExit) as error:
@@ -105,12 +107,15 @@ class LocalPipelineBoundaryTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "pipeline_component_source_binding_mismatch"):
             effective_files(path, config)
 
-    def test_non_synthetic_source_is_refused_before_any_reader_execution(self):
+    def test_local_data_source_is_accepted_and_mock_source_is_refused(self):
         path, config, _, _, reader = self.bundle()
         value = json.loads(reader.read_text(encoding="utf-8"))
         value["sources"][0]["source_kind"] = "local_data"
         reader.write_text(json.dumps(value), encoding="utf-8")
-        with self.assertRaisesRegex(ValueError, "only_explicit_synthetic_snapshots_allowed"):
+        self.assertIn(str(reader.resolve()), effective_files(path, config))
+        value["sources"][0]["source_kind"] = "mock"
+        reader.write_text(json.dumps(value), encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "only_explicit_local_snapshots_allowed"):
             effective_files(path, config)
 
     def test_alternate_checkout_is_rejected_before_source_or_tool_subprocess(self):

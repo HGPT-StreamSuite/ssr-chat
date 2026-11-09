@@ -29,8 +29,9 @@ def main(argv=None):
         parser.error("only the configured native channel-search repository is supported")
     settings = load_object(config.read_bytes())
     if (settings.get("domain") != "channel_knowledge" or not settings.get("sources")
-            or any(s.get("kind") != "snapshot" or s.get("source_kind") != "synthetic" for s in settings["sources"])):
-        parser.error("only explicit synthetic channel snapshots are supported")
+            or any(s.get("kind") != "snapshot" or s.get("source_kind") not in ("synthetic", "local_data", "real")
+                   for s in settings["sources"])):
+        parser.error("only explicit local channel snapshots are supported")
     if not root.is_dir() or root.is_symlink():
         parser.error("an existing operator-owned artifact directory is required")
     raw = sys.stdin.buffer.read(2_000_001)
@@ -45,7 +46,9 @@ def main(argv=None):
     (folder / "stdin.bin").write_bytes(raw)
     receipt = {"kind": "actual_native_channel_query", "command": command, "cwd": str(repo),
                "started_at": datetime.now(timezone.utc).isoformat(), "request_id": query.get("request_id"),
-               "input_sha256": hashlib.sha256(raw).hexdigest(), "data_mode": "synthetic", "wire_conversion": False}
+               "input_sha256": hashlib.sha256(raw).hexdigest(),
+               "data_mode": "synthetic" if all(s["source_kind"] == "synthetic" for s in settings["sources"]) else "local_data",
+               "wire_conversion": False}
     output = stderr = b""
     code = 2
     try:

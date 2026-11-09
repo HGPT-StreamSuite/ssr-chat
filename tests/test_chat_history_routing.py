@@ -117,7 +117,7 @@ class ChatHistoryRoutingTests(unittest.TestCase):
         self.assertNotIn("query_adaptations", report)
         self.assertIsNone(self.config.chat_history_intent_adapter)
 
-    def test_unmarked_or_truthy_nonboolean_requests_fail_before_any_stage(self):
+    def test_inconsistent_or_nonboolean_markers_fail_before_any_stage(self):
         for where in ("top", "trusted"):
             for marker in ("missing", False, 1, "true"):
                 request = deepcopy(self.request)
@@ -130,7 +130,7 @@ class ChatHistoryRoutingTests(unittest.TestCase):
                 with self.subTest(where=where, marker=marker), patch.object(pipeline, "_invoke") as spy:
                     with self.assertRaises(PipelineError) as caught:
                         pipeline.run(request)
-                    self.assertEqual(caught.exception.code, "chat_history_synthetic_profile_required")
+                    self.assertEqual(caught.exception.code, "chat_history_profile_required")
                     spy.assert_not_called()
 
     def assert_binding_rejection(self, plan, code):

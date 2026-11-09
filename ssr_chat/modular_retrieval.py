@@ -252,10 +252,10 @@ class ModularRetrievalPipeline:
         if self.config.chat_history_intent_adapter is not None:
             if self.config.chat_history_intent_adapter != CHAT_HISTORY_ADAPTER or self.config.chat_recent_intent_adapter is not None:
                 raise PipelineError("chat_intent_profiles_mutually_exclusive", "input")
-            if (not isinstance(request, dict) or request.get("synthetic") is not True
-                    or not isinstance(request.get("trusted_context"), dict)
-                    or request["trusted_context"].get("synthetic") is not True):
-                raise PipelineError("chat_history_synthetic_profile_required", "input")
+            if (not isinstance(request, dict) or not isinstance(request.get("trusted_context"), dict)
+                    or type(request.get("synthetic", False)) is not bool
+                    or request.get("synthetic", False) is not request["trusted_context"].get("synthetic", False)):
+                raise PipelineError("chat_history_profile_required", "input")
         if expected_domain is not None and (not isinstance(expected_domain, str) or expected_domain not in DOMAINS):
             raise PipelineError("expected_domain_invalid", "input")
         if not isinstance(request.get("request"), dict) or not isinstance(request.get("trusted_context"), dict):

@@ -28,13 +28,13 @@ class EntryGateway:
             if not isinstance(route, str):
                 raise PipelineError("entry_target_invalid")
             if route in retrieval_routes and route.startswith("/retrieve/"):
-                gateway, operation, data_mode = retrieval_routes[route], "retrieve", "declared_synthetic"
+                gateway, operation, data_modes = retrieval_routes[route], "retrieve", {"declared_synthetic", "operator_configured"}
             elif route in answer_routes and route.startswith("/answer/"):
-                gateway, operation, data_mode = answer_routes[route], "answer", "synthetic_only"
+                gateway, operation, data_modes = answer_routes[route], "answer", {"synthetic_only", "purpose_policy_gated"}
             else:
                 raise PipelineError("entry_target_not_configured")
             profile = gateway.profile
-            if (profile.get("domain") != COMMANDS[command] or profile.get("data_mode") != data_mode
+            if (profile.get("domain") != COMMANDS[command] or profile.get("data_mode") not in data_modes
                     or profile.get("public_output_enabled") is not False
                     or profile.get("layer") not in ("raw", "draft", "published")
                     or (operation == "answer" and (profile.get("layer") != "raw" or profile.get("citations_required") is not True))):

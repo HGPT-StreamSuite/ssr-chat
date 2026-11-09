@@ -111,8 +111,8 @@ def effective_files(config_path, config):
                 raise ValueError("channel_snapshot_configuration_required")
             files.add(reader_path)
             for source in reader["sources"]:
-                if source.get("kind") != "snapshot" or source.get("source_kind") != "synthetic":
-                    raise ValueError("only_explicit_synthetic_snapshots_allowed")
+                if source.get("kind") != "snapshot" or source.get("source_kind") not in ("synthetic", "local_data", "real"):
+                    raise ValueError("only_explicit_local_snapshots_allowed")
                 files.add(_file(str((reader_path.parent / source["path"]).resolve())))
     answers_path = _file(config["answer_routes_config"])
     for answer in load_object(answers_path.read_bytes())["routes"].values():
@@ -127,8 +127,8 @@ def execute(config_path, input_path, run_dir, *, mode="prepare"):
     config_path, input_path = _file(config_path), _file(input_path)
     config = load_object(config_path.read_bytes())
     required = {"schema_version", "synthetic", "retrieval_routes_config", "answer_routes_config", "entry_routes_config", "repos"}
-    if set(config) != required or config["schema_version"] != "1.0.1" or config["synthetic"] is not True:
-        raise ValueError("explicit_synthetic_local_run_configuration_required")
+    if set(config) != required or config["schema_version"] != "1.0.1" or type(config["synthetic"]) is not bool:
+        raise ValueError("explicit_local_run_configuration_required")
     names = {"ssr-chat", "hgpt-ssr-query-planner", "hgpt-ssr-dispatcher", "hgpt-ssr-channel-search", "hgpt-ssr-evidence-collector"}
     if not isinstance(config["repos"], dict) or set(config["repos"]) != names:
         raise ValueError("five_native_component_versions_required")
@@ -148,7 +148,7 @@ def execute(config_path, input_path, run_dir, *, mode="prepare"):
     output.mkdir(parents=True, exist_ok=False)
     receipt = {"receipt_schema": "ssr-chat.local-native-execution.v1", "execution_id": "local-" + uuid4().hex,
                "request_id": payload.get("request_id"), "started_at": datetime.now(timezone.utc).isoformat(),
-               "mode": mode, "input_kind": "synthetic", "whole_bot_complete": False,
+               "mode": mode, "input_kind": "synthetic" if config["synthetic"] else "operator_configured", "whole_bot_complete": False,
                "llm_invoked": False, "network_operations_requested": 0, "public_output": "not_attempted"}
     code = 2
     try:
@@ -159,8 +159,9 @@ def execute(config_path, input_path, run_dir, *, mode="prepare"):
         receipt["input"] = write_json(output / "input.json", payload)
         receipt["operator_config"] = write_json(output / "operator-config.json", config)
         retrieval = load_retrieval_routes(config["retrieval_routes_config"], artifact_root=output / "native-stages")
-        if set(retrieval) != {"/retrieve/channel-knowledge"} or retrieval["/retrieve/channel-knowledge"].profile.get("data_mode") != "declared_synthetic":
-            raise ValueError("only_existing_synthetic_channel_route_supported")
+        expected_mode = "declared_synthetic" if config["synthetic"] else "operator_configured"
+        if set(retrieval) != {"/retrieve/channel-knowledge"} or retrieval["/retrieve/channel-knowledge"].profile.get("data_mode") != expected_mode:
+            raise ValueError("channel_route_data_mode_mismatch")
         answers = load_answer_routes(config["answer_routes_config"], retrieval, None,
                                      JsonlLog(output / "answer-trace.jsonl"), prepare_only=True) if mode == "prepare" else {}
         entry = EntryGateway.read(config["entry_routes_config"], retrieval, answers, JsonlLog(output / "entry-trace.jsonl"))

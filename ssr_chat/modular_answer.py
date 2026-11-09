@@ -1,4 +1,9 @@
-"""Opt-in synthetic evidence -> purpose gate -> local model; no output adapter."""
+"""Evidence (synthetic or operator-configured real data) -> per-record purpose gate -> local model.
+
+Which records may reach the model is decided only by the purpose policy: every
+evidence record needs an explicit "allowed" grant bound to its exact content hash.
+Records without one are left out of the prompt and listed in excluded_evidence.
+"""
 from __future__ import annotations
 
 from copy import deepcopy
@@ -15,6 +20,8 @@ from .modular_retrieval import PipelineError, _local_path, load_object
 from .ollama_model import OllamaModelClient
 
 SCOPE_FIELDS = ("domain", "platform", "channel_id", "game_id", "session_id", "content_version")
+ANSWER_SOURCE_KINDS = {"synthetic", "local_data", "real"}
+ANSWER_DATA_MODES = {"declared_synthetic", "operator_configured"}
 CONTENT_FIELDS = ("record_id", "source_id", "source_event_id", "revision", "event_time", "scope", "layer",
                   "text", "quality_flags", "source_refs", "source_kind")
 ANSWER_DOMAINS = {"channel_knowledge", "chat_history", "stt_transcript"}
@@ -83,7 +90,7 @@ class PurposePolicy:
                     or scope["platform"] is None or scope["channel_id"] is None
                     or (scope["domain"] in ACTOR_DOMAINS and (scope["session_id"] is None
                         or not isinstance(grant["actor_account_id"], str) or not grant["actor_account_id"].strip()))
-                    or grant["source_kind"] != "synthetic" or grant["layer"] != "raw"
+                    or grant["source_kind"] not in ANSWER_SOURCE_KINDS or grant["layer"] != "raw"
                     or any(not isinstance(grant[key], str) or not grant[key].strip() for key in ("source_id", "record_id"))
                     or type(grant["revision"]) is not int or grant["revision"] < 1
                     or not isinstance(grant["content_sha256"], str) or re.fullmatch("[0-9a-f]{64}", grant["content_sha256"]) is None
@@ -105,8 +112,9 @@ class PurposePolicy:
 
     def check(self, evidence):
         try:
-            if (evidence["source_kind"] != "synthetic" or evidence["layer"] != "raw"
-                    or evidence["scope"]["domain"] not in ANSWER_DOMAINS or "synthetic" not in evidence["quality_flags"]):
+            if (evidence["source_kind"] not in ANSWER_SOURCE_KINDS or evidence["layer"] != "raw"
+                    or evidence["scope"]["domain"] not in ANSWER_DOMAINS
+                    or (evidence["source_kind"] == "synthetic") != ("synthetic" in evidence["quality_flags"])):
                 return "unsupported_answer_source"
             grant = self._grants.get(_identity(evidence))
             if grant is None or grant["ai_input"]["status"] != "allowed":
@@ -116,11 +124,15 @@ class PurposePolicy:
             refs = evidence["source_refs"]
             if not isinstance(refs, list) or not refs:
                 return "unverified_source_reference"
-            # Raw self references are the verified first slice. Cross-record or
+            # Raw self references only: same source, and record_id/revision either
+            # unset (original raw locator) or equal to this record. Cross-record or
             # published references require a separate provenance resolver.
-            if any(not isinstance(ref, dict) or (ref.get("source_id"), ref.get("record_id"), ref.get("revision"))
-                   != (evidence["source_id"], evidence["record_id"], evidence["revision"]) for ref in refs):
-                return "unverified_source_reference"
+            for ref in refs:
+                if (not isinstance(ref, dict) or ref.get("source_id") != evidence["source_id"]
+                        or ref.get("record_id") not in (None, evidence["record_id"])
+                        or ref.get("revision") not in (None, evidence["revision"])
+                        or not isinstance(ref.get("locator"), str) or not ref["locator"].strip()):
+                    return "unverified_source_reference"
             return None
         except (KeyError, TypeError, ValueError):
             return "invalid_answer_evidence"
@@ -134,9 +146,10 @@ class EvidenceAnswerGateway:
             raise PipelineError("answer_model_required")
         profile = retrieval.profile
         if (not isinstance(profile.get("domain"), str) or profile["domain"] not in ANSWER_DOMAINS or profile.get("layer") != "raw"
-                or profile.get("data_mode") != "declared_synthetic"):
-            raise PipelineError("answer_requires_synthetic_raw_supported_route")
+                or profile.get("data_mode") not in ANSWER_DATA_MODES):
+            raise PipelineError("answer_requires_raw_supported_route")
         self.domain = profile["domain"]
+        self.data_mode = "synthetic_only" if profile["data_mode"] == "declared_synthetic" else "purpose_policy_gated"
         self._chat_context = None
         self._stt_context = None
         if self.domain == "chat_history":
@@ -170,7 +183,7 @@ class EvidenceAnswerGateway:
 
     @property
     def profile(self):
-        return {"configured": True, "domain": self.domain, "layer": "raw", "data_mode": "synthetic_only",
+        return {"configured": True, "domain": self.domain, "layer": "raw", "data_mode": self.data_mode,
                 "model": "not_run" if self.prepare_only else ("ollama" if isinstance(self.model, OllamaModelClient) else "custom"),
                 "answer_generation_enabled": not self.prepare_only,
                 "purpose_gate": "exact_record_revision_content", "citations_required": True, "public_output_enabled": False}
@@ -263,10 +276,21 @@ class EvidenceAnswerGateway:
             reason = self._stt_boundary(retrieval, evidence)
             if reason:
                 return finish(reason)
+        permitted, excluded = [], []
         for event in evidence:
             reason = self.policy.check(event)
             if reason:
-                return finish(reason)
+                excluded.append({"source_id": event.get("source_id") if isinstance(event, dict) else None,
+                                 "record_id": event.get("record_id") if isinstance(event, dict) else None,
+                                 "revision": event.get("revision") if isinstance(event, dict) else None,
+                                 "reason_code": reason})
+            else:
+                permitted.append(event)
+        result["excluded_evidence"] = audit["excluded_evidence"] = excluded
+        if not permitted:
+            reasons = {item["reason_code"] for item in excluded}
+            return finish(reasons.pop() if len(reasons) == 1 else "no_permitted_evidence")
+        evidence = permitted
         rows = [{"evidence_id": f"E{index}", **{key: deepcopy(event[key]) for key in content_fields(event)},
                  "content_sha256": content_digest(event)} for index, event in enumerate(evidence, 1)]
         # The model receives only what it needs to answer and cite. Full provenance

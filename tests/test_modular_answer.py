@@ -151,11 +151,52 @@ class ModularAnswerTests(unittest.TestCase):
         self.assertEqual(self.answer(self.gateway({**self.policy, "grants": [self.grant(event)]}))["reason_code"], "answer_prompt_limit")
         self.model.generate.assert_not_called()
 
-    def test_duplicate_or_non_synthetic_policy_records_are_rejected(self):
+    def test_duplicate_or_mock_policy_records_are_rejected(self):
         duplicate = deepcopy(self.policy); duplicate["grants"] *= 2
         with self.assertRaises(PipelineError): PurposePolicy(duplicate)
-        real = deepcopy(self.policy); real["grants"][0]["source_kind"] = "real"
-        with self.assertRaises(PipelineError): PurposePolicy(real)
+        mock = deepcopy(self.policy); mock["grants"][0]["source_kind"] = "mock"
+        with self.assertRaises(PipelineError): PurposePolicy(mock)
+        for kind in ("local_data", "real"):
+            real = deepcopy(self.policy); real["grants"][0]["source_kind"] = kind
+            PurposePolicy(real)
+
+    def real_event(self, record_id="real-record", text="Real launch is 21:00."):
+        event = deepcopy(self.event)
+        event.update(record_id=record_id, source_kind="local_data", quality_flags=["manual_registration"], text=text)
+        event["source_refs"] = [{"source_id": "source", "record_id": None, "revision": None,
+                                 "locator": "source-bundles/channel-knowledge/b/original.txt", "transformation_version": None}]
+        return event
+
+    def test_granted_real_record_reaches_prompt_with_raw_locator_reference(self):
+        real = self.real_event()
+        self.pipeline.run.return_value["collection"]["evidence"] = [deepcopy(real)]
+        policy = {**self.policy, "grants": [self.grant(real)]}
+        self.model.generate.return_value = "21:00 [E1]"
+        result = self.answer(self.gateway(policy))
+        self.assertEqual(result["status"], "answered")
+        self.assertEqual(result["excluded_evidence"], [])
+        self.assertEqual(self.model.generate.call_args.args[0].query_results[0]["materials"][0]["text"], real["text"])
+
+    def test_ungranted_records_are_left_out_and_the_rest_is_answered(self):
+        real = self.real_event()
+        self.pipeline.run.return_value["collection"]["evidence"] = [deepcopy(real), deepcopy(self.event)]
+        result = self.answer()
+        self.assertEqual(result["status"], "answered")
+        self.assertEqual([row["record_id"] for row in result["provided_evidence"]], ["record"])
+        self.assertEqual(result["excluded_evidence"], [{"source_id": "source", "record_id": "real-record", "revision": 2,
+                                                        "reason_code": "ai_input_not_allowed"}])
+        prompt = self.model.generate.call_args.args[0].as_dict()
+        self.assertNotIn(real["text"], json.dumps(prompt, ensure_ascii=False))
+
+    def test_real_record_must_not_claim_synthetic_or_reference_another_record(self):
+        flagged = self.real_event(); flagged["quality_flags"] = ["synthetic"]
+        other = self.real_event(); other["source_refs"][0]["record_id"] = "someone-else"
+        for event, code in ((flagged, "unsupported_answer_source"), (other, "unverified_source_reference")):
+            self.pipeline.run.return_value["collection"]["evidence"] = [deepcopy(event)]
+            result = self.answer(self.gateway({**self.policy, "grants": [self.grant(event)]}))
+            with self.subTest(code=code):
+                self.assertEqual(result["reason_code"], code)
+                self.assertFalse(result["model_invoked"])
 
     def test_http_cannot_supply_ai_policy_or_model_configuration(self):
         for field in ("ai_input", "purpose_policy", "scope", "model", "endpoint", "prompt"):
@@ -172,11 +213,14 @@ class ModularAnswerTests(unittest.TestCase):
         self.assertEqual((code, body["status"]), (503, "not_configured"))
         self.runtime.handle.assert_not_called()
 
-    def test_answer_route_requires_synthetic_raw_channel_profile(self):
-        for profile in ({"domain": "stt_transcript", "layer": "raw", "data_mode": "declared_synthetic"},
+    def test_answer_route_requires_raw_supported_profile(self):
+        for profile in ({"domain": "game_knowledge", "layer": "raw", "data_mode": "declared_synthetic"},
                         {"domain": "channel_knowledge", "layer": "published", "data_mode": "declared_synthetic"},
-                        {"domain": "channel_knowledge", "layer": "raw", "data_mode": "operator_configured"}):
+                        {"domain": "channel_knowledge", "layer": "raw", "data_mode": "unknown"}):
             with self.assertRaises(PipelineError): EvidenceAnswerGateway(Mock(profile=profile), PurposePolicy(self.policy), self.model, self.trace)
+        gateway = EvidenceAnswerGateway(Mock(profile={"domain": "channel_knowledge", "layer": "raw", "data_mode": "operator_configured"}),
+                                        PurposePolicy(self.policy), self.model, self.trace)
+        self.assertEqual(gateway.profile["data_mode"], "purpose_policy_gated")
 
     def test_loader_uses_known_server_retrieval_route_and_local_policy(self):
         with tempfile.TemporaryDirectory() as directory:
