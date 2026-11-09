@@ -111,6 +111,18 @@ HTTP 仍只收 `request_id` 與 `text`。主入口支援四個明確文字命令
 
 這是有限登記詞彙與固定文法，沒有開放式實體推測、同義翻譯或任意停用詞刪除。既有配置沒有 `query_extraction` 時維持原搜尋行為。8775 仍未重啟，未載入新抽取設定。
 
+## 用途政策授權產生工具
+
+回答路徑只讓用途政策中 `ai_input=allowed`、且內容雜湊相符的記錄進 prompt。`ssr_chat.purpose_grants` 用勾選表產生這份政策，不必手寫 JSON：
+
+```powershell
+python -B -X utf8 -m ssr_chat.purpose_grants list  --reader <reader.json> [--policy <現有政策.json>] --out <勾選表.md>
+python -B -X utf8 -m ssr_chat.purpose_grants apply --review <勾選表.md> --policy <政策.json>
+python -B -X utf8 -m ssr_chat.purpose_grants check --reader <reader.json> --policy <政策.json>
+```
+
+`reader.json` 指定一個 raw 範圍與它的原生讀取元件：`{"domain","command","cwd","scope"}`，`command` 從 stdin 讀 1.0.1 Query（例如 channel-search 的 `source/ssr.py --config <cfg> --request -`）。`list` 以空白查詢瀏覽全部記錄並依 `source_event_id` 分頁，預設全部不勾；已有效授權的記錄預先勾選，內容已改變的標示失效且不勾。`apply` 只把打勾的記錄寫成授權，以 `PurposePolicy` 驗證後覆寫，舊檔備份為 `*.bak-<時間>`；最多 200 筆。`check` 有失效授權或記錄已不存在時結束碼 1。勾選表與 `*.records.json` 可能含真實內容，請放在不進 git 的位置。目前只有 `ai_input` 一種用途；本機模型／雲端 API 分開授權尚未實作。
+
 ## 已發布知識庫唯讀串接
 
 `chat` 與 `serve` 可明確選擇 `--knowledge-adapter catalog`，透過另一個程序呼叫既有 `ssr-knowledge catalog search --names-only`。必須指定現有 checkout、Python 與 DB 資料夾，不安裝依賴、不匯入其他 repo、不建立 DB、不開啟 preview，也不在失敗時回退 fixture。未選擇時維持原有 fixture 模式。
