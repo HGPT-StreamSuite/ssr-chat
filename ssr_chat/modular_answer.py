@@ -26,6 +26,8 @@ CONTENT_FIELDS = ("record_id", "source_id", "source_event_id", "revision", "even
                   "text", "quality_flags", "source_refs", "source_kind")
 ANSWER_DOMAINS = {"channel_knowledge", "chat_history", "stt_transcript"}
 ACTOR_DOMAINS = ("chat_history", "stt_transcript")
+STANDARD_INSUFFICIENT = "目前提供的資料不足，無法確認。"
+_INSUFFICIENT_HINT = re.compile("資料不足|無法確認")
 
 
 def encoded(value):
@@ -351,6 +353,13 @@ class EvidenceAnswerGateway:
             cited = [reply["evidence_id"]]
         else:
             cited = list(dict.fromkeys("E" + number for number in re.findall(r"\[E([0-9]+)\]", answer)))
+            if not cited and not re.search(r"\[E", answer) and _INSUFFICIENT_HINT.search(answer):
+                # An uncited "the material does not say" reply is published only as the fixed
+                # sentence, so uncited model text (which may add outside facts) never leaks.
+                audit["answer_normalized"] = "standard_insufficient_evidence"
+                result.update(status="answered", answer=STANDARD_INSUFFICIENT, cited_evidence_ids=[],
+                              insufficient_evidence=True)
+                return finish()
         if not cited or set(cited) - {row["evidence_id"] for row in rows}:
             return finish("answer_citations_invalid")
         result.update(status="answered", answer=answer, cited_evidence_ids=cited)
