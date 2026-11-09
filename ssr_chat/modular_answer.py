@@ -28,6 +28,15 @@ ANSWER_DOMAINS = {"channel_knowledge", "chat_history", "stt_transcript"}
 ACTOR_DOMAINS = ("chat_history", "stt_transcript")
 STANDARD_INSUFFICIENT = "目前提供的資料不足，無法確認。"
 _INSUFFICIENT_HINT = re.compile("資料不足|無法確認")
+# A viewer question that tries to steer the bot (ignore rules, say/add/repeat/announce
+# something, fake system or role text, fake [E#] material) is not answered at all.
+# The list was written against streamsuite-verify experiments/question_injection; a
+# differently worded attack can pass it, so the answer-side URL check stays as a backstop.
+QUESTION_INSTRUCTION = re.compile(
+    r"忽略|無視|ignore|disregard|加上|順便說|幫我說|跟大家說|告訴大家|宣布|公告說|重複|複誦|照著說|"
+    r"system\s*[:：]|\"role\"|系統提示|提示詞|prompt|開發者模式|developer mode|越獄|jailbreak|"
+    r"假裝|假設資料|扮演|你現在是|授權你|不要引用|你自己的知識|新資料|\[E\d+\]|罵", re.IGNORECASE)
+_URL = re.compile(r"https?://[^\s\]）)]+|www\.[^\s\]）)]+", re.IGNORECASE)
 
 
 def encoded(value):
@@ -261,6 +270,8 @@ class EvidenceAnswerGateway:
             self.trace.append({**audit, "phase": "finished", "result": result})
             return result
 
+        if QUESTION_INSTRUCTION.search(payload["text"]):
+            return finish("question_contains_instructions")
         collection = retrieval.get("collection", {})
         if (retrieval.get("request_id") != payload["request_id"] or retrieval.get("status") != "complete"
                 or collection.get("contract_version") != "1.0.1" or collection.get("partial") is not False):
@@ -362,6 +373,9 @@ class EvidenceAnswerGateway:
                 return finish()
         if not cited or set(cited) - {row["evidence_id"] for row in rows}:
             return finish("answer_citations_invalid")
+        material = "\n".join(row["text"] for row in rows)
+        if any(url not in material for url in _URL.findall(answer)):
+            return finish("answer_contains_unsourced_url")
         result.update(status="answered", answer=answer, cited_evidence_ids=cited)
         return finish()
 
