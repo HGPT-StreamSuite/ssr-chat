@@ -14,8 +14,10 @@ import time
 from typing import Any
 from uuid import uuid4
 from .chat_history_binding import PROFILE as CHAT_HISTORY_ADAPTER, BindingError, map_task
+from .warm_pool import WarmPool, parse_command
 
 MAX_BYTES = 2_000_000
+EXECUTION_MODES = {"subprocess", "warm_workers"}
 CHAT_RECENT_ADAPTER = "recent_utterance_to_last_said_v1"
 DOMAINS = {"game_knowledge", "person_profile", "chat_history", "stt_transcript", "channel_knowledge"}
 
@@ -90,14 +92,20 @@ class PipelineConfig:
     timeout: float = 60.0
     chat_recent_intent_adapter: str | None = None
     chat_history_intent_adapter: str | None = None
+    # "subprocess": one new process per stage (default). "warm_workers": the same entry points run repeatedly in
+    # long-lived interpreters (ssr_chat.warm_pool), so e.g. a loaded embedding model survives between questions.
+    execution: str = "subprocess"
 
     @classmethod
     def read(cls, path: str | Path) -> "PipelineConfig":
         selected = Path(path).resolve()
         value = load_object(selected.read_bytes())
         required = {"schema_version", "python", "planner_repo", "dispatcher_repo", "collector_repo", "dispatcher_config"}
-        if set(value) - required - {"timeout_seconds", "chat_recent_intent_adapter", "chat_history_intent_adapter"} or required - set(value) or value["schema_version"] != "1.0.1":
+        if set(value) - required - {"timeout_seconds", "chat_recent_intent_adapter", "chat_history_intent_adapter", "execution"} or required - set(value) or value["schema_version"] != "1.0.1":
             raise PipelineError("pipeline_configuration_invalid")
+        execution = value.get("execution", "subprocess")
+        if type(execution) is not str or execution not in EXECUTION_MODES:
+            raise PipelineError("execution_mode_invalid")
         chat_adapter = value.get("chat_recent_intent_adapter")
         if chat_adapter is not None and chat_adapter != CHAT_RECENT_ADAPTER:
             raise PipelineError("chat_recent_intent_adapter_invalid")
@@ -130,7 +138,7 @@ class PipelineConfig:
             child_timeout = adapter.get("timeout_seconds")
             if type(child_timeout) not in (int, float) or not math.isfinite(child_timeout) or not 0 < child_timeout < timeout:
                 raise PipelineError("adapter_timeout_must_be_shorter_than_stage")
-        return cls(python, planner, dispatcher, collector, dispatch_config, float(timeout), chat_adapter, history_adapter)
+        return cls(python, planner, dispatcher, collector, dispatch_config, float(timeout), chat_adapter, history_adapter, execution)
 
 
 class ModularRetrievalPipeline:
@@ -138,6 +146,12 @@ class ModularRetrievalPipeline:
         self.config = config
         self.artifact_dir = prepare_artifact_directory(artifact_dir) if artifact_dir is not None else None
         self._artifact_identity = self._capture_identity() if self.artifact_dir is not None else None
+        self._warm_pool: WarmPool | None = None
+
+    def close(self) -> None:
+        """Stop warm workers (no-op in subprocess mode). Workers also exit when this process ends."""
+        if self._warm_pool is not None:
+            self._warm_pool.close()
 
     def _capture_identity(self) -> tuple[int, int]:
         root = prepare_artifact_directory(self.artifact_dir)
@@ -207,12 +221,24 @@ class ModularRetrievalPipeline:
         observed = {"stage": stage, "command": command, "cwd": str(repo),
                     "started_at": datetime.now(timezone.utc).isoformat()}
         trace.append(observed)
+        warm = parse_command(command, repo) if self.config.execution == "warm_workers" else None
+        if warm is not None:
+            observed["execution"] = "warm_workers"
         capture = self._capture_start(observed, encoded)
         stdout, stderr, outcome, exit_code = b"", b"", "unavailable", None
         try:
-            result = subprocess.run(command, cwd=repo, env=env, input=encoded, capture_output=True,
-                                    timeout=self.config.timeout, check=False,
-                                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            if warm is not None:
+                if self._warm_pool is None:
+                    self._warm_pool = WarmPool()
+                # Dispatcher workers also run the native reader adapters warm.
+                done = self._warm_pool.call(
+                    warm, encoded, self.config.timeout, env=env,
+                    hook="dispatcher_adapters" if stage == "dispatcher" else None)
+                result = subprocess.CompletedProcess(command, done.exit_code, done.stdout, done.stderr)
+            else:
+                result = subprocess.run(command, cwd=repo, env=env, input=encoded, capture_output=True,
+                                        timeout=self.config.timeout, check=False,
+                                        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
             stdout, stderr, outcome, exit_code = result.stdout, result.stderr, "returned", result.returncode
         except subprocess.TimeoutExpired as exc:
             stdout, stderr, outcome = exc.stdout or b"", exc.stderr or b"", "timeout"
