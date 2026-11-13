@@ -29,6 +29,17 @@ pipeline JSON 欄位為 `schema_version: "1.0.1"`、既有 `python` 執行檔、
 
 結果保留原 Plan、各 task 的原 Result 與 collector 回傳，按 task_id 精確映射；部分失敗回 incomplete／exit 1，無效配置或介面錯誤回 exit 2。缺設定不回退 fixture、不把錯誤當空結果、不合併不同 task 的同名 domain。輸出採 exclusive create，既有檔案保留；結果可能含授權原文，應留在受保護本機。stages 記錄實際 argv/cwd、耗時、退出碼及輸出雜湊；不保存子程序 stderr 本文。這個入口不代表 21 項功能已整合或有真實來源／LLM 的端到端驗收。
 
+### 選用：常駐 worker 執行模式
+
+預設每個階段（planner、dispatcher、collector，以及 dispatcher 呼叫的讀取元件）每題都新開一個 Python 程序，讀取元件的嵌入模型也因此每題重新載入。pipeline JSON 加上 `"execution": "warm_workers"` 後，同樣的進入點改在常駐的 Python 程序裡重複執行（`ssr_chat/warm_pool.py`、`warm_worker.py`）；省略或設為 `"subprocess"` 則維持原行為。
+
+- 每個不同的進入點（直譯器、script 或 `-m` 模組、cwd）各有一個 worker 程序，用 `runpy` 執行原本的檔案，argv、stdin、stdout、stderr、結束碼語意與一般程序相同，只有元件匯入模組內的狀態（例如已載入的嵌入模型）會留存；各元件的 `hgpt_ssr` 套件因此不會互相覆蓋。實測與一般子程序的 planner／collector 輸出逐 byte 相同。
+- dispatcher 的 worker 會把 `kind=cli` 的讀取元件 adapter 也交給常駐 worker，錯誤碼沿用原本的 `adapter_timeout`、`adapter_output_limit`、`adapter_exit_nonzero`、`adapter_start_failed`；adapter 的 timeout、輸出上限、`access_scope` 仍由 dispatcher 原本的設定與檢查決定。
+- 只認得 `python [-B] [-X utf8] (script.py | -m 模組) 參數…` 這種命令；其他形式（`uv run …`、`-I`、`-c`、非 Python 程式、`native_capture` 這類包裝內部再開的程序）一律當一般子程序執行，不會失敗也不會加速。
+- 逾時或 worker 異常結束時，該 worker 會被終止，下一題自動重啟，因此重啟後的第一題要重新載入模型。同一個 worker 一次只處理一題（同一進入點的請求排隊）。
+- 常駐程序會保留元件的模組層快取（含嵌入向量快取）。要清掉就呼叫 `ModularRetrievalPipeline.close()` 或重啟本程序；本程序結束時 worker 也會跟著結束。
+- trace 的 stages 在此模式下多一個 `"execution": "warm_workers"` 欄位；dispatch 的 `pid` 是實際執行讀取元件的 worker 程序。
+
 ### 本機 API 的獨立檢索路徑
 
 `serve` 可另明確指定 `--retrieval-pipeline-config <pipeline.json> --retrieval-template <server-template.json>`，啟用 POST `/retrieve`。兩檔皆由可信本機啟動配置提供；template 使用與 `retrieve --request` 相同的 request/trusted_context 封套，固定 scope、ACL、layer、limit 及來源上下文。HTTP body 只接受 `{"request_id":"local-001","text":"問題"}`；額外欄位、重複 JSON keys 或非有限數值會拒絕，不能從 HTTP 指定權限、模板或元件命令。未配置回 503/not_configured，不回退 fixture。
